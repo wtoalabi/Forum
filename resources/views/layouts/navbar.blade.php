@@ -1,17 +1,24 @@
 <nav class="navbar is-fixed-top is-fluid is-info">
     <div class="container">
   <div class="navbar-brand">
-    <a class="navbar-item mr-1" href="/">
-        <span class="icon">
-        <i class="fa fa-home"></i>
-    </span>
-        <span class="is-3">Home</span>
-    </a>
+      @auth
     <a class="navbar-item" href="/">
+        <span class="icon"><i class="fa fa-tachometer"></i></span>
+        <span>Dashboard</span>
+    </a>
+    @endauth
+    @guest
+    <a class="navbar-item" href="/">
+        <span class="icon"><i class="fa fa-home"></i></span>
+        <span>    Home</span>
+    </a>
+    @endguest
+    <a class="navbar-item" href="/forums">
         <span class="icon">
             <icon class="fa fa-book"></icon>
-        Forums
-    </span>
+        </span>
+        <span>Forum</span>
+    
       </a>
     <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
             <span></span>

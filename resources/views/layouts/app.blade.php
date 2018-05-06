@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Forum') }}</title>
+    <title>{{$title}} * With a difference!</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -17,8 +17,8 @@
     <div id="app">
         @include('layouts.navbar')
         <main class="section hero">
-            <div class="hero-body is-large">
-            @yield('content')
+            <div class="hero-body is-large container">
+            {{$slot}}
         </div>
         </main>
         @include('layouts.footer')

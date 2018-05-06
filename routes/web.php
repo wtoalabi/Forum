@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('landing');
 });
 
+Route::get('/forums', function(){
+    return view('forums.forums');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

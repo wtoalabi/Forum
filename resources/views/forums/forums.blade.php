@@ -1,8 +1,8 @@
 @component('layouts.app')
 @slot('title')
-Dashboard
+Forums Page
 @endslot
 
-Dashboard
+FORUM
 
 @endcomponent
