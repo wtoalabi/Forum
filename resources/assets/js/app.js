@@ -17,8 +17,10 @@ window.Vue = require('vue');
 
 require('./components')
 import router from './router'
+import store from './Store/store'
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    store
 });

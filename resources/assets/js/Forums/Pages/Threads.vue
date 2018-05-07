@@ -1,6 +1,5 @@
 <template>
 <div>
-    Threads Page
 </div>
 </template>
 
@@ -9,6 +8,10 @@
 export default {
  
 mounted() {
+    console.log(this.$store);
+    
+    },
+methods:{
     
 }
 

@@ -3,6 +3,6 @@
 Forums Page
 @endslot
 
-<forum-home></forum-home>
+<forum-home loggedinuser={{Auth::id()}}></forum-home>
 
 @endcomponent

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 
 /*
@@ -16,3 +17,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/threads', function(){
+    return Thread::all();
+});
+
+Route::get('user/{id}', 'Users\UserProfileController@show');

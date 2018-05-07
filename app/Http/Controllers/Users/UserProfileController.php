@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Users;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserProfileResource;
 
-class UsersProfileController extends Controller
+class UserProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +16,7 @@ class UsersProfileController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -46,7 +48,7 @@ class UsersProfileController extends Controller
      */
     public function show($id)
     {
-        //
+        return new UserProfileResource(User::find($id));
     }
 
     /**

@@ -14,17 +14,15 @@
 <div class="column is-5">
     <div class="columns is-gapless">
         <div class="column is-3"></div>
-        <div class="column is-10">
+        <div class="column is-9">
             <div class="field has-addons">
-  <div class="control">
-  </div>
-    <input class="input" type="text" placeholder="Search forums...">
-  <div class="control">
-    <a class="button is-info">
-      Search
-    </a>
-  </div>
-</div>
+                <div class="control">
+                    <input class="input" type="text" placeholder="Search Forum...">
+                </div>
+                <div class="control">
+                    <a class="button is-info">Search</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

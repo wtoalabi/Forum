@@ -11,12 +11,18 @@ import SidebarA from './Menu/SidebarA'
 import SidebarB from './Menu/SidebarB'
  
 export default {
+props:['loggedinuser'],
  components:{
      'sidebarA': SidebarA,
      'sidebarB': SidebarB,
  },
-mounted() {
-
+mounted() {    
+    this.setState()
+},
+methods:{
+    setState(){
+        this.$store.dispatch('getUser', this.loggedinuser)
+    }
 }
 
 }
