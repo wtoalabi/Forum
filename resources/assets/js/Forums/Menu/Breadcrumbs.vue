@@ -17,8 +17,8 @@
         <div class="column is-10">
             <div class="field has-addons">
   <div class="control">
-    <input class="input" type="text" placeholder="Search forums...">
   </div>
+    <input class="input" type="text" placeholder="Search forums...">
   <div class="control">
     <a class="button is-info">
       Search

@@ -1,5 +1,6 @@
 <template>
 <div>
+    Threads Page
 </div>
 </template>
 
