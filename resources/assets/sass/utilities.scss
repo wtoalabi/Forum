@@ -1,3 +1,14 @@
+.asideA{
+    background-color: #e3e4e580
+}
+.asideB{
+    background-color: #fdfeff
+}
+.bread{
+    background-color: #fff;
+    //border-bottom: 1px solid #85858a4f;
+    margin-top: 2px;
+}
 .mr-1{
     margin-right: 10px;
 }
@@ -7,4 +18,27 @@
 
 .mr-3{
     margin-right: 30px;
+}
+.mt-1{
+    margin-top: 10px;
+}
+.mt-2{
+    margin-top: 20px;
+}
+.mt-3{
+    margin-top: 30px;
+}
+.mt-4{
+    margin-top: 40px;
+}
+.mt-8{
+    margin-top: 80px;
+}
+.breadcrumb a{
+    color: black !important;
+}
+
+.active-forum-menu{
+    color: #3273dc !important ;
+    font-size: 20px;
 }

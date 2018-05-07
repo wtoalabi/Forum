@@ -2,7 +2,5 @@
 @slot('title')
 Dashboard
 @endslot
-
-Dashboard
-
+<dashboard></dashboard>
 @endcomponent

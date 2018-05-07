@@ -1,6 +1,9 @@
-@extends('layouts.app')
+@component('layouts.app')
 
-@section('content')
+@slot('title')
+Register Page
+@endslot
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -74,4 +77,5 @@
         </div>
     </div>
 </div>
-@endsection
+
+@endcomponent

@@ -1,8 +1,9 @@
+
 <nav class="navbar is-fixed-top is-fluid is-info">
     <div class="container">
   <div class="navbar-brand">
       @auth
-    <a class="navbar-item" href="/">
+    <a class="navbar-item" href="/home">
         <span class="icon"><i class="fa fa-tachometer"></i></span>
         <span>Dashboard</span>
     </a>
@@ -15,7 +16,7 @@
     @endguest
     <a class="navbar-item" href="/forums">
         <span class="icon">
-            <icon class="fa fa-book"></icon>
+            <i class="fa fa-book"></i>
         </span>
         <span>Forum</span>
     
@@ -28,10 +29,6 @@
   </div>
 
   <div id="navbarExampleTransparentExample" class="navbar-menu">
-    <div class="navbar-start">
-      
-    </div>
-
     <div class="navbar-end">
       <div class="navbar-item">
         <div class="field is-grouped">

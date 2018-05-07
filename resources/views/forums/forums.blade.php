@@ -3,6 +3,6 @@
 Forums Page
 @endslot
 
-FORUM
+<forum-home></forum-home>
 
 @endcomponent

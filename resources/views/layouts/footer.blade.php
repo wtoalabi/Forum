@@ -7,6 +7,7 @@
           </div>
         </div>
       </footer>
+</div>
 <script src="{{ asset('js/app.js') }}" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {

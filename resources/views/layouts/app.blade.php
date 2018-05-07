@@ -13,15 +13,13 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="has-navbar-fixed-top">
     <div id="app">
-        @include('layouts.navbar')
-        <main class="section hero">
-            <div class="hero-body is-large container">
-            {{$slot}}
+        <div>@include('layouts.navbar')</div>
+        <div class="">            
+                {{$slot}}
         </div>
-        </main>
         @include('layouts.footer')
-    </div>
+    
 </body>
 </html>
