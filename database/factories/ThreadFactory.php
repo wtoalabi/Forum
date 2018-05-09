@@ -8,7 +8,8 @@ $factory->define(Thread::class, function (Faker $faker) {
         'user_id' => function(){
             return factory(App\User::class)->create()->id;
         },
-        'title' => $faker->sentence,
-        'body' => $faker->realText(200),
+        'title' => ($slug= $faker->sentence),
+        'body' => $faker->paragraph(50),
+        'slug' => str_slug($slug, '-')
     ];
 });

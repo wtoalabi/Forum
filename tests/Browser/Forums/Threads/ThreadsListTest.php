@@ -8,12 +8,8 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 
 class ThreadsListTest extends DuskTestCase
 {
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     */
-    public function testThreadList()
+    /**@test*/
+    public function a_user_can_see_a_list_of_threads()
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('http://forum.loc/forums#/threads')

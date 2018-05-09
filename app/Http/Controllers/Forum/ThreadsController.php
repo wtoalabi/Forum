@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Forum;
 
+use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ThreadsCollection;
+use App\Http\Resources\SingleThreadResource;
 
 class ThreadsController extends Controller
 {
@@ -14,7 +17,9 @@ class ThreadsController extends Controller
      */
     public function index()
     {
-        //
+        $threads = Thread::latest()->with(['user','replies'])->paginate(25);
+        //dd($threads);
+        return new ThreadsCollection($threads);
     }
 
     /**
@@ -44,9 +49,11 @@ class ThreadsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Thread $slug)
     {
-        //
+        //sleep(10);
+        return new SingleThreadResource($slug);
+
     }
 
     /**

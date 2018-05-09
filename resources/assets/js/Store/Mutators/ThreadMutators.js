@@ -1,6 +1,8 @@
 export default {
-    commitThread(state, payload){
-        //console.log("d")
-        return state.users.push(payload)
+    commitThreads(state, payload){
+        return state.threads = payload
+    },
+    commitSingleThread(state, payload){
+        return state.singleThread = payload
     }
 }

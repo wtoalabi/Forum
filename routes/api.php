@@ -23,3 +23,5 @@ Route::get('/threads', function(){
 });
 
 Route::get('user/{id}', 'Users\UserProfileController@show');
+Route::get('all-threads','Forum\ThreadsController@index');
+Route::get('single-thread/{slug}', "Forum\ThreadsController@show");

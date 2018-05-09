@@ -2,9 +2,10 @@
 <div class="">
     <div class="column">
         <div class="columns is-centered">
-        <div class="column is-offset-2">
-            <p class="button">User Side Info</p>
+        <div v-if="fullname" class="column is-offset-2">
+            <p class="button">{{fullname}}</p>
         </div>
+        <div v-else>Loading...</div>
         </div>
     </div>
 </div>
@@ -14,9 +15,12 @@
  
 export default {
  
-mounted() {
-    console.log("side");
-    
+mounted() {    
+},
+computed:{
+    fullname(){
+        return this.$store.getters.getLoggedInUserFullName
+    }
 }
 
 }

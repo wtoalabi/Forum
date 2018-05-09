@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import ForumsPage from "./Forums/Pages/ForumsPage"
 import Threads from "./Forums/Pages/Threads"
 import Notifications from "./Forums/Notifications/Notifications"
+import SingleThread from './Forums/Pages/SingleThread'
 
 
 Vue.use(VueRouter)
@@ -25,6 +26,11 @@ export default new VueRouter({
             path: "/notifications",
             name: "Notifications",
             component: Notifications
+        },
+        {
+            path: "/thread/:slug",
+            name: "SingleThread",
+            component: SingleThread
         }
     ]
 })
