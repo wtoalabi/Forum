@@ -33135,7 +33135,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
         name: "Notifications",
         component: __WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications___default.a
     }, {
-        path: "/thread/:slug",
+        path: "/threads/:slug",
         name: "SingleThread",
         component: __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread___default.a
     }]
@@ -33219,7 +33219,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {}
+  created: function created() {
+    console.log("forums");
+  }
 });
 
 /***/ }),
@@ -33317,10 +33319,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
+    console.log("threads");
+    //console.log(this.$store.getters.getAllThreads);
+
     this.isLoading = true;
-    if (_.isEmpty(this.Threads)) {
+    if (_.isEmpty(this.threads)) {
       this.getThreads();
     }
+    this.isLoading = false;
   },
 
 
@@ -33329,7 +33335,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       axios.get("api/all-threads").then(function (response) {
-        _this.threads = response.data.data;
+        _this.$store.commit("commitThreads", response.data.data);
+        _this.threads = _this.$store.getters.getAllThreads;
+        //this.threads = response.data.data;
         _this.isLoading = false;
       });
     }
@@ -33370,7 +33378,7 @@ var render = function() {
                   [
                     _c(
                       "router-link",
-                      { attrs: { to: "thread/" + thread.slug } },
+                      { attrs: { to: "threads/" + thread.slug } },
                       [_c("span", [_vm._v(_vm._s(thread.title))])]
                     )
                   ],
@@ -33453,9 +33461,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {}
+  created: function created() {
+    console.log("notifcation");
+  }
 });
 
 /***/ }),
@@ -33558,27 +33567,46 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ["loggedinuser"],
-  components: {
-    sidebarA: __WEBPACK_IMPORTED_MODULE_0__Menu_SidebarA___default.a,
-    sidebarB: __WEBPACK_IMPORTED_MODULE_1__Menu_SidebarB___default.a
-  },
-  mounted: function mounted() {
-    this.setState();
-  },
+    props: ["loggedinuser"],
+    components: {
+        sidebarA: __WEBPACK_IMPORTED_MODULE_0__Menu_SidebarA___default.a,
+        sidebarB: __WEBPACK_IMPORTED_MODULE_1__Menu_SidebarB___default.a
+    },
+    mounted: function mounted() {
+        console.log("homelinks");
+    },
+    created: function created() {
+        this.setState();
+    },
+    data: function data() {
+        return {};
+    },
 
-  methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapActions */])(["storeUser", "storeAllThreads"]), {
-    setState: function setState() {
-      this.storeUser(this.loggedinuser);
-      this.storeAllThreads();
-    }
-  })
+    computed: {
+        loadNewThreadForm: function loadNewThreadForm() {
+            return this.$store.getters.getNewThreadForm;
+        }
+    },
+    methods: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapActions */])(["storeUser", "storeAllThreads"]), {
+        setState: function setState() {
+            this.storeUser(this.loggedinuser);
+            this.storeAllThreads();
+        }
+    })
 });
 
 /***/ }),
@@ -33792,10 +33820,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {},
+  data: function data() {
+    return {
+      clicked: false
+    };
+  },
 
+  methods: {
+    newThread: function newThread() {
+      this.$store.commit("loadNewThreadForm");
+      this.clicked = true;
+    },
+    createNew: function createNew() {
+      this.showForm = "is-active";
+    },
+    closeThreadForm: function closeThreadForm() {
+      this.$store.commit("closeThreadForm");
+      this.clicked = false;
+    }
+  },
   computed: {
     fullname: function fullname() {
       return this.$store.getters.getLoggedInUserFullName;
@@ -33812,7 +33859,29 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", {}, [
-    _c("div", { staticClass: "column" }, [_c("newthread")], 1)
+    _c("div", { staticClass: "column" }, [
+      !_vm.clicked
+        ? _c("div", [
+            _c(
+              "button",
+              {
+                staticClass: "button is-primary new_thread_button",
+                on: { click: _vm.newThread }
+              },
+              [_vm._v("Create a New Thread...")]
+            )
+          ])
+        : _c("div", [
+            _c(
+              "button",
+              {
+                staticClass: "button is-danger new_thread_button",
+                on: { click: _vm.closeThreadForm }
+              },
+              [_vm._v("Cancel New Thread..")]
+            )
+          ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -33839,12 +33908,19 @@ var render = function() {
     _c("div", { staticClass: "columns is-gapless" }, [
       _c("div", { staticClass: "column is-2 asideA" }, [_c("sidebarA")], 1),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "column" },
-        [_c("mast"), _vm._v(" "), _c("router-view")],
-        1
-      ),
+      _vm.loadNewThreadForm
+        ? _c(
+            "div",
+            { staticClass: "column" },
+            [_c("mast"), _vm._v(" "), _c("newthread")],
+            1
+          )
+        : _c(
+            "div",
+            { staticClass: "column" },
+            [_c("mast"), _vm._v(" "), _c("router-view")],
+            1
+          ),
       _vm._v(" "),
       _c("div", { staticClass: "column is-2 asideB" }, [_c("sidebarB")], 1)
     ])
@@ -33921,7 +33997,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {}
+  created: function created() {
+    console.log("dashboard");
+  }
 });
 
 /***/ }),
@@ -34958,6 +35036,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     getSingleThread: function getSingleThread(state) {
         return state.singleThread;
+    },
+    getNewThreadForm: function getNewThreadForm(state) {
+        return state.loadNewThreadForm;
     }
 });
 
@@ -35039,6 +35120,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     commitSingleThread: function commitSingleThread(state, payload) {
         return state.singleThread = payload;
+    },
+    loadNewThreadForm: function loadNewThreadForm(state) {
+        return state.loadNewThreadForm = true;
+    },
+    closeThreadForm: function closeThreadForm(state) {
+        return state.loadNewThreadForm = false;
     }
 });
 
@@ -35076,7 +35163,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
     threads: {},
-    singleThread: {}
+    singleThread: {},
+    loadNewThreadForm: false
 });
 
 /***/ }),
@@ -35252,6 +35340,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   created: function created() {
+    console.log("single thread");
+
     this.getSingleThread();
   },
 
@@ -35269,7 +35359,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.$store.commit("commitSingleThread", response.data.data);
         _this.thread = _this.$store.getters.getSingleThread;
         //this.$store.commit("addCurrentBreadcrumbs", {name: });
-        console.log(_this.$route);
+        //console.log(this.$route);
       }).catch(function (error) {
         _this.isLoading = false;
         _this.error = error.response.statusText;
@@ -35547,23 +35637,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
-  data: function data() {
-    return {
-      showForm: false
-    };
-  },
-
-  methods: {
-    createNew: function createNew() {
-      this.showForm = "is-active";
+    mounted: function mounted() {},
+    data: function data() {
+        return {
+            showForm: false,
+            title: "",
+            body: ""
+        };
     },
-    closeForm: function closeForm() {
-      this.showForm = null;
+
+    computed: {
+        disableForm: function disableForm() {
+            if (this.bodyCount > 300) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+        bodyCount: function bodyCount() {
+            return this.body.length;
+        }
+    },
+    methods: {
+        createNew: function createNew() {
+            this.showForm = "is-active";
+        },
+        closeForm: function closeForm() {
+            this.showForm = null;
+        }
     }
-  }
 });
 
 /***/ }),
@@ -35575,56 +35698,123 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", {}, [
-      _c(
-        "button",
-        {
-          staticClass: "button new_thread_button",
-          on: { click: _vm.createNew }
-        },
-        [_vm._v("Create a New Thread...")]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", [
-      _c("div", { staticClass: "modal", class: _vm.showForm }, [
-        _c("div", {
-          staticClass: "modal-background",
-          on: { click: _vm.closeForm }
-        }),
+    _c("div", { staticClass: "columns is-centered" }, [
+      _c("div", { staticClass: "column is-10" }, [
+        _vm.title || _vm.body
+          ? _c("div", [
+              _c("h1", [_vm._v("Preview...")]),
+              _vm._v(" "),
+              _c("div", [
+                _vm._v("\n                    Title:\n                    "),
+                _c("span", { staticClass: "title is-5" }, [
+                  _vm._v(_vm._s(_vm.title))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c("p", [
+                  _vm._v(
+                    " Body: (" +
+                      _vm._s(_vm.bodyCount) +
+                      " characters out of 300)"
+                  )
+                ]),
+                _vm._v(" "),
+                _c("strong", [_c("em", [_vm._v(_vm._s(_vm.body))])])
+              ]),
+              _vm._v(" "),
+              _c("hr")
+            ])
+          : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "modal-card" }, [
-          _c("header", { staticClass: "modal-card-head" }, [
-            _c("p", { staticClass: "modal-card-title" }, [
-              _vm._v("Modal title")
+        _c("div", [
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [
+              _vm._v("Name of the Thread")
             ]),
             _vm._v(" "),
-            _c("button", {
-              staticClass: "delete",
-              attrs: { "aria-label": "close" },
-              on: { click: _vm.closeForm }
-            })
+            _c("div", { staticClass: "control" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.title,
+                    expression: "title"
+                  }
+                ],
+                staticClass: "input",
+                attrs: { type: "text", placeholder: "Text input" },
+                domProps: { value: _vm.title },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.title = $event.target.value
+                  }
+                }
+              })
+            ])
           ]),
           _vm._v(" "),
-          _c("section", { staticClass: "modal-card-body" }),
+          _c("div", { staticClass: "field" }, [
+            _c("label", { staticClass: "label" }, [_vm._v("Message")]),
+            _vm._v(" "),
+            _c("div", { staticClass: "control" }, [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.body,
+                    expression: "body"
+                  }
+                ],
+                staticClass: "textarea",
+                attrs: { placeholder: "Textarea" },
+                domProps: { value: _vm.body },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.body = $event.target.value
+                  }
+                }
+              })
+            ])
+          ]),
           _vm._v(" "),
-          _c("footer", { staticClass: "modal-card-foot" }, [
-            _c("button", { staticClass: "button is-success" }, [
-              _vm._v("Save changes")
+          _c("div", { staticClass: "field is-grouped" }, [
+            _c("div", { staticClass: "control" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "button is-link",
+                  attrs: { disabled: _vm.disableForm }
+                },
+                [_vm._v("Submit")]
+              )
             ]),
             _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "button", on: { click: _vm.closeForm } },
-              [_vm._v("Cancel")]
-            )
+            _vm._m(0)
           ])
         ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "control" }, [
+      _c("button", { staticClass: "button is-text" }, [_vm._v("Cancel")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -35718,9 +35908,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log(this.$store.getters.currentBreadcrumb);
-  },
+  mounted: function mounted() {},
   data: function data() {
     return {
       route: "",
@@ -35737,56 +35925,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "column bread" }, [
-      _c("div", { staticClass: "columns is-centered" }, [
-        _c("div", { staticClass: "column is-6" }, [
-          _c(
-            "nav",
-            {
-              staticClass: "breadcrumb has-arrow-separator",
-              attrs: { "aria-label": "breadcrumbs" }
-            },
-            [
-              _c("button", { staticClass: "button is-info" }, [
-                _vm._v(_vm._s(_vm.breadcrumb))
-              ]),
-              _vm._v(" "),
-              _c(
-                "li",
-                [
-                  _c("router-link", { attrs: { to: "/threads" } }, [
-                    _c("span", [_vm._v("Thread")])
-                  ])
-                ],
-                1
-              )
-            ]
-          )
-        ]),
-        _vm._v(" "),
-        _vm._m(0)
-      ])
-    ])
-  ])
+  return _vm._m(0)
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-6" }, [
-      _c("div", { staticClass: "field has-addons" }, [
-        _c("div", { staticClass: "control is-expanded" }, [
-          _c("input", {
-            staticClass: "input",
-            attrs: { type: "text", placeholder: "Search Forums..." }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "control" }, [
-          _c("a", { staticClass: "button is-info" }, [
-            _vm._v("\r\n      Search\r\n    ")
+    return _c("div", [
+      _c("div", { staticClass: "column bread" }, [
+        _c("div", { staticClass: "columns is-centered" }, [
+          _c("div", { staticClass: "column is-6" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "column is-6" }, [
+            _c("div", { staticClass: "field has-addons" }, [
+              _c("div", { staticClass: "control is-expanded" }, [
+                _c("input", {
+                  staticClass: "input",
+                  attrs: { type: "text", placeholder: "Search Forums..." }
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control" }, [
+                _c("a", { staticClass: "button is-info" }, [
+                  _vm._v("\r\n      Search\r\n    ")
+                ])
+              ])
+            ])
           ])
         ])
       ])

@@ -1,8 +1,11 @@
 export default {
-    getAllThreads(state){
+    getAllThreads(state) {
         return state.threads
     },
-    getSingleThread(state){
+    getSingleThread(state) {
         return state.singleThread
+    },
+    getNewThreadForm(state) {
+        return state.loadNewThreadForm
     }
 }

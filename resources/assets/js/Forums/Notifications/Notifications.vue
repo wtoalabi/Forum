@@ -3,11 +3,9 @@
 </template>
 
 <script>
- 
 export default {
-mounted() {
-}
-
-}
- 
+  created() {
+    console.log("notifcation");
+  }
+};
 </script>

@@ -3,7 +3,7 @@
     <div v-if="isLoading">Loading....</div>
     <div v-else class="column is-12" v-for="thread in threads" :key="thread.id">
         <div class="box content is-small">
-            <h1 class=""><router-link :to="'thread/' + thread.slug "><span>{{thread.title}}</span></router-link></h1>
+            <h1 class=""><router-link :to="'threads/' + thread.slug "><span>{{thread.title}}</span></router-link></h1>
             <h2>{{thread.body | readMore}}</h2>
         </div>
     </div>
@@ -13,16 +13,22 @@
 <script>
 export default {
   created() {
+    console.log("threads");
+    //console.log(this.$store.getters.getAllThreads);
+
     this.isLoading = true;
-    if (_.isEmpty(this.Threads)) {
+    if (_.isEmpty(this.threads)) {
       this.getThreads();
     }
+    this.isLoading = false;
   },
 
   methods: {
     getThreads() {
       axios.get("api/all-threads").then(response => {
-        this.threads = response.data.data;
+        this.$store.commit("commitThreads", response.data.data);
+        this.threads = this.$store.getters.getAllThreads;
+        //this.threads = response.data.data;
         this.isLoading = false;
       });
     }

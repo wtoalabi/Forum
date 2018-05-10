@@ -6,6 +6,8 @@
 
 <script>
 export default {
-  mounted() {}
+  created() {
+    console.log("forums");
+  }
 };
 </script>

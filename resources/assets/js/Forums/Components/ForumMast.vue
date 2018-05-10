@@ -3,10 +3,10 @@
     <div class="column bread">
     <div class="columns is-centered">
     <div class="column is-6">
-    <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+   <!--  <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
         <button class="button is-info">{{breadcrumb}}</button>
         <li><router-link to="/threads"><span>Thread</span></router-link></li>
-</nav>
+</nav> -->
 </div>
 <div class="column is-6">
     <div class="field has-addons">
@@ -29,9 +29,7 @@
 
 <script>
 export default {
-  mounted() {
-    console.log(this.$store.getters.currentBreadcrumb);
-  },
+  mounted() {},
   data() {
     return {
       route: "",

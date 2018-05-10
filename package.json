@@ -20,6 +20,7 @@
         "animate": "^1.0.0",
         "bulma": "^0.7.1",
         "font-awesome": "^4.7.0",
+        "vue-2-breadcrumbs": "^0.3.0",
         "vue-router": "^3.0.1",
         "vuex": "^3.0.1"
     }

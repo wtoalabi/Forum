@@ -1,4 +1,5 @@
 export default {
     threads: {},
-    singleThread: {}
+    singleThread: {},
+    loadNewThreadForm: false
 }

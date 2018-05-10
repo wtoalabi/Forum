@@ -11,8 +11,7 @@ Vue.use(VueRouter)
 export default new VueRouter({
     mode: "hash",
     linkExactActiveClass: "active-forum-menu",
-    routes: [
-        {
+    routes: [{
             path: "/",
             name: "ForumsPage",
             component: ForumsPage
@@ -28,7 +27,7 @@ export default new VueRouter({
             component: Notifications
         },
         {
-            path: "/thread/:slug",
+            path: "/threads/:slug",
             name: "SingleThread",
             component: SingleThread
         }
