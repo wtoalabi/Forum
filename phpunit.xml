@@ -23,9 +23,9 @@
         </whitelist>
     </filter>
     <php>
-        <env name="APP_ENV" value="testing"/>
+        <env name="APP_ENV" value="local"/>
         <env name="DB_CONNECTION" value="mysql"/>
-        <env name="PHP_UNIT_DB_DATABASE" value="forum_test"/>
+        <env name="DB_DATABASE" value="forum_test"/>
         <env name="APP_URL" value="http://forum.loc"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>

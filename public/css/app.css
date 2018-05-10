@@ -8,9 +8,18 @@
   background-color: #fdfeff;
 }
 
+.new_thread_button {
+  height: 38px !important;
+  margin-top: 2px;
+}
+
 .bread {
   background-color: #fff;
   margin-top: 2px;
+}
+
+.is-circle {
+  border-radius: 50%;
 }
 
 .mr-1 {

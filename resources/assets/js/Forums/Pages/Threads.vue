@@ -11,35 +11,32 @@
 </template>
 
 <script>
- export default {
- 
-created() {   
-    this.isLoading = true
-         if(_.isEmpty(this.Threads)){
-        this.getThreads()
-        } 
-    },
-
-methods:{
-        getThreads(){
-            axios.get('api/all-threads').then(response => {
-                this.threads = response.data.data;
-                this.isLoading = false          
-        })
-} 
-},
-data(){
-    return{
-        isLoading : false,
-        threads: this.$store.getters.getAllThreads
+export default {
+  created() {
+    this.isLoading = true;
+    if (_.isEmpty(this.Threads)) {
+      this.getThreads();
     }
-},
-filters:{
-    readMore(text){
-        return _.truncate(text,{length:100})
-    }
-}
+  },
 
-}
- 
+  methods: {
+    getThreads() {
+      axios.get("api/all-threads").then(response => {
+        this.threads = response.data.data;
+        this.isLoading = false;
+      });
+    }
+  },
+  data() {
+    return {
+      isLoading: false,
+      threads: this.$store.getters.getAllThreads
+    };
+  },
+  filters: {
+    readMore(text) {
+      return _.truncate(text, { length: 100 });
+    }
+  }
+};
 </script>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,13 +14,15 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
+
 <body class="has-navbar-fixed-top">
     <div id="app">
         <div>@include('layouts.navbar')</div>
-        <div class="">            
-                {{$slot}}
+        <div class="">
+            {{$slot}}
         </div>
         @include('layouts.footer')
-    
+
 </body>
+
 </html>

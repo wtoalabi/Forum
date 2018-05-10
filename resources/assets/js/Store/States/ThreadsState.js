@@ -1,4 +1,4 @@
-export default{
-    threads:{},
+export default {
+    threads: {},
     singleThread: {}
 }

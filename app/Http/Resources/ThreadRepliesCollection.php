@@ -19,7 +19,7 @@ class ThreadRepliesCollection extends ResourceCollection
                 "id" => $reply->id,
                 "body"=> $reply->body,
                 "user"=> $reply->user->name,
-                "created_at" => $reply['created_at']->toDateTimeString()
+                "created_at" => $reply['created_at']->diffForHumans()
             ];
         });
     }

@@ -1,44 +1,62 @@
-.asideA{
+.asideA {
     background-color: #e3e4e580
 }
-.asideB{
+
+.asideB {
     background-color: #fdfeff
 }
-.bread{
-    background-color: #fff;
-    //border-bottom: 1px solid #85858a4f;
+
+.new_thread_button {
+    height: 38px !important;
     margin-top: 2px;
 }
-.mr-1{
+
+.bread {
+    background-color: #fff; //border-bottom: 1px solid #85858a4f;
+    margin-top: 2px;
+}
+
+.is-circle {
+    border-radius: 50%;
+}
+
+.mr-1 {
     margin-right: 10px;
 }
-.mr-2{
+
+.mr-2 {
     margin-right: 20px;
 }
 
-.mr-3{
+.mr-3 {
     margin-right: 30px;
 }
-.mt-1{
+
+.mt-1 {
     margin-top: 10px;
 }
-.mt-2{
+
+.mt-2 {
     margin-top: 20px;
 }
-.mt-3{
+
+.mt-3 {
     margin-top: 30px;
 }
-.mt-4{
+
+.mt-4 {
     margin-top: 40px;
 }
-.mt-8{
+
+.mt-8 {
     margin-top: 80px;
 }
-.breadcrumb a{
+
+.breadcrumb a {
     color: black !important;
 }
 
-.active-forum-menu{
-    color: #3273dc !important ;
+.active-forum-menu {
+    color: #3273dc !important;
     font-size: 20px;
 }

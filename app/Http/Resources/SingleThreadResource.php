@@ -20,7 +20,12 @@ class SingleThreadResource extends JsonResource
             "slug" => $this->slug,
             "title" => $this->title,
             "body" => $this->body,
-            "replies" => new ThreadRepliesCollection($this->replies)
+            "owner" => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+            ],
+            "replies" => new ThreadRepliesCollection($this->replies),
+            "created_at" => $this->created_at->diffForHumans()
         ];
     }
 }
