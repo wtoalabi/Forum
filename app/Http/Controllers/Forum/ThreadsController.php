@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Forum;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ThreadsCollection;
 use App\Http\Resources\SingleThreadResource;
 
@@ -40,7 +41,15 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $valid = $request->validate([
+            'title' => "required",
+            'body' => "required"
+            ]);
+        $valid['slug'] = str_slug($request['title'], '-');
+        $valid['user_id'] = Auth::user()->id;
+        $thread = Thread::create($valid);
+        return $thread;
+
     }
 
     /**

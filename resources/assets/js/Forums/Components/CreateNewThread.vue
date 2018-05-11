@@ -2,40 +2,47 @@
     <div>
         <div class="columns is-centered">
             <div class="column is-10">
-                <div v-if="title || body">
+                <div v-if="form.title || form.body">
                     <h1>Preview...</h1>
                     <div>
                         Title:
-                        <span class="title is-5">{{title}}</span>
+                        <span class="title is-5">{{form.title}}</span>
                     </div>
                     <div>
                         <p> Body: ({{bodyCount}} characters out of 300)</p>
                         <strong>
-                            <em>{{body}}</em>
+                            <em>{{form.body}}</em>
                         </strong>
                     </div>
                     <hr />
                 </div>
-                <div>
+                <div @keydown="form.errors.clear($event.target.name)">
                     <div class="field">
-                        <label class="label">Name of the Thread</label>
+                        <label class="label">Title of the Thread</label>
                         <div class="control">
-                            <input class="input" type="text" placeholder="Text input" v-model="title">
+                            <input class="input" :class="{'is-danger':form.errors.has('title')}" name="title" type="text" placeholder="Text input" v-model="form.title">
+                            <div v-if="form.errors.has('title')">
+                                <span class="help is-danger">{{form.errors.get('title')}}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="field">
                         <label class="label">Message</label>
                         <div class="control">
-                            <textarea class="textarea" placeholder="Textarea" v-model="body"></textarea>
+                            <textarea name="body" class="textarea" :class="{'is-danger': form.errors.has('body')}" placeholder="Textarea" v-model="form.body"></textarea>
+                        </div>
+                        <div v-if="form.errors.has('body')">
+                            <span class="help is-danger">{{form.errors.get('body')}}</span>
                         </div>
                     </div>
                     <div class="field is-grouped">
                         <div class="control">
-                            <button class="button is-link" :disabled="disableForm">Submit</button>
+                            <button class="button is-link" :class="{'is-loading': form.sendingMessage}" :disabled="disableForm || form.errors.any()" @click="submit">Submit</button>
                         </div>
                         <div class="control">
-                            <button class="button is-text">Cancel</button>
+                            <button class="button is-text" @click="cancelForm">Cancel</button>
                         </div>
+                        <div v-if="form.messageSent">Posted!</div>
                     </div>
                 </div>
             </div>
@@ -44,13 +51,16 @@
 </template>
 
 <script>
+    import Form from '../../Utilities/Form'
     export default {
         mounted() {},
         data() {
             return {
                 showForm: false,
-                title: "",
-                body: "",
+                form: new Form({
+                    title: "",
+                    body: "",
+                }),
             };
         },
         computed: {
@@ -62,7 +72,7 @@
                 }
             },
             bodyCount() {
-                return this.body.length
+                return this.form.body.length
             }
         },
         methods: {
@@ -71,6 +81,21 @@
             },
             closeForm() {
                 this.showForm = null;
+            },
+            submit() {
+                return this.form.post('api/create-new-thread').then(response => {
+                    this.processResponse(response)
+                    }
+                    ).catch(error=>{
+                        console.log("error",error.message);
+                        
+                    })
+            },
+            processResponse() {
+               
+            },
+            cancelForm(){
+                this.form.reset()
             }
         }
     };

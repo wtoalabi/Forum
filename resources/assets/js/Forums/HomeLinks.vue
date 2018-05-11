@@ -11,7 +11,7 @@
             </div>
             <div v-else class="column">
                 <mast />
-                <router-view></router-view>
+                <transition><router-view></router-view></transition>
             </div>
             <div class="column is-2 asideB">
                 <sidebarB />

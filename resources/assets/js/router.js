@@ -4,11 +4,12 @@ import ForumsPage from "./Forums/Pages/ForumsPage"
 import Threads from "./Forums/Pages/Threads"
 import Notifications from "./Forums/Notifications/Notifications"
 import SingleThread from './Forums/Pages/SingleThread'
+import store from './Store/store'
 
 
 Vue.use(VueRouter)
 
-export default new VueRouter({
+let router = new VueRouter({
     mode: "hash",
     linkExactActiveClass: "active-forum-menu",
     routes: [{
@@ -19,7 +20,7 @@ export default new VueRouter({
         {
             path: "/threads",
             name: "Threads",
-            component: Threads
+            component: Threads,
         },
         {
             path: "/notifications",
@@ -33,3 +34,15 @@ export default new VueRouter({
         }
     ]
 })
+router.beforeEach((to, from, next) => {
+    if (_.isEmpty(store.state.threads)) {
+        return axios.get('api/all-threads').then(response => {
+            store.commit('commitThreads', response.data.data);
+            next()
+        })
+    }
+    next()
+
+})
+
+export default router

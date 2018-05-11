@@ -13,30 +13,23 @@
 <script>
 export default {
   created() {
-    console.log("threads");
-    //console.log(this.$store.getters.getAllThreads);
-
     this.isLoading = true;
-    if (_.isEmpty(this.threads)) {
-      this.getThreads();
-    }
-    this.isLoading = false;
+     if (_.isEmpty(this.threads)) {
+      this.getThreads()
+    } 
   },
 
   methods: {
     getThreads() {
-      axios.get("api/all-threads").then(response => {
-        this.$store.commit("commitThreads", response.data.data);
+        console.log("getting...");
         this.threads = this.$store.getters.getAllThreads;
-        //this.threads = response.data.data;
         this.isLoading = false;
-      });
     }
   },
   data() {
     return {
       isLoading: false,
-      threads: this.$store.getters.getAllThreads
+      threads: ''
     };
   },
   filters: {

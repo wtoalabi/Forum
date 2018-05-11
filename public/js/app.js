@@ -33110,6 +33110,8 @@ if (inBrowser && window.Vue) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread__ = __webpack_require__(129);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Store_store__ = __webpack_require__(106);
+
 
 
 
@@ -33119,7 +33121,7 @@ if (inBrowser && window.Vue) {
 
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
+var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     mode: "hash",
     linkExactActiveClass: "active-forum-menu",
     routes: [{
@@ -33139,7 +33141,18 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
         name: "SingleThread",
         component: __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread___default.a
     }]
-}));
+});
+router.beforeEach(function (to, from, next) {
+    if (_.isEmpty(__WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].state.threads)) {
+        return axios.get('api/all-threads').then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].commit('commitThreads', response.data.data);
+            next();
+        });
+    }
+    next();
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
 
 /***/ }),
 /* 65 */,
@@ -33319,33 +33332,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
-    console.log("threads");
-    //console.log(this.$store.getters.getAllThreads);
-
     this.isLoading = true;
     if (_.isEmpty(this.threads)) {
       this.getThreads();
     }
-    this.isLoading = false;
   },
 
 
   methods: {
     getThreads: function getThreads() {
-      var _this = this;
-
-      axios.get("api/all-threads").then(function (response) {
-        _this.$store.commit("commitThreads", response.data.data);
-        _this.threads = _this.$store.getters.getAllThreads;
-        //this.threads = response.data.data;
-        _this.isLoading = false;
-      });
+      console.log("getting...");
+      this.threads = this.$store.getters.getAllThreads;
+      this.isLoading = false;
     }
   },
   data: function data() {
     return {
       isLoading: false,
-      threads: this.$store.getters.getAllThreads
+      threads: ''
     };
   },
 
@@ -33684,6 +33688,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     computed: {
@@ -33918,7 +33924,7 @@ var render = function() {
         : _c(
             "div",
             { staticClass: "column" },
-            [_c("mast"), _vm._v(" "), _c("router-view")],
+            [_c("mast"), _vm._v(" "), _c("transition", [_c("router-view")], 1)],
             1
           ),
       _vm._v(" "),
@@ -35067,12 +35073,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
     storeAllThreads: function storeAllThreads(_ref, payload) {
-        var commit = _ref.commit;
-
         // commit("commitThread", payload)
-        axios.get('api/all-threads', payload).then(function (response) {
-            commit('commitThreads', response.data.data);
-        });
+        /*  axios.get('api/all-threads', payload).then(response => {
+              commit('commitThreads', response.data.data);
+          }) */
+
+        var commit = _ref.commit;
     }
 });
 
@@ -35611,6 +35617,14 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Utilities_Form__ = __webpack_require__(151);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -35657,13 +35671,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {},
     data: function data() {
         return {
             showForm: false,
-            title: "",
-            body: ""
+            form: new __WEBPACK_IMPORTED_MODULE_0__Utilities_Form__["a" /* default */]({
+                title: "",
+                body: ""
+            })
         };
     },
 
@@ -35676,7 +35693,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         bodyCount: function bodyCount() {
-            return this.body.length;
+            return this.form.body.length;
         }
     },
     methods: {
@@ -35685,6 +35702,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         closeForm: function closeForm() {
             this.showForm = null;
+        },
+        submit: function submit() {
+            var _this = this;
+
+            return this.form.post('api/create-new-thread').then(function (response) {
+                _this.processResponse(response);
+            }).catch(function (error) {
+                console.log("error", error.message);
+            });
+        },
+        processResponse: function processResponse() {},
+        cancelForm: function cancelForm() {
+            this.form.reset();
         }
     }
 });
@@ -35700,14 +35730,14 @@ var render = function() {
   return _c("div", [
     _c("div", { staticClass: "columns is-centered" }, [
       _c("div", { staticClass: "column is-10" }, [
-        _vm.title || _vm.body
+        _vm.form.title || _vm.form.body
           ? _c("div", [
               _c("h1", [_vm._v("Preview...")]),
               _vm._v(" "),
               _c("div", [
                 _vm._v("\n                    Title:\n                    "),
                 _c("span", { staticClass: "title is-5" }, [
-                  _vm._v(_vm._s(_vm.title))
+                  _vm._v(_vm._s(_vm.form.title))
                 ])
               ]),
               _vm._v(" "),
@@ -35720,101 +35750,139 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("strong", [_c("em", [_vm._v(_vm._s(_vm.body))])])
+                _c("strong", [_c("em", [_vm._v(_vm._s(_vm.form.body))])])
               ]),
               _vm._v(" "),
               _c("hr")
             ])
           : _vm._e(),
         _vm._v(" "),
-        _c("div", [
-          _c("div", { staticClass: "field" }, [
-            _c("label", { staticClass: "label" }, [
-              _vm._v("Name of the Thread")
+        _c(
+          "div",
+          {
+            on: {
+              keydown: function($event) {
+                _vm.form.errors.clear($event.target.name)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "field" }, [
+              _c("label", { staticClass: "label" }, [
+                _vm._v("Title of the Thread")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.title,
+                      expression: "form.title"
+                    }
+                  ],
+                  staticClass: "input",
+                  class: { "is-danger": _vm.form.errors.has("title") },
+                  attrs: {
+                    name: "title",
+                    type: "text",
+                    placeholder: "Text input"
+                  },
+                  domProps: { value: _vm.form.title },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "title", $event.target.value)
+                    }
+                  }
+                }),
+                _vm._v(" "),
+                _vm.form.errors.has("title")
+                  ? _c("div", [
+                      _c("span", { staticClass: "help is-danger" }, [
+                        _vm._v(_vm._s(_vm.form.errors.get("title")))
+                      ])
+                    ])
+                  : _vm._e()
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "control" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.title,
-                    expression: "title"
-                  }
-                ],
-                staticClass: "input",
-                attrs: { type: "text", placeholder: "Text input" },
-                domProps: { value: _vm.title },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+            _c("div", { staticClass: "field" }, [
+              _c("label", { staticClass: "label" }, [_vm._v("Message")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control" }, [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.body,
+                      expression: "form.body"
                     }
-                    _vm.title = $event.target.value
-                  }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "field" }, [
-            _c("label", { staticClass: "label" }, [_vm._v("Message")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "control" }, [
-              _c("textarea", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.body,
-                    expression: "body"
-                  }
-                ],
-                staticClass: "textarea",
-                attrs: { placeholder: "Textarea" },
-                domProps: { value: _vm.body },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                  ],
+                  staticClass: "textarea",
+                  class: { "is-danger": _vm.form.errors.has("body") },
+                  attrs: { name: "body", placeholder: "Textarea" },
+                  domProps: { value: _vm.form.body },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.form, "body", $event.target.value)
                     }
-                    _vm.body = $event.target.value
                   }
-                }
-              })
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "field is-grouped" }, [
-            _c("div", { staticClass: "control" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "button is-link",
-                  attrs: { disabled: _vm.disableForm }
-                },
-                [_vm._v("Submit")]
-              )
+                })
+              ]),
+              _vm._v(" "),
+              _vm.form.errors.has("body")
+                ? _c("div", [
+                    _c("span", { staticClass: "help is-danger" }, [
+                      _vm._v(_vm._s(_vm.form.errors.get("body")))
+                    ])
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
-            _vm._m(0)
-          ])
-        ])
+            _c("div", { staticClass: "field is-grouped" }, [
+              _c("div", { staticClass: "control" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "button is-link",
+                    class: { "is-loading": _vm.form.sendingMessage },
+                    attrs: {
+                      disabled: _vm.disableForm || _vm.form.errors.any()
+                    },
+                    on: { click: _vm.submit }
+                  },
+                  [_vm._v("Submit")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "button is-text",
+                    on: { click: _vm.cancelForm }
+                  },
+                  [_vm._v("Cancel")]
+                )
+              ]),
+              _vm._v(" "),
+              _vm.form.messageSent ? _c("div", [_vm._v("Posted!")]) : _vm._e()
+            ])
+          ]
+        )
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "control" }, [
-      _c("button", { staticClass: "button is-text" }, [_vm._v("Cancel")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -35998,6 +36066,170 @@ if (false) {
         //return console.log(payload)
     }
 });
+
+/***/ }),
+/* 150 */,
+/* 151 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Errors__ = __webpack_require__(152);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var Form = function () {
+    function Form(data) {
+        _classCallCheck(this, Form);
+
+        this.originalData = data;
+
+        for (var field in data) {
+            this[field] = data[field];
+        }
+
+        this.errors = new __WEBPACK_IMPORTED_MODULE_0__Errors__["a" /* default */]();
+        this.sendingMessage = null;
+        this.messageSent = false;
+    }
+
+    _createClass(Form, [{
+        key: 'data',
+        value: function data() {
+            var data = {};
+
+            for (var property in this.originalData) {
+                data[property] = this[property];
+            }
+
+            return data;
+        }
+    }, {
+        key: 'submit',
+        value: function submit(requestType, url) {
+            var _this = this;
+
+            this.sendingMessage = true;
+            return new Promise(function (resolve, reject) {
+
+                axios[requestType](url, _this.data()).then(function (response) {
+                    _this.onSuccess(response.data);
+                    resolve(response.data);
+                    _this.sendingMessage = false;
+                    _this.messageSent = true;
+                }).catch(function (error) {
+                    _this.onFail(error.response.data.errors);
+                    reject(error.response.data);
+                    _this.sendingMessage = false;
+
+                    /* .catch(error=>this.errors.record(error.response.data.errors)); */
+                });
+            });
+        }
+    }, {
+        key: 'post',
+        value: function post(url) {
+            return this.submit('post', url);
+        }
+    }, {
+        key: 'delete',
+        value: function _delete(url) {
+            return this.submit('delete', url);
+        }
+    }, {
+        key: 'patch',
+        value: function patch(url) {
+            return this.submit('patch', url);
+        }
+    }, {
+        key: 'submitting',
+        value: function submitting() {
+            //return "Is Submit"
+            //alert('Your form is being created...') 
+        }
+    }, {
+        key: 'onSuccess',
+        value: function onSuccess(data) {
+            this.reset();
+        }
+    }, {
+        key: 'onFail',
+        value: function onFail(errors) {
+            this.errors.record(errors);
+        }
+    }, {
+        key: 'reset',
+        value: function reset() {
+            for (var field in this.originalData) {
+                this[field] = '';
+            }
+            this.errors.clear();
+            this.sendingMessage = false;
+            this.messageSent = false;
+        }
+    }]);
+
+    return Form;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Form);
+
+/***/ }),
+/* 152 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Errors = function () {
+    function Errors() {
+        _classCallCheck(this, Errors);
+
+        this.errors = {};
+    }
+
+    _createClass(Errors, [{
+        key: "any",
+        value: function any() {
+            return Object.keys(this.errors).length > 0;
+        }
+    }, {
+        key: "has",
+        value: function has(field) {
+            return this.errors.hasOwnProperty(field);
+        }
+    }, {
+        key: "get",
+        value: function get(field) {
+            if (this.errors[field]) {
+                return this.errors[field][0];
+            }
+        }
+    }, {
+        key: "record",
+        value: function record(errors) {
+            this.errors = errors;
+        }
+    }, {
+        key: "clear",
+        value: function clear(field) {
+
+            if (field) {
+                delete this.errors[field];
+                return;
+            }
+            this.errors = {};
+        }
+    }]);
+
+    return Errors;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Errors);
 
 /***/ })
 /******/ ]);
