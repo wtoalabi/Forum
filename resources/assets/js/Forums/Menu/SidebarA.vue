@@ -11,9 +11,14 @@
         <li><router-link to="/threads"><span>Thread</span></router-link></li>
     
   </ul>
-  <p class="menu-label">
-    Categories
-  </p>
+   <ul class="menu-list">
+    <li><a :class="{'is-active':selected}" @click="isSelected">Categories</a></li>
+    <li v-if="selected">
+      <ul>
+        <li v-for="category in categories" :key="category.id"><a>{{category.name}} ({{category.threads_count}})</a></li>
+      </ul>
+    </li>
+  </ul>
   <p class="menu-label">
     Tags
   </p>
@@ -24,9 +29,22 @@
 
 <script>
 export default {
+    data(){
+        return{
+            selected: null
+        }
+    },
+    methods:{
+        isSelected(){
+            this.selected ^= true
+        }
+    },
     computed:{
         notificationsCount(){
             return this.$store.getters.getNotificationsCount
+        },
+        categories(){
+            return this.$store.getters.getCategories
         }
     }
 }

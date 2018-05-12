@@ -31802,11 +31802,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            selected: null
+        };
+    },
+
+    methods: {
+        isSelected: function isSelected() {
+            this.selected ^= true;
+        }
+    },
     computed: {
         notificationsCount: function notificationsCount() {
             return this.$store.getters.getNotificationsCount;
+        },
+        categories: function categories() {
+            return this.$store.getters.getCategories;
         }
     }
 });
@@ -31859,8 +31878,37 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("p", { staticClass: "menu-label" }, [
-        _vm._v("\r\n    Categories\r\n  ")
+      _c("ul", { staticClass: "menu-list" }, [
+        _c("li", [
+          _c(
+            "a",
+            {
+              class: { "is-active": _vm.selected },
+              on: { click: _vm.isSelected }
+            },
+            [_vm._v("Categories")]
+          )
+        ]),
+        _vm._v(" "),
+        _vm.selected
+          ? _c("li", [
+              _c(
+                "ul",
+                _vm._l(_vm.categories, function(category) {
+                  return _c("li", { key: category.id }, [
+                    _c("a", [
+                      _vm._v(
+                        _vm._s(category.name) +
+                          " (" +
+                          _vm._s(category.threads_count) +
+                          ")"
+                      )
+                    ])
+                  ])
+                })
+              )
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("p", { staticClass: "menu-label" }, [_vm._v("\r\n    Tags\r\n  ")])
