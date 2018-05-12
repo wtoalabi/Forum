@@ -41,10 +41,10 @@
                             <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
                         </select>
                         <div v-if="form.errors.has('category_id')">
-                            <span class="help is-danger">{{form.errors.get('category_id')}}</span>
+                            <p class="help is-danger">{{form.errors.get('category_id')}}</p>
                         </div>
                     </div>
-                    <div class="field is-grouped">
+                    <div class="field is-grouped mt-3">
                         <div class="control">
                             <button class="button is-link" :class="{'is-loading': form.sendingMessage}" :disabled="disableForm || form.errors.any()" @click="submit">Submit</button>
                         </div>

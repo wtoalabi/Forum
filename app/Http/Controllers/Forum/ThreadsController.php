@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Forum;
 
-use Validator;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -46,12 +45,12 @@ class ThreadsController extends Controller
         $rules = [ 
             'title' => "required", 
             'body' => "required", 
-            'category_id' => 'required'
+            'category_id' => 'required|exists:categories,id'
         ];
         $message = [ 
             'category_id.required' => "You need to select a category!" 
         ];
-        $valid = Validator::make($request->all(), $rules, $message)->validate();
+        $valid = $this->validate(request(), $rules, $message);
         
         $valid['slug'] = str_slug($request['title'], '-');
         $valid['user_id'] = Auth::user()->id;

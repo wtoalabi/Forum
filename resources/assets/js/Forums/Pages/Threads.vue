@@ -1,13 +1,7 @@
 <template>
 <div>
     <div v-if="isLoading">Loading....</div>
-    <div v-else class="column is-12" v-for="thread in threads" :key="thread.id">
-        <div class="box content is-small">
-            <h1 class=""><router-link :to="'threads/' + thread.slug "><span>{{thread.title}}</span></router-link></h1>
-            <small>Posted in  {{thread.category.name}} || {{thread.created_at}} ||Replies:{{thread.replies_count}}</small>
-            <h2>{{thread.body | readMore}}</h2>
-        </div>
-    </div>
+    <div v-else><threadslist :threads="threads"></threadslist></div>
 </div>
 </template>
 
@@ -22,7 +16,6 @@ export default {
 
   methods: {
     getThreads() {
-        console.log("getting...");
         this.threads = this.$store.getters.getAllThreads;
         this.isLoading = false;
     }
@@ -33,10 +26,6 @@ export default {
       threads: ''
     };
   },
-  filters: {
-    readMore(text) {
-      return _.truncate(text, { length: 100 });
-    }
-  }
+  
 };
 </script>

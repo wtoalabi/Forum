@@ -31514,6 +31514,7 @@ Vue.component('mast', __webpack_require__(53));
 Vue.component('replies', __webpack_require__(56));
 Vue.component('newthread', __webpack_require__(59));
 Vue.component('newreply', __webpack_require__(63));
+Vue.component('threadslist', __webpack_require__(115));
 
 /***/ }),
 /* 41 */
@@ -31702,9 +31703,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         sidebarA: __WEBPACK_IMPORTED_MODULE_0__Menu_SidebarA___default.a,
         sidebarB: __WEBPACK_IMPORTED_MODULE_1__Menu_SidebarB___default.a
     },
-    mounted: function mounted() {
-        console.log("homelinks");
-    },
+    mounted: function mounted() {},
     created: function created() {
         this.setState();
     },
@@ -31807,6 +31806,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -31870,7 +31870,7 @@ var render = function() {
         _c(
           "li",
           [
-            _c("router-link", { attrs: { to: "/threads" } }, [
+            _c("router-link", { attrs: { to: "/threads", exact: "" } }, [
               _c("span", [_vm._v("Thread")])
             ])
           ],
@@ -31895,16 +31895,18 @@ var render = function() {
               _c(
                 "ul",
                 _vm._l(_vm.categories, function(category) {
-                  return _c("li", { key: category.id }, [
-                    _c("a", { attrs: { href: category.slug } }, [
-                      _vm._v(
-                        _vm._s(category.name) +
-                          " (" +
-                          _vm._s(category.threads_count) +
-                          ")"
+                  return _c(
+                    "li",
+                    { key: category.id },
+                    [
+                      _c(
+                        "router-link",
+                        { attrs: { to: "/" + category.slug, exact: "" } },
+                        [_vm._v(_vm._s(category.name))]
                       )
-                    ])
-                  ])
+                    ],
+                    1
+                  )
                 })
               )
             ])
@@ -32787,7 +32789,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.form.errors.has("category_id")
                   ? _c("div", [
-                      _c("span", { staticClass: "help is-danger" }, [
+                      _c("p", { staticClass: "help is-danger" }, [
                         _vm._v(_vm._s(_vm.form.errors.get("category_id")))
                       ])
                     ])
@@ -32795,7 +32797,7 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
-            _c("div", { staticClass: "field is-grouped" }, [
+            _c("div", { staticClass: "field is-grouped mt-3" }, [
               _c("div", { staticClass: "control" }, [
                 _c(
                   "button",
@@ -32986,15 +32988,21 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Forums_Pages_ForumsPage__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Forums_Pages_ForumsPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Forums_Pages_ForumsPage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_Threads__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_Threads___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Forums_Pages_Threads__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Forums_Notifications_Notifications__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Forums_Notifications_Notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Forums_Notifications_Notifications__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_ForumsPage__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_ForumsPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Forums_Pages_ForumsPage__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Pages_SingleThread__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Pages_SingleThread___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Forums_Pages_SingleThread__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_Threads__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_Threads___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Forums_Pages_Threads__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Store_store__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_ThreadsCategory__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_ThreadsCategory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__Forums_Pages_ThreadsCategory__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_UserThreads__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_UserThreads___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Forums_Pages_UserThreads__);
+
+
 
 
 
@@ -33011,19 +33019,41 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     routes: [{
         path: "/",
         name: "ForumsPage",
-        component: __WEBPACK_IMPORTED_MODULE_2__Forums_Pages_ForumsPage___default.a
+        component: __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_ForumsPage___default.a
     }, {
         path: "/threads",
         name: "Threads",
-        component: __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_Threads___default.a
+        component: __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_Threads___default.a
     }, {
         path: "/notifications",
         name: "Notifications",
-        component: __WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications___default.a
+        component: __WEBPACK_IMPORTED_MODULE_2__Forums_Notifications_Notifications___default.a
     }, {
-        path: "/threads/:slug",
+        path: "/threads/:category/:slug",
         name: "SingleThread",
-        component: __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread___default.a
+        component: __WEBPACK_IMPORTED_MODULE_4__Forums_Pages_SingleThread___default.a
+    }, {
+        path: "/:category_slug",
+        name: "ThreadsCategory",
+        component: __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_ThreadsCategory___default.a,
+        beforeEnter: function beforeEnter(to, from, next) {
+            __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].state.singleCategoryThreads = null;
+            return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].commit("commitSingleCategoryThreads", response.data.data);
+                next();
+            });
+        }
+    }, {
+        path: "/users/:username",
+        name: "UserThreads",
+        component: __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_UserThreads___default.a,
+        beforeEnter: function beforeEnter(to, from, next) {
+            __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].state.singleCategoryThreads = null;
+            return axios.get('api/user-threads/' + to.params.username).then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].commit("commitUserThreads", response.data.data);
+                next();
+            });
+        }
     }]
 });
 router.beforeEach(function (to, from, next) {
@@ -35732,9 +35762,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  created: function created() {
-    console.log("forums");
-  }
+  created: function created() {}
 });
 
 /***/ }),
@@ -35824,12 +35852,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -35842,7 +35864,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     getThreads: function getThreads() {
-      console.log("getting...");
       this.threads = this.$store.getters.getAllThreads;
       this.isLoading = false;
     }
@@ -35852,12 +35873,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       isLoading: false,
       threads: ''
     };
-  },
-
-  filters: {
-    readMore: function readMore(text) {
-      return _.truncate(text, { length: 100 });
-    }
   }
 });
 
@@ -35869,45 +35884,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm.isLoading
-        ? _c("div", [_vm._v("Loading....")])
-        : _vm._l(_vm.threads, function(thread) {
-            return _c("div", { key: thread.id, staticClass: "column is-12" }, [
-              _c("div", { staticClass: "box content is-small" }, [
-                _c(
-                  "h1",
-                  {},
-                  [
-                    _c(
-                      "router-link",
-                      { attrs: { to: "threads/" + thread.slug } },
-                      [_c("span", [_vm._v(_vm._s(thread.title))])]
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("small", [
-                  _vm._v(
-                    "Posted in  " +
-                      _vm._s(thread.category.name) +
-                      " || " +
-                      _vm._s(thread.created_at) +
-                      " ||Replies:" +
-                      _vm._s(thread.replies_count)
-                  )
-                ]),
-                _vm._v(" "),
-                _c("h2", [_vm._v(_vm._s(_vm._f("readMore")(thread.body)))])
-              ])
-            ])
-          })
-    ],
-    2
-  )
+  return _c("div", [
+    _vm.isLoading
+      ? _c("div", [_vm._v("Loading....")])
+      : _c("div", [_c("threadslist", { attrs: { threads: _vm.threads } })], 1)
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -36360,6 +36341,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ReplyMutators__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LoggedInUserMutator__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__BreadcrumbsMutator__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__UniqueMutators__ = __webpack_require__(121);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -36367,7 +36349,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["a"] = (_extends({}, __WEBPACK_IMPORTED_MODULE_0__ThreadMutators__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__ReplyMutators__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__LoggedInUserMutator__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__BreadcrumbsMutator__["a" /* default */]));
+
+/* harmony default export */ __webpack_exports__["a"] = (_extends({}, __WEBPACK_IMPORTED_MODULE_4__UniqueMutators__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0__ThreadMutators__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__ReplyMutators__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__LoggedInUserMutator__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__BreadcrumbsMutator__["a" /* default */]));
 
 /***/ }),
 /* 90 */
@@ -36387,10 +36370,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     closeThreadForm: function closeThreadForm(state) {
         return state.loadNewThreadForm = false;
     },
-    commitCategories: function commitCategories(state, payload) {
-        return state.categories = payload;
-    },
-    addToACategoryCount: function addToACategoryCount(state, payload) {},
     addASingleThread: function addASingleThread(state, payload) {
         state.categories.map(function (category) {
             if (category.id === payload.category.id) {
@@ -36445,6 +36424,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Notifications__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__LoggedInUser__ = __webpack_require__(97);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Breadcrumbs__ = __webpack_require__(98);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Categories__ = __webpack_require__(113);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 
@@ -36452,7 +36432,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
-/* harmony default export */ __webpack_exports__["a"] = (_extends({}, __WEBPACK_IMPORTED_MODULE_0__ThreadsState__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__Notifications__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__LoggedInUser__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__Breadcrumbs__["a" /* default */]));
+
+/* harmony default export */ __webpack_exports__["a"] = (_extends({}, __WEBPACK_IMPORTED_MODULE_0__ThreadsState__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__Categories__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__Notifications__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__LoggedInUser__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__Breadcrumbs__["a" /* default */]));
 
 /***/ }),
 /* 95 */
@@ -36464,7 +36445,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     singleThread: {},
     loadNewThreadForm: false,
     singleThreadReplies: [],
-    categories: []
+    userThreads: []
 });
 
 /***/ }),
@@ -36499,6 +36480,460 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 100 */,
+/* 101 */,
+/* 102 */,
+/* 103 */,
+/* 104 */,
+/* 105 */,
+/* 106 */,
+/* 107 */,
+/* 108 */,
+/* 109 */,
+/* 110 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(111)
+/* template */
+var __vue_template__ = __webpack_require__(112)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Pages\\ThreadsCategory.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-029cfbb8", Component.options)
+  } else {
+    hotAPI.reload("data-v-029cfbb8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 111 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    watch: {
+        '$route': function $route(to, from) {
+            var _this = this;
+
+            this.loading = true;
+            return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
+                _this.$store.commit("commitSingleCategoryThreads", response.data.data);
+                _this.loading = false;
+            });
+        }
+    },
+    mounted: function mounted() {
+        if (_.isEmpty(this.$store.state.singleCategoryThreads)) {
+            this.loading = true;
+        }
+    },
+    data: function data() {
+        return {
+            loading: false,
+            category_name: ''
+        };
+    },
+
+    methods: {},
+    computed: {
+        threads: function threads() {
+            return this.$store.state.singleCategoryThreads;
+        },
+        threadCategory: function threadCategory() {
+            return _.head(this.$store.state.singleCategoryThreads).category.name;
+        }
+    }
+
+});
+
+/***/ }),
+/* 112 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.loading
+      ? _c("div", [_vm._v("Loading...")])
+      : _c(
+          "div",
+          [
+            _c("h1", [_vm._v(_vm._s(_vm.threadCategory))]),
+            _vm._v(" "),
+            _c("threadslist", { attrs: { threads: _vm.threads } })
+          ],
+          1
+        )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-029cfbb8", module.exports)
+  }
+}
+
+/***/ }),
+/* 113 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    categories: [],
+    singleCategoryThreads: []
+});
+
+/***/ }),
+/* 114 */,
+/* 115 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(116)
+/* template */
+var __vue_template__ = __webpack_require__(117)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Components\\DisplayThreadList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0e7f9182", Component.options)
+  } else {
+    hotAPI.reload("data-v-0e7f9182", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 116 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['threads'],
+  mounted: function mounted() {},
+
+  filters: {
+    readMore: function readMore(text) {
+      return _.truncate(text, { length: 100 });
+    }
+  }
+
+});
+
+/***/ }),
+/* 117 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    _vm._l(_vm.threads, function(thread) {
+      return _c("div", { key: thread.id, staticClass: "column is-12" }, [
+        _c("div", { staticClass: "box content is-small" }, [
+          _c(
+            "h1",
+            {},
+            [
+              _c(
+                "router-link",
+                {
+                  attrs: {
+                    to: "threads/" + thread.category.slug + "/" + thread.slug,
+                    exact: ""
+                  }
+                },
+                [_c("span", [_vm._v(_vm._s(thread.title))])]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "small",
+            [
+              _vm._v(
+                "Posted in  " +
+                  _vm._s(thread.category.name) +
+                  " || " +
+                  _vm._s(thread.created_at) +
+                  " ||Replies:" +
+                  _vm._s(thread.replies_count) +
+                  " || "
+              ),
+              _c(
+                "router-link",
+                { attrs: { to: "/users/" + thread.user.username } },
+                [_c("span", [_vm._v(_vm._s(thread.user.name))])]
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("h2", [_vm._v(_vm._s(_vm._f("readMore")(thread.body)))])
+        ])
+      ])
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0e7f9182", module.exports)
+  }
+}
+
+/***/ }),
+/* 118 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(119)
+/* template */
+var __vue_template__ = __webpack_require__(120)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Pages\\UserThreads.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e3187a8a", Component.options)
+  } else {
+    hotAPI.reload("data-v-e3187a8a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 119 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    watch: {
+        '$route': function $route(to, from) {
+            var _this = this;
+
+            this.loading = true;
+            console.log(to);
+
+            return axios.get('api/user-threads/' + to.params.username).then(function (response) {
+                _this.$store.commit("commitUserThreads", response.data.data);
+                _this.loading = false;
+            });
+        }
+    },
+    mounted: function mounted() {
+        if (_.isEmpty(this.$store.state.userThreads)) {
+            this.loading = true;
+        }
+    },
+    data: function data() {
+        return {
+            loading: false
+        };
+    },
+
+    methods: {},
+    computed: {
+        threads: function threads() {
+            return this.$store.state.userThreads;
+        },
+        user: function user() {
+            return _.head(this.$store.state.userThreads).user.name;
+        }
+    }
+
+});
+
+/***/ }),
+/* 120 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.loading
+      ? _c("div", [_vm._v("Loading...")])
+      : _c(
+          "div",
+          [
+            _c("h1", [_vm._v(_vm._s(_vm.user))]),
+            _vm._v(" "),
+            _c("threadslist", { attrs: { threads: _vm.threads } })
+          ],
+          1
+        )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e3187a8a", module.exports)
+  }
+}
+
+/***/ }),
+/* 121 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    commitCategories: function commitCategories(state, payload) {
+        return state.categories = payload;
+    },
+    commitSingleCategoryThreads: function commitSingleCategoryThreads(state, payload) {
+        return state.singleCategoryThreads = payload;
+    },
+    commitUserThreads: function commitUserThreads(state, payload) {
+        return state.userThreads = payload;
+    }
+});
 
 /***/ })
 /******/ ]);

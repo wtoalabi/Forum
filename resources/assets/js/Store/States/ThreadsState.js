@@ -3,5 +3,5 @@ export default {
     singleThread: {},
     loadNewThreadForm: false,
     singleThreadReplies: [],
-    categories: []
+    userThreads: []
 }

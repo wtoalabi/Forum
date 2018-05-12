@@ -33,7 +33,6 @@
             sidebarB: SidebarB
         },
         mounted() {
-            console.log("homelinks");
         },
         created() {
             this.setState();

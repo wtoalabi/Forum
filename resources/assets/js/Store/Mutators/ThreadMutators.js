@@ -11,12 +11,6 @@ export default {
     closeThreadForm(state) {
         return state.loadNewThreadForm = false
     },
-    commitCategories(state, payload){
-        return state.categories =  payload
-    },
-    addToACategoryCount(state, payload){
-
-    },
     addASingleThread(state, payload){
         state.categories.map(function(category){
             if(category.id === payload.category.id){

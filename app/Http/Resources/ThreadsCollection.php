@@ -16,7 +16,7 @@ class ThreadsCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($thread){
+        return $this->collection->transform(function($thread, $category){
             //dd($thread['created_at'])->toDateTimeStringsw();
             return [
                 "id"=> $thread->id,
@@ -31,7 +31,7 @@ class ThreadsCollection extends ResourceCollection
                     'name'=> $thread->category->name,
                     'slug' => $thread->category->slug
                 ],
-                
+
             ];
         });
     }
