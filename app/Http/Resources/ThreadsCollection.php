@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\UserProfileResource;
+use App\Http\Resources\CategoryListCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ThreadsCollection extends ResourceCollection
@@ -22,9 +23,14 @@ class ThreadsCollection extends ResourceCollection
                 "slug"=> $thread->slug,
                 "title"=> $thread->title,
                 "body"=>$thread->body,
-                "created_at" => $thread['created_at']->toDateTimeString(),
+                "created_at" => $thread['created_at']->diffForHumans(),
                 "user" => new UserProfileResource($thread->user),
-                "replies_count" => $thread->count()
+                "replies_count" => $thread->replies()->count(),
+                "category" => [
+                    'id'=> $thread->category->id,
+                    'name'=> $thread->category->name,
+                    'slug' => $thread->category->slug
+                ],
                 
             ];
         });

@@ -96,17 +96,11 @@
                 this.showForm = null;
             },
             submit() {
-                console.log(this.form);
-                
                 return this.form.post('api/create-new-thread').then(response => {
-                    this.processResponse(response)
-                    }
-                    ).catch(error=>{
-                        console.log("error",error.message);
-                        
-                    })
+                    this.processResponse(response)})
             },
-            processResponse() {
+            processResponse(response) {
+               this.$store.commit("addASingleThread", response.data)
                
             },
             cancelForm(){

@@ -4,6 +4,7 @@ namespace App\Models\Forum;
 
 use App\User;
 use App\Models\Forum\Reply;
+use App\Models\Forum\Category;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
@@ -14,9 +15,13 @@ class Thread extends Model
     }
     
    public function replies (){
-    return $this->hasMany(Reply::class);
-}
-public function getRouteKeyName(){
+        return $this->hasMany(Reply::class);
+        }
+    public function getRouteKeyName(){
      return 'slug';
-}
+    }
+    public function category (){
+         return $this->belongsTo(Category::class);
+    }
+
 }

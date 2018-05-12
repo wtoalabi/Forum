@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Forum\Reply;
+use App\Models\Forum\Category;
 use App\Http\Resources\ThreadRepliesCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,6 +25,12 @@ class SingleThreadResource extends JsonResource
             "owner" => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
+            ],
+            'category' => [
+                'id' => $this->category->id,
+                'name' => $this->category->name,
+                'slug' => $this->category->slug,
+                'threads_count' => Category::find($this->category->id)->threads()->count(),
             ],
             "replies" => new ThreadRepliesCollection(Reply::where('thread_id', $this->id)->latest()->get()),
             "created_at" => $this->created_at->diffForHumans()

@@ -18,6 +18,7 @@ class CategoryListCollection extends ResourceCollection
             return [
                 'id' => $category->id,
                 'name' => $category->name,
+                'slug' => $category->slug,
                 'threads_count' => $category->threads_count
             ];
         });

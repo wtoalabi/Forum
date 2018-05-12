@@ -15,6 +15,7 @@
             <div class="columns">
                 <div class="column is-5">
                     <em> {{thread.owner.name}}</em>
+                    <p><a :href="thread.category.slug"><small>{{thread.category.name}} <span class="is-rounded is-small tag is-primary">{{thread.category.threads_count}}</span></small></a></p>
                 </div>
                 <div class="column is-4 is-offset-3">
                     <em>{{thread.created_at}}</em>

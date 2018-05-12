@@ -6,7 +6,8 @@ use App\Models\Forum\Thread as Thread;
 
 $factory->define(Category::class, function(Faker $faker){
     return [
-        'name' => $faker->sentence
+        'name' => $name = $faker->sentence,
+        'slug' => str_slug($name, '-'),
     ];
 });
 

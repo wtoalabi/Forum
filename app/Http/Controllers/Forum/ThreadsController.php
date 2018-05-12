@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Forum;
 
+use Validator;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ThreadsCollection;
-use Validator;
 use App\Http\Resources\SingleThreadResource;
+use App\Http\Resources\NewlyCreatedThreadResource;
 
 class ThreadsController extends Controller
 {
@@ -55,7 +56,7 @@ class ThreadsController extends Controller
         $valid['slug'] = str_slug($request['title'], '-');
         $valid['user_id'] = Auth::user()->id;
         $thread = Thread::create($valid);
-        return $thread;
+        return new NewlyCreatedThreadResource($thread);
 
     }
 

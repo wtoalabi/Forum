@@ -31896,7 +31896,7 @@ var render = function() {
                 "ul",
                 _vm._l(_vm.categories, function(category) {
                   return _c("li", { key: category.id }, [
-                    _c("a", [
+                    _c("a", { attrs: { href: category.slug } }, [
                       _vm._v(
                         _vm._s(category.name) +
                           " (" +
@@ -32521,15 +32521,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         submit: function submit() {
             var _this = this;
 
-            console.log(this.form);
-
             return this.form.post('api/create-new-thread').then(function (response) {
                 _this.processResponse(response);
-            }).catch(function (error) {
-                console.log("error", error.message);
             });
         },
-        processResponse: function processResponse() {},
+        processResponse: function processResponse(response) {
+            this.$store.commit("addASingleThread", response.data);
+        },
         cancelForm: function cancelForm() {
             this.form.reset();
         }
@@ -35831,6 +35829,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
@@ -35890,6 +35889,17 @@ var render = function() {
                   ],
                   1
                 ),
+                _vm._v(" "),
+                _c("small", [
+                  _vm._v(
+                    "Posted in  " +
+                      _vm._s(thread.category.name) +
+                      " || " +
+                      _vm._s(thread.created_at) +
+                      " ||Replies:" +
+                      _vm._s(thread.replies_count)
+                  )
+                ]),
                 _vm._v(" "),
                 _c("h2", [_vm._v(_vm._s(_vm._f("readMore")(thread.body)))])
               ])
@@ -36087,6 +36097,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -36151,7 +36162,22 @@ var render = function() {
                 _vm._v(" "),
                 _c("div", { staticClass: "columns" }, [
                   _c("div", { staticClass: "column is-5" }, [
-                    _c("em", [_vm._v(" " + _vm._s(_vm.thread.owner.name))])
+                    _c("em", [_vm._v(" " + _vm._s(_vm.thread.owner.name))]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _c("a", { attrs: { href: _vm.thread.category.slug } }, [
+                        _c("small", [
+                          _vm._v(_vm._s(_vm.thread.category.name) + " "),
+                          _c(
+                            "span",
+                            {
+                              staticClass: "is-rounded is-small tag is-primary"
+                            },
+                            [_vm._v(_vm._s(_vm.thread.category.threads_count))]
+                          )
+                        ])
+                      ])
+                    ])
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "column is-4 is-offset-3" }, [
@@ -36363,6 +36389,15 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     commitCategories: function commitCategories(state, payload) {
         return state.categories = payload;
+    },
+    addToACategoryCount: function addToACategoryCount(state, payload) {},
+    addASingleThread: function addASingleThread(state, payload) {
+        state.categories.map(function (category) {
+            if (category.id === payload.category.id) {
+                return category.threads_count++;
+            }
+        });
+        return state.threads.unshift(payload);
     }
 });
 

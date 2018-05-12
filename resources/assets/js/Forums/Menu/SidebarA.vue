@@ -15,7 +15,7 @@
     <li><a :class="{'is-active':selected}" @click="isSelected">Categories</a></li>
     <li v-if="selected">
       <ul>
-        <li v-for="category in categories" :key="category.id"><a>{{category.name}} ({{category.threads_count}})</a></li>
+        <li v-for="category in categories" :key="category.id"><a :href="category.slug">{{category.name}} ({{category.threads_count}})</a></li>
       </ul>
     </li>
   </ul>
