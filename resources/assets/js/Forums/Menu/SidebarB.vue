@@ -1,7 +1,7 @@
 <template>
 <div class="">
     <div class="column">
-        <div v-if="!clicked"><button @click="newThread" class="button is-primary new_thread_button">Create a New Thread...</button></div>
+        <div v-if="!clicked" dusk="createNew"><button @click="newThread" class="button is-primary new_thread_button">Create a New Thread...</button></div>
         <div v-else><button @click="closeThreadForm" class="button is-danger new_thread_button">Cancel New Thread..</button></div>
     </div>
 </div>

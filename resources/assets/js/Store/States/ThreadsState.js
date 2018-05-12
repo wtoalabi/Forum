@@ -1,5 +1,7 @@
 export default {
     threads: {},
     singleThread: {},
-    loadNewThreadForm: false
+    loadNewThreadForm: false,
+    singleThreadReplies: [],
+    categories: []
 }

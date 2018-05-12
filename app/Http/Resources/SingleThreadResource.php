@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Forum\Reply;
 use App\Http\Resources\ThreadRepliesCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,7 +25,7 @@ class SingleThreadResource extends JsonResource
                 'id' => $this->user->id,
                 'name' => $this->user->name,
             ],
-            "replies" => new ThreadRepliesCollection($this->replies),
+            "replies" => new ThreadRepliesCollection(Reply::where('thread_id', $this->id)->latest()->get()),
             "created_at" => $this->created_at->diffForHumans()
         ];
     }

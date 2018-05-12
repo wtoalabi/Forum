@@ -35,6 +35,15 @@
                             <span class="help is-danger">{{form.errors.get('body')}}</span>
                         </div>
                     </div>
+                    <div class="select" @change="form.errors.clear($event.target.name)" :class="{'is-danger': form.errors.has('category_id')}">
+                        <select v-model="form.category_id">
+                            <option disabled selected hidden value="">Select Appropriate Category</option>
+                            <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+                        </select>
+                        <div v-if="form.errors.has('category_id')">
+                            <span class="help is-danger">{{form.errors.get('category_id')}}</span>
+                        </div>
+                    </div>
                     <div class="field is-grouped">
                         <div class="control">
                             <button class="button is-link" :class="{'is-loading': form.sendingMessage}" :disabled="disableForm || form.errors.any()" @click="submit">Submit</button>
@@ -60,6 +69,7 @@
                 form: new Form({
                     title: "",
                     body: "",
+                    category_id:""
                 }),
             };
         },
@@ -73,7 +83,10 @@
             },
             bodyCount() {
                 return this.form.body.length
-            }
+            },
+            categories(){
+                return this.$store.getters.getCategories
+            },
         },
         methods: {
             createNew() {
@@ -83,6 +96,8 @@
                 this.showForm = null;
             },
             submit() {
+                console.log(this.form);
+                
                 return this.form.post('api/create-new-thread').then(response => {
                     this.processResponse(response)
                     }

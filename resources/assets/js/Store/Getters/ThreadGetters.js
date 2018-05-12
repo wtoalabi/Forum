@@ -7,5 +7,8 @@ export default {
     },
     getNewThreadForm(state) {
         return state.loadNewThreadForm
+    },
+    getCategories(state){
+        return state.categories;
     }
 }

@@ -1,5 +1,6 @@
 export default {
-    commitReply(){
-        
+    commitReply(state, payload){
+        console.log(payload)
+        return state.singleThreadReplies.push(payload)
     }
 }

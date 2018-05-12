@@ -36,8 +36,11 @@ let router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
     if (_.isEmpty(store.state.threads)) {
-        return axios.get('api/all-threads').then(response => {
-            store.commit('commitThreads', response.data.data);
+        return axios.get('api/all-threads').then(threads => {
+            store.commit('commitThreads', threads.data.data);
+            axios.get('api/categories').then(categories =>{
+                store.commit('commitCategories', categories.data.data);
+            })
             next()
         })
     }

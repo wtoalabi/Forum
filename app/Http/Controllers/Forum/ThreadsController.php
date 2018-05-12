@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ThreadsCollection;
+use Validator;
 use App\Http\Resources\SingleThreadResource;
 
 class ThreadsController extends Controller
@@ -41,10 +42,16 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
-        $valid = $request->validate([
-            'title' => "required",
-            'body' => "required"
-            ]);
+        $rules = [ 
+            'title' => "required", 
+            'body' => "required", 
+            'category_id' => 'required'
+        ];
+        $message = [ 
+            'category_id.required' => "You need to select a category!" 
+        ];
+        $valid = Validator::make($request->all(), $rules, $message)->validate();
+        
         $valid['slug'] = str_slug($request['title'], '-');
         $valid['user_id'] = Auth::user()->id;
         $thread = Thread::create($valid);

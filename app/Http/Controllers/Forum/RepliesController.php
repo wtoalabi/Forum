@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Forum;
 
+use App\Models\Forum\Reply;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\SingleReplyResource;
 
 class RepliesController extends Controller
 {
@@ -33,9 +36,16 @@ class RepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($id, Request $request)
     {
-        //
+        $valid = $request->validate([
+            'body' => "required"
+        ]);
+        $valid['user_id'] = Auth::user()->id;
+        $valid['thread_id'] = $id;
+
+        $reply = Reply::create($valid);
+        return new SingleReplyResource($reply);
     }
 
     /**

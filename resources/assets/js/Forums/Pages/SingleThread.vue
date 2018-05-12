@@ -26,6 +26,7 @@
         </div>
         <hr/>
         <replies></replies>
+        <newreply></newreply>
     </div>
 </div>
 </template>
@@ -41,8 +42,6 @@ export default {
     };
   },
   created() {
-    console.log("single thread");
-
     this.getSingleThread();
   },
   watch: {
@@ -58,8 +57,6 @@ export default {
           this.isLoading = false;
           this.$store.commit("commitSingleThread", response.data.data);
           this.thread = this.$store.getters.getSingleThread;
-          //this.$store.commit("addCurrentBreadcrumbs", {name: });
-          //console.log(this.$route);
         })
         .catch(error => {
           this.isLoading = false;

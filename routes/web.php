@@ -24,6 +24,8 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('all-threads','Forum\ThreadsController@index'); 
     Route::get('single-thread/{slug}', "Forum\ThreadsController@show");
     Route::post('create-new-thread', "Forum\ThreadsController@store" )->middleware('auth');
+    Route::post('create-new-reply/{id}', "Forum\RepliesController@store" )->middleware('auth');
+    Route::get('categories', 'Forum\CategoriesController@index');
 });
 
 Auth::routes();
