@@ -16,7 +16,7 @@ window.Vue = require('vue');
  */
 
 require('./components')
-import router from './router'
+import router from './Router/router'
 import store from './Store/store'
 
 const app = new Vue({

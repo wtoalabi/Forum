@@ -24,4 +24,12 @@ class Thread extends Model
          return $this->belongsTo(Category::class);
     }
 
+    public function scopeFilter ($query, $filters){
+        return $filters->apply($query);
+    }
+
+    public function scopeSortBy ($query, $sort){
+         return $sort->by($query);
+    }
+
 }

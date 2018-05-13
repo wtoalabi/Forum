@@ -13131,7 +13131,7 @@ module.exports = __webpack_require__(99);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__router__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Router_router__ = __webpack_require__(128);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Store_store__ = __webpack_require__(13);
 
 /**
@@ -13156,7 +13156,7 @@ __webpack_require__(40);
 
 var app = new Vue({
   el: '#app',
-  router: __WEBPACK_IMPORTED_MODULE_0__router__["a" /* default */],
+  router: __WEBPACK_IMPORTED_MODULE_0__Router_router__["a" /* default */],
   store: __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */]
 });
 
@@ -31807,6 +31807,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -31840,7 +31870,9 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "column is-offset-0" }, [
     _c("aside", { staticClass: "menu" }, [
-      _c("p", { staticClass: "menu-label" }, [_vm._v("\r\n    General\r\n  ")]),
+      _c("p", { staticClass: "menu-label" }, [
+        _vm._v("\n            General\n        ")
+      ]),
       _vm._v(" "),
       _c("ul", { staticClass: "menu-list" }, [
         _c(
@@ -31901,7 +31933,7 @@ var render = function() {
                     [
                       _c(
                         "router-link",
-                        { attrs: { to: "/" + category.slug, exact: "" } },
+                        { attrs: { to: "/" + category.slug } },
                         [_vm._v(_vm._s(category.name))]
                       )
                     ],
@@ -31913,11 +31945,40 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("p", { staticClass: "menu-label" }, [_vm._v("\r\n    Tags\r\n  ")])
+      _c("ul", { staticClass: "menu-list" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("li", [
+          _c("ul", [
+            _c(
+              "li",
+              [
+                _c(
+                  "router-link",
+                  { attrs: { to: "/threads/sort?by=popular" } },
+                  [_vm._v("Popular")]
+                )
+              ],
+              1
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("p", { staticClass: "menu-label" }, [
+        _vm._v("\n            Tags\n        ")
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [_c("a", { staticClass: "is-active" }, [_vm._v("Sort")])])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -32981,97 +33042,7 @@ if (false) {
 }
 
 /***/ }),
-/* 66 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(67);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Forums_Notifications_Notifications__ = __webpack_require__(74);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Forums_Notifications_Notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Forums_Notifications_Notifications__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_ForumsPage__ = __webpack_require__(68);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_ForumsPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Forums_Pages_ForumsPage__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Pages_SingleThread__ = __webpack_require__(77);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Pages_SingleThread___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Forums_Pages_SingleThread__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_Threads__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_Threads___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Forums_Pages_Threads__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Store_store__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_ThreadsCategory__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_ThreadsCategory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__Forums_Pages_ThreadsCategory__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_UserThreads__ = __webpack_require__(118);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_UserThreads___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Forums_Pages_UserThreads__);
-
-
-
-
-
-
-
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
-
-var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
-    mode: "hash",
-    linkExactActiveClass: "active-forum-menu",
-    routes: [{
-        path: "/",
-        name: "ForumsPage",
-        component: __WEBPACK_IMPORTED_MODULE_3__Forums_Pages_ForumsPage___default.a
-    }, {
-        path: "/threads",
-        name: "Threads",
-        component: __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_Threads___default.a
-    }, {
-        path: "/notifications",
-        name: "Notifications",
-        component: __WEBPACK_IMPORTED_MODULE_2__Forums_Notifications_Notifications___default.a
-    }, {
-        path: "/threads/:category/:slug",
-        name: "SingleThread",
-        component: __WEBPACK_IMPORTED_MODULE_4__Forums_Pages_SingleThread___default.a
-    }, {
-        path: "/:category_slug",
-        name: "ThreadsCategory",
-        component: __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_ThreadsCategory___default.a,
-        beforeEnter: function beforeEnter(to, from, next) {
-            __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].state.singleCategoryThreads = null;
-            return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
-                __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].commit("commitSingleCategoryThreads", response.data.data);
-                next();
-            });
-        }
-    }, {
-        path: "/users/:username",
-        name: "UserThreads",
-        component: __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_UserThreads___default.a,
-        beforeEnter: function beforeEnter(to, from, next) {
-            __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].state.singleCategoryThreads = null;
-            return axios.get('api/user-threads/' + to.params.username).then(function (response) {
-                __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].commit("commitUserThreads", response.data.data);
-                next();
-            });
-        }
-    }]
-});
-router.beforeEach(function (to, from, next) {
-    if (_.isEmpty(__WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].state.threads)) {
-        return axios.get('api/all-threads').then(function (threads) {
-            __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].commit('commitThreads', threads.data.data);
-            axios.get('api/categories').then(function (categories) {
-                __WEBPACK_IMPORTED_MODULE_6__Store_store__["a" /* default */].commit('commitCategories', categories.data.data);
-            });
-            next();
-        });
-    }
-    next();
-});
-
-/* harmony default export */ __webpack_exports__["a"] = (router);
-
-/***/ }),
+/* 66 */,
 /* 67 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -35855,6 +35826,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   created: function created() {
+    console.log(this);
+
     this.isLoading = true;
     if (_.isEmpty(this.threads)) {
       this.getThreads();
@@ -36445,7 +36418,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     singleThread: {},
     loadNewThreadForm: false,
     singleThreadReplies: [],
-    userThreads: []
+    userThreads: [],
+    searchedThreads: []
 });
 
 /***/ }),
@@ -36932,8 +36906,284 @@ if (false) {
     },
     commitUserThreads: function commitUserThreads(state, payload) {
         return state.userThreads = payload;
+    },
+    commitSearchedThreads: function commitSearchedThreads(state, payload) {
+        return state.searchedThreads = payload;
     }
 });
+
+/***/ }),
+/* 122 */,
+/* 123 */,
+/* 124 */,
+/* 125 */,
+/* 126 */,
+/* 127 */,
+/* 128 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Store_store__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__searched__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_ForumsPage__ = __webpack_require__(68);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_ForumsPage___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__Forums_Pages_ForumsPage__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Forums_Pages_SingleThread__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__Forums_Pages_SingleThread___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__Forums_Pages_SingleThread__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_Threads__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_Threads___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__Forums_Pages_Threads__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_ThreadsCategory__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_ThreadsCategory___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8__Forums_Pages_ThreadsCategory__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Forums_Pages_UserThreads__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__Forums_Pages_UserThreads___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9__Forums_Pages_UserThreads__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+
+
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
+
+var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
+    mode: "hash",
+    linkExactActiveClass: "active-forum-menu",
+    routes: [{
+        path: "/",
+        name: "ForumsPage",
+        component: __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_ForumsPage___default.a
+    }, {
+        exact: true,
+        path: "/threads",
+        name: "Threads",
+        component: __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_Threads___default.a
+    }, {
+        path: "/notifications",
+        name: "Notifications",
+        component: __WEBPACK_IMPORTED_MODULE_4__Forums_Notifications_Notifications___default.a
+    }, {
+        path: "/threads/:category/:slug",
+        name: "SingleThread",
+        component: __WEBPACK_IMPORTED_MODULE_6__Forums_Pages_SingleThread___default.a
+    }, {
+        path: "/:category_slug",
+        name: "ThreadsCategory",
+        component: __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_ThreadsCategory___default.a,
+        beforeEnter: function beforeEnter(to, from, next) {
+            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.singleCategoryThreads = null;
+            return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitSingleCategoryThreads", response.data.data);
+                next();
+            });
+        }
+    }, {
+        path: "/users/:username",
+        name: "UserThreads",
+        component: __WEBPACK_IMPORTED_MODULE_9__Forums_Pages_UserThreads___default.a,
+        beforeEnter: function beforeEnter(to, from, next) {
+            return axios.get('api/user-threads/' + to.params.username).then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitUserThreads", response.data.data);
+                next();
+            });
+        }
+    }, _extends({}, __WEBPACK_IMPORTED_MODULE_3__searched__["a" /* filtered */]), _extends({}, __WEBPACK_IMPORTED_MODULE_3__searched__["b" /* sort */])]
+});
+router.beforeEach(function (to, from, next) {
+    if (_.isEmpty(__WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.threads)) {
+        return axios.get('api/all-threads').then(function (threads) {
+            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit('commitThreads', threads.data.data);
+            axios.get('api/categories').then(function (categories) {
+                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit('commitCategories', categories.data.data);
+            });
+            next();
+        });
+    }
+    next();
+});
+
+/* harmony default export */ __webpack_exports__["a"] = (router);
+
+/***/ }),
+/* 129 */,
+/* 130 */,
+/* 131 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return filtered; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return sort; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Forums_Pages_SearchedThreads__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Forums_Pages_SearchedThreads___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Forums_Pages_SearchedThreads__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Store_store__ = __webpack_require__(13);
+
+
+
+var filtered = {
+    path: "/filter-threads/:query",
+    name: "FilterThreads",
+    component: __WEBPACK_IMPORTED_MODULE_0__Forums_Pages_SearchedThreads___default.a,
+    beforeEnter: function beforeEnter(to, from, next) {
+        return axios.get('api' + to.fullPath).then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].commit("commitSearchedThreads", response.data.data);
+            next();
+        });
+    }
+};
+
+var sort = {
+    path: "/threads/:query",
+    name: "SortThreads",
+    component: __WEBPACK_IMPORTED_MODULE_0__Forums_Pages_SearchedThreads___default.a,
+    beforeEnter: function beforeEnter(to, from, next) {
+        return axios.get('api/sort-threads/by?sort=' + to.query.by).then(function (response) {
+
+            console.log(response.data.data);
+            __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].commit("commitSearchedThreads", response.data.data);
+            next();
+        });
+    }
+};
+
+/***/ }),
+/* 132 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(133)
+/* template */
+var __vue_template__ = __webpack_require__(134)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Pages\\SearchedThreads.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3b959382", Component.options)
+  } else {
+    hotAPI.reload("data-v-3b959382", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 133 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    watch: {
+        '$route': function $route(to, from) {
+            var _this = this;
+
+            this.loading = true;
+            return axios.get('api/searched-threads/' + to.params.username).then(function (response) {
+                _this.$store.commit("commitSearchedThreads", response.data.data);
+                _this.loading = false;
+            });
+        }
+    },
+    mounted: function mounted() {
+        if (_.isEmpty(this.$store.state.searchedThreads)) {
+            this.loading = true;
+        }
+    },
+    data: function data() {
+        return {
+            loading: false
+        };
+    },
+
+    methods: {},
+    computed: {
+        threads: function threads() {
+            return this.$store.state.searchedThreads;
+        }
+    }
+
+});
+
+/***/ }),
+/* 134 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.loading
+      ? _c("div", [_vm._v("Loading...")])
+      : _c(
+          "div",
+          [
+            _c("h1", [_vm._v("Searched Terms:")]),
+            _vm._v(" "),
+            _c("threadslist", { attrs: { threads: _vm.threads } })
+          ],
+          1
+        )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3b959382", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

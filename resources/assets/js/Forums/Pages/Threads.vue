@@ -8,6 +8,8 @@
 <script>
 export default {
   created() {
+      console.log(this);
+      
     this.isLoading = true;
      if (_.isEmpty(this.threads)) {
       this.getThreads()

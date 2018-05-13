@@ -3,5 +3,6 @@ export default {
     singleThread: {},
     loadNewThreadForm: false,
     singleThreadReplies: [],
-    userThreads: []
+    userThreads: [],
+    searchedThreads: []
 }
