@@ -6,24 +6,27 @@ export const filtered = {
     name: "FilterThreads",
     component: SearchedThreads,
     beforeEnter: (to, from, next) => {
-        return axios.get('api' + to.fullPath).then(response => {
-            store.commit("commitSearchedThreads", response.data.data)
-            next()
-        })
-
+        if (_.isEmpty(store.state.searchedThreads)) {
+            return axios.get('api' + to.fullPath).then(response => {
+                store.commit("commitSearchedThreads", response.data)
+                next()
+            })
+        }
+        next()
     }
 }
 
-export const sort =  {
+export const sort = {
     path: "/threads/:query",
     name: "SortThreads",
     component: SearchedThreads,
     beforeEnter: (to, from, next) => {
-        return axios.get('api/sort-threads/by?sort=' + to.query.by).then(response => {
-            
-            console.log(response.data.data)
-           store.commit("commitSearchedThreads", response.data.data)
-            next()
-        })
+        if (_.isEmpty(store.state.searchedThreads)) {
+            return axios.get('api/sort-threads/by?sort=' + to.query.by).then(response => {
+                store.commit("commitSearchedThreads", response.data)
+                next()
+            })
+        }
+        next()
     }
 }

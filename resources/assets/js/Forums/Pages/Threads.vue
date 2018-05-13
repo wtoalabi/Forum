@@ -1,33 +1,33 @@
 <template>
 <div>
     <div v-if="isLoading">Loading....</div>
-    <div v-else><threadslist :threads="threads"></threadslist></div>
+    <div v-else><threadslist :threads="threads.data"></threadslist></div>
+    <pagination 
+        url="api/all-threads" 
+        mutator="commitThreads" 
+        :meta="threads.meta" 
+        :links="threads.links">
+    </pagination>
 </div>
 </template>
 
 <script>
 export default {
-  created() {
-      console.log(this);
-      
-    this.isLoading = true;
-     if (_.isEmpty(this.threads)) {
-      this.getThreads()
-    } 
+  created() {      
   },
 
-  methods: {
-    getThreads() {
-        this.threads = this.$store.getters.getAllThreads;
-        this.isLoading = false;
-    }
-  },
+  methods: {},
   data() {
     return {
       isLoading: false,
-      threads: ''
     };
   },
+
+  computed:{
+      threads(){
+          return this.$store.getters.getAllThreads;
+      }
+  }
   
 };
 </script>

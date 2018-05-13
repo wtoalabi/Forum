@@ -22,7 +22,7 @@ export default {
     }
   },
 mounted() {
-if(_.isEmpty(this.$store.state.singleCategoryThreads)){
+if(_.isEmpty(this.$store.state.singleCategoryThreads.data)){
     this.loading = true
 }
     
@@ -37,10 +37,10 @@ methods:{
 },
 computed:{
     threads(){
-        return this.$store.state.singleCategoryThreads
+        return this.$store.state.singleCategoryThreads.data
     },
     threadCategory(){
-        return _.head(this.$store.state.singleCategoryThreads).category.name
+        return _.head(this.$store.state.singleCategoryThreads.data).category.name
     }
 }
 

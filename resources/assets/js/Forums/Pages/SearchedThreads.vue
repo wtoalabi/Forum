@@ -14,15 +14,16 @@ export default {
  
  watch: {
     '$route' (to, from) {
-    this.loading = true
-    return axios.get('api/searched-threads/' + to.params.username).then(response =>{
-         this.$store.commit("commitSearchedThreads", response.data.data)
-        this.loading = false
-        })      
+        if(_.isEmpty(this.$store.state.searchedThreads.data)){    
+            return axios.get('api/searched-threads/' + to.params.username).then(response =>{
+                this.$store.commit("commitSearchedThreads", response.data)
+                this.loading = false
+            })              
+        }
     }
   },
 mounted() {
-if(_.isEmpty(this.$store.state.searchedThreads)){
+if(_.isEmpty(this.$store.state.searchedThreads.data)){
     this.loading = true
 }
     
@@ -36,7 +37,7 @@ methods:{
 },
 computed:{
     threads(){
-        return this.$store.state.searchedThreads
+        return this.$store.state.searchedThreads.data
     },
 }
 

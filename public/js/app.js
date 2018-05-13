@@ -31515,6 +31515,7 @@ Vue.component('replies', __webpack_require__(56));
 Vue.component('newthread', __webpack_require__(59));
 Vue.component('newreply', __webpack_require__(63));
 Vue.component('threadslist', __webpack_require__(115));
+Vue.component('pagination', __webpack_require__(135));
 
 /***/ }),
 /* 41 */
@@ -35823,30 +35824,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  created: function created() {
-    console.log(this);
-
-    this.isLoading = true;
-    if (_.isEmpty(this.threads)) {
-      this.getThreads();
-    }
-  },
+  created: function created() {},
 
 
-  methods: {
-    getThreads: function getThreads() {
-      this.threads = this.$store.getters.getAllThreads;
-      this.isLoading = false;
-    }
-  },
+  methods: {},
   data: function data() {
     return {
-      isLoading: false,
-      threads: ''
+      isLoading: false
     };
+  },
+
+
+  computed: {
+    threads: function threads() {
+      return this.$store.getters.getAllThreads;
+    }
   }
+
 });
 
 /***/ }),
@@ -35857,11 +35859,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm.isLoading
-      ? _c("div", [_vm._v("Loading....")])
-      : _c("div", [_c("threadslist", { attrs: { threads: _vm.threads } })], 1)
-  ])
+  return _c(
+    "div",
+    [
+      _vm.isLoading
+        ? _c("div", [_vm._v("Loading....")])
+        : _c(
+            "div",
+            [_c("threadslist", { attrs: { threads: _vm.threads.data } })],
+            1
+          ),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: {
+          url: "api/all-threads",
+          mutator: "commitThreads",
+          meta: _vm.threads.meta,
+          links: _vm.threads.links
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -36544,7 +36563,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
-        if (_.isEmpty(this.$store.state.singleCategoryThreads)) {
+        if (_.isEmpty(this.$store.state.singleCategoryThreads.data)) {
             this.loading = true;
         }
     },
@@ -36558,10 +36577,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {},
     computed: {
         threads: function threads() {
-            return this.$store.state.singleCategoryThreads;
+            return this.$store.state.singleCategoryThreads.data;
         },
         threadCategory: function threadCategory() {
-            return _.head(this.$store.state.singleCategoryThreads).category.name;
+            return _.head(this.$store.state.singleCategoryThreads.data).category.name;
         }
     }
 
@@ -36838,7 +36857,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
-        if (_.isEmpty(this.$store.state.userThreads)) {
+        if (_.isEmpty(this.$store.state.userThreads.data)) {
             this.loading = true;
         }
     },
@@ -36851,10 +36870,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {},
     computed: {
         threads: function threads() {
-            return this.$store.state.userThreads;
+            return this.$store.state.userThreads.data;
         },
         user: function user() {
-            return _.head(this.$store.state.userThreads).user.name;
+            return _.head(this.$store.state.userThreads.data).user.name;
         }
     }
 
@@ -36983,7 +37002,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
         beforeEnter: function beforeEnter(to, from, next) {
             __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.singleCategoryThreads = null;
             return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
-                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitSingleCategoryThreads", response.data.data);
+                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitSingleCategoryThreads", response.data);
                 next();
             });
         }
@@ -36993,7 +37012,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
         component: __WEBPACK_IMPORTED_MODULE_9__Forums_Pages_UserThreads___default.a,
         beforeEnter: function beforeEnter(to, from, next) {
             return axios.get('api/user-threads/' + to.params.username).then(function (response) {
-                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitUserThreads", response.data.data);
+                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitUserThreads", response.data);
                 next();
             });
         }
@@ -37002,7 +37021,8 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 router.beforeEach(function (to, from, next) {
     if (_.isEmpty(__WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.threads)) {
         return axios.get('api/all-threads').then(function (threads) {
-            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit('commitThreads', threads.data.data);
+            console.log(threads.data);
+            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit('commitThreads', threads.data);
             axios.get('api/categories').then(function (categories) {
                 __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit('commitCategories', categories.data.data);
             });
@@ -37034,10 +37054,13 @@ var filtered = {
     name: "FilterThreads",
     component: __WEBPACK_IMPORTED_MODULE_0__Forums_Pages_SearchedThreads___default.a,
     beforeEnter: function beforeEnter(to, from, next) {
-        return axios.get('api' + to.fullPath).then(function (response) {
-            __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].commit("commitSearchedThreads", response.data.data);
-            next();
-        });
+        if (_.isEmpty(__WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].state.searchedThreads)) {
+            return axios.get('api' + to.fullPath).then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].commit("commitSearchedThreads", response.data);
+                next();
+            });
+        }
+        next();
     }
 };
 
@@ -37046,12 +37069,13 @@ var sort = {
     name: "SortThreads",
     component: __WEBPACK_IMPORTED_MODULE_0__Forums_Pages_SearchedThreads___default.a,
     beforeEnter: function beforeEnter(to, from, next) {
-        return axios.get('api/sort-threads/by?sort=' + to.query.by).then(function (response) {
-
-            console.log(response.data.data);
-            __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].commit("commitSearchedThreads", response.data.data);
-            next();
-        });
+        if (_.isEmpty(__WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].state.searchedThreads)) {
+            return axios.get('api/sort-threads/by?sort=' + to.query.by).then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].commit("commitSearchedThreads", response.data);
+                next();
+            });
+        }
+        next();
     }
 };
 
@@ -37126,15 +37150,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         '$route': function $route(to, from) {
             var _this = this;
 
-            this.loading = true;
-            return axios.get('api/searched-threads/' + to.params.username).then(function (response) {
-                _this.$store.commit("commitSearchedThreads", response.data.data);
-                _this.loading = false;
-            });
+            if (_.isEmpty(this.$store.state.searchedThreads.data)) {
+                return axios.get('api/searched-threads/' + to.params.username).then(function (response) {
+                    _this.$store.commit("commitSearchedThreads", response.data);
+                    _this.loading = false;
+                });
+            }
         }
     },
     mounted: function mounted() {
-        if (_.isEmpty(this.$store.state.searchedThreads)) {
+        if (_.isEmpty(this.$store.state.searchedThreads.data)) {
             this.loading = true;
         }
     },
@@ -37147,7 +37172,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {},
     computed: {
         threads: function threads() {
-            return this.$store.state.searchedThreads;
+            return this.$store.state.searchedThreads.data;
         }
     }
 
@@ -37182,6 +37207,193 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-3b959382", module.exports)
+  }
+}
+
+/***/ }),
+/* 135 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(136)
+/* template */
+var __vue_template__ = __webpack_require__(137)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Components\\Pagination.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-70166e55", Component.options)
+  } else {
+    hotAPI.reload("data-v-70166e55", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 136 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['meta', 'url', 'mutator', 'links'],
+    mounted: function mounted() {
+        console.log("meya", this.meta);
+        this.setButtons(this.meta);
+        this.setPagination(this.links);
+    },
+    data: function data() {
+        return {
+            paginate: true,
+            onFirstPage: false,
+            onLastPage: false,
+            pageUrl: '',
+            nextPage: '',
+            prevPage: ''
+        };
+    },
+
+    methods: {
+        loadPreviousPage: function loadPreviousPage() {
+            var _this = this;
+
+            if (this.prevPage !== null) {
+                return axios.get(this.prevPage).then(function (response) {
+                    _this.$store.commit(_this.mutator, response.data);
+                    _this.setButtons(response.data.meta);
+                    _this.setPagination(response.data.links);
+                });
+            }
+        },
+        loadNextPage: function loadNextPage() {
+            var _this2 = this;
+
+            if (this.nextPage !== null) {
+                return axios.get(this.nextPage).then(function (response) {
+                    _this2.$store.commit(_this2.mutator, response.data);
+                    _this2.setButtons(response.data.meta);
+                    _this2.setPagination(response.data.links);
+                });
+            }
+        },
+        setPagination: function setPagination(links) {
+            this.nextPage = links.next;
+            this.prevPage = links.prev;
+        },
+        setButtons: function setButtons(meta) {
+            if (meta.from === 1) {
+                this.onFirstPage = true;
+            } else {
+                this.onFirstPage = false;
+            }
+            if (meta.to === meta.total) {
+                this.onLastPage = true;
+            } else {
+                this.onLastPage = false;
+            }
+        }
+    },
+    computed: {}
+
+});
+
+/***/ }),
+/* 137 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", {}, [
+    _c(
+      "nav",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.paginate,
+            expression: "paginate"
+          }
+        ],
+        staticClass: "pagination is-rounded",
+        attrs: { role: "navigation", "aria-label": "pagination" }
+      },
+      [
+        _c(
+          "a",
+          {
+            staticClass: "pagination-previous",
+            attrs: { disabled: _vm.onFirstPage },
+            on: { click: _vm.loadPreviousPage }
+          },
+          [_vm._v("Previous Set of Threads")]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "pagination-next",
+            attrs: { disabled: _vm.onLastPage },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                return _vm.loadNextPage($event)
+              }
+            }
+          },
+          [_vm._v("Next Set of Threads")]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-70166e55", module.exports)
   }
 }
 

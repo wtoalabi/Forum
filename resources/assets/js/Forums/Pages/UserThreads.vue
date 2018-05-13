@@ -24,7 +24,7 @@ export default {
     }
   },
 mounted() {
-if(_.isEmpty(this.$store.state.userThreads)){
+if(_.isEmpty(this.$store.state.userThreads.data)){
     this.loading = true
 }
     
@@ -38,10 +38,10 @@ methods:{
 },
 computed:{
     threads(){
-        return this.$store.state.userThreads
+        return this.$store.state.userThreads.data
     },
     user(){
-        return _.head(this.$store.state.userThreads).user.name
+        return _.head(this.$store.state.userThreads.data).user.name
     }
 }
 

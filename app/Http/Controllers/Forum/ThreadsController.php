@@ -19,7 +19,7 @@ class ThreadsController extends Controller
      */
     public function index()
     {
-        $threads = Thread::latest()->with(['user','replies'])->paginate(25);
+        $threads = Thread::latest()->with(['user','replies'])->paginate(5);
         //dd($threads);
         return new ThreadsCollection($threads);
     }
