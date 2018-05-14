@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div></div>
+         
         <div class="columns is-gapless">
             <div class="column is-2 asideA">
                 <sidebarA/>
@@ -9,9 +9,12 @@
                 <mast />
                 <newthread></newthread>
             </div>
-            <div v-else class="column">
-                <mast />
+            <div v-else class="column">                    
+                    <mast />
+                <spinner v-if="pageIsLoading" size="massive" message="Loading..."></spinner>
+                <div v-else>
                 <transition><router-view></router-view></transition>
+            </div>
             </div>
             <div class="column is-2 asideB">
                 <sidebarB />
@@ -30,7 +33,7 @@
         props: ["loggedinuser"],
         components: {
             sidebarA: SidebarA,
-            sidebarB: SidebarB
+            sidebarB: SidebarB,
         },
         mounted() {
         },
@@ -43,6 +46,9 @@
         computed: {
             loadNewThreadForm() {
                 return this.$store.getters.getNewThreadForm;
+            },
+            pageIsLoading(){
+                return this.$store.state.pageIsLoading
             }
         },
         methods: {

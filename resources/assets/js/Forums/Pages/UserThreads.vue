@@ -14,12 +14,10 @@ export default {
  
  watch: {
     '$route' (to, from) {
-    this.loading = true
-    console.log(to);
-    
+    this.$store.state.pageIsLoading = true
      return axios.get('api/user-threads/' + to.params.username).then(response =>{
          this.$store.commit("commitUserThreads", response.data.data)
-        this.loading = false
+        this.$store.state.pageIsLoading = false
         })      
     }
   },

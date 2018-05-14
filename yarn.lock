@@ -7295,6 +7295,10 @@ vue-scrollto@^2.11.0:
   dependencies:
     bezier-easing "^2.0.3"
 
+vue-simple-spinner@^1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/vue-simple-spinner/-/vue-simple-spinner-1.2.8.tgz#638249e9b25b43424ff906c14f1b7c7ed441ce9d"
+
 vue-style-loader@^3.0.0:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-3.1.2.tgz#6b66ad34998fc9520c2f1e4d5fa4091641c1597a"

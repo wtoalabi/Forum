@@ -48,9 +48,11 @@ let router = new VueRouter({
             component: ThreadsCategory,
             beforeEnter: (to, from, next) => {
                 store.state.singleCategoryThreads = null
+                store.state.pageIsLoading = true
                 return axios.get('api/category-threads/' + to.params.category_slug).then(response => {
                     store.commit("commitSingleCategoryThreads", response.data)
                     next()
+                    store.state.pageIsLoading = false
                 })
 
             }
@@ -60,9 +62,11 @@ let router = new VueRouter({
             name: "UserThreads",
             component: UserThreads,
             beforeEnter: (to, from, next) => {
+                store.state.pageIsLoading = true
                 return axios.get('api/user-threads/' + to.params.username).then(response => {
                     store.commit("commitUserThreads", response.data)
                     next()
+                    store.state.pageIsLoading = false
                 })
             }
         },
@@ -74,12 +78,13 @@ let router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
     if (_.isEmpty(store.state.threads)) {
+        store.state.pageIsLoading = true
         return axios.get('api/all-threads').then(threads => {
-            console.log(threads.data)
             store.commit('commitThreads', threads.data);
             axios.get('api/categories').then(categories => {
                 store.commit('commitCategories', categories.data.data);
             })
+            store.state.pageIsLoading = false
             next()
         })
     }

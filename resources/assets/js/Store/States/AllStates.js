@@ -9,5 +9,6 @@ export default {
     ...Categories,
     ...Notifications,
     ...LoggedInUser,
-    ...Breadcrumbs
+    ...Breadcrumbs,
+    pageIsLoading: false
 }

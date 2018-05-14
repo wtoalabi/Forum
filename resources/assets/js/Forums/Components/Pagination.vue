@@ -42,7 +42,6 @@
                         this.$store.commit(this.mutator, response.data)
                         this.setButtons(response.data.meta)
                         this.setPagination(response.data.links)
-                        this.$emit('clicked')
                     })
                 }
             },

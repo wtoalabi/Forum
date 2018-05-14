@@ -1,7 +1,7 @@
 <template>
 <div>
     <div v-if="isLoading">
-        <h1 class="is-2"> Loading...</h1>
+        <spinner size="massive" message="Loading..."></spinner>
     </div>
 
     <div v-if="error">
@@ -35,7 +35,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  data() {
+    data() {
     return {
       isLoading: false,
       thread: null,
@@ -52,10 +52,9 @@ export default {
     getSingleThread() {
       this.error = this.thread = null;
       this.isLoading = true;
-      axios
-        .get("api/single-thread/" + this.$route.params.slug)
-        .then(response => {
+      return axios.get("api/single-thread/" + this.$route.params.slug).then(response => {
           this.isLoading = false;
+          this.$store.state.pageIsLoading = false          
           this.$store.commit("commitSingleThread", response.data.data);
           this.thread = this.$store.getters.getSingleThread;
         })

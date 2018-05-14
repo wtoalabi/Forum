@@ -67,7 +67,6 @@ class ThreadsController extends Controller
      */
     public function show(Thread $slug)
     {
-        //sleep(10);
         return new SingleThreadResource($slug);
 
     }

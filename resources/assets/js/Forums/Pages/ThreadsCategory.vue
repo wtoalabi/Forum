@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div v-if="loading">Loading...</div>
-    <div v-else>
+
+    <div>
     <h1>{{threadCategory}}</h1>
         <threadslist :threads="threads"></threadslist>
     </div>
@@ -14,22 +14,20 @@ export default {
  
  watch: {
     '$route' (to, from) {
-    this.loading = true
+    this.$store.state.pageIsLoading = true
      return axios.get('api/category-threads/' + to.params.category_slug).then(response =>{
          this.$store.commit("commitSingleCategoryThreads", response.data.data)
-        this.loading = false
+        this.$store.state.pageIsLoading = false
         })       
     }
   },
 mounted() {
 if(_.isEmpty(this.$store.state.singleCategoryThreads.data)){
-    this.loading = true
 }
     
 },
 data(){
 return{
-    loading : false,
     category_name: ''
 }
 },

@@ -6,3 +6,4 @@ Vue.component('newthread', require('./Forums/Components/CreateNewThread'));
 Vue.component('newreply', require('./Forums/Components/CreateNewReply'));
 Vue.component('threadslist', require('./Forums/Components/DisplayThreadList'));
 Vue.component('pagination', require('./Forums/Components/Pagination'));
+Vue.component('spinner', require('vue-simple-spinner'));
