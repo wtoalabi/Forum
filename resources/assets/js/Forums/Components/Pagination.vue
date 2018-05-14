@@ -9,11 +9,11 @@
 
 <script>
     export default {
-        props: ['meta', 'url', 'mutator', 'links'],
+        props: ['url'],
         mounted() {
             console.log("meya", this.meta);
-            this.setButtons(this.meta)
-            this.setPagination(this.links)
+            this.setButtons(this.$store.state.threads.meta)
+            this.setPagination(this.$store.state.threads.links)
         },
         data() {
             return {
@@ -22,15 +22,14 @@
                 onLastPage: false,
                 pageUrl: '',
                 nextPage: '',
-                prevPage: ''
+                prevPage: '',
             }
         },
         methods: {
-
             loadPreviousPage() {
                 if (this.prevPage !== null) {
                     return axios.get(this.prevPage).then(response => {
-                        this.$store.commit(this.mutator, response.data)
+                        this.$store.commit("commitThreads", response.data)
                         this.setButtons(response.data.meta)
                         this.setPagination(response.data.links)
                     })
@@ -39,7 +38,7 @@
             loadNextPage() {
                 if (this.nextPage !== null) {
                     return axios.get(this.nextPage).then(response => {
-                        this.$store.commit(this.mutator, response.data)
+                        this.$store.commit("commitThreads", response.data)
                         this.setButtons(response.data.meta)
                         this.setPagination(response.data.links)
                     })

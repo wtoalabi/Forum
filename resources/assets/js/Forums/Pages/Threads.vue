@@ -4,10 +4,7 @@
     <div v-else id="threads"><threadslist :threads="threads.data"></threadslist></div>
     <pagination 
         v-scroll-to="'#threads'"
-        url="api/all-threads" 
-        mutator="commitThreads" 
-        :meta="threads.meta" 
-        :links="threads.links">
+        url="api/all-threads" >
     </pagination>
 
 </div>
@@ -15,9 +12,10 @@
 
 <script>
 export default {
-  created() {      
-  },
-
+     mounted(){
+        console.log(this.$store.state.threads);
+         
+     },
   methods: {},
   data() {
     return {
@@ -27,7 +25,7 @@ export default {
 
   computed:{
       threads(){
-          return this.$store.getters.getAllThreads;
+          return this.$store.state.threads;
       }
   }
   

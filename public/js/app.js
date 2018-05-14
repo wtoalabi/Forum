@@ -13160,8 +13160,6 @@ var app = new Vue({
   store: __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */]
 });
 
-console.log(app);
-
 /***/ }),
 /* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -35856,13 +35854,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  created: function created() {},
-
+  mounted: function mounted() {
+    console.log(this.$store.state.threads);
+  },
 
   methods: {},
   data: function data() {
@@ -35874,7 +35870,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   computed: {
     threads: function threads() {
-      return this.$store.getters.getAllThreads;
+      return this.$store.state.threads;
     }
   }
 
@@ -35909,12 +35905,7 @@ var render = function() {
             expression: "'#threads'"
           }
         ],
-        attrs: {
-          url: "api/all-threads",
-          mutator: "commitThreads",
-          meta: _vm.threads.meta,
-          links: _vm.threads.links
-        }
+        attrs: { url: "api/all-threads" }
       })
     ],
     1
@@ -36593,25 +36584,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    beforeRouteUpdate: function beforeRouteUpdate(to, from, next) {
+        var _this = this;
 
-    watch: {
-        '$route': function $route(to, from) {
-            var _this = this;
-
-            this.$store.state.pageIsLoading = true;
-            return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
-                _this.$store.commit("commitSingleCategoryThreads", response.data);
-                _this.$store.state.pageIsLoading = false;
-            });
-        }
+        this.$store.state.pageIsLoading = true;
+        return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
+            _this.$store.commit("commitThreads", response.data);
+            _this.$store.state.pageIsLoading = false;
+            next();
+        });
     },
-    mounted: function mounted() {
-        if (_.isEmpty(this.$store.state.singleCategoryThreads.data)) {}
-    },
+    mounted: function mounted() {},
     data: function data() {
         return {
             category_name: ''
@@ -36621,10 +36607,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {},
     computed: {
         threads: function threads() {
-            return this.$store.state.singleCategoryThreads.data;
+            return this.$store.state.threads.data;
         },
         threadCategory: function threadCategory() {
-            return _.head(this.$store.state.singleCategoryThreads.data).category.name;
+            return _.head(this.$store.state.threads.data).category.name;
         }
     }
 
@@ -37076,7 +37062,15 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
         exact: true,
         path: "/threads",
         name: "Threads",
-        component: __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_Threads___default.a
+        component: __WEBPACK_IMPORTED_MODULE_7__Forums_Pages_Threads___default.a,
+        beforeEnter: function beforeEnter(to, from, next) {
+            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.pageIsLoading = true;
+            return axios.get('api/all-threads/').then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitThreads", response.data);
+                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.pageIsLoading = false;
+                next();
+            });
+        }
     }, {
         path: "/notifications",
         name: "Notifications",
@@ -37090,13 +37084,11 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
         name: "ThreadsCategory",
         component: __WEBPACK_IMPORTED_MODULE_8__Forums_Pages_ThreadsCategory___default.a,
         beforeEnter: function beforeEnter(to, from, next) {
-            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.singleCategoryThreads = null;
             __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.pageIsLoading = true;
             return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
-                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitSingleCategoryThreads", response.data);
-                console.log("hre");
-                next();
+                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitThreads", response.data);
                 __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.pageIsLoading = false;
+                next();
             });
         }
     }, {
@@ -37114,15 +37106,9 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     }, _extends({}, __WEBPACK_IMPORTED_MODULE_3__searched__["a" /* filtered */]), _extends({}, __WEBPACK_IMPORTED_MODULE_3__searched__["b" /* sort */])]
 });
 router.beforeEach(function (to, from, next) {
-    if (_.isEmpty(__WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.threads)) {
-        __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.pageIsLoading = true;
-        return axios.get('api/all-threads').then(function (threads) {
-            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit('commitThreads', threads.data);
-            axios.get('api/categories').then(function (categories) {
-                __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit('commitCategories', categories.data.data);
-            });
-            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.pageIsLoading = false;
-            next();
+    if (_.isEmpty(__WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.categories)) {
+        axios.get('api/categories').then(function (categories) {
+            __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit('commitCategories', categories.data.data);
         });
     }
     next();
@@ -37374,11 +37360,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['meta', 'url', 'mutator', 'links'],
+    props: ['url'],
     mounted: function mounted() {
         console.log("meya", this.meta);
-        this.setButtons(this.meta);
-        this.setPagination(this.links);
+        this.setButtons(this.$store.state.threads.meta);
+        this.setPagination(this.$store.state.threads.links);
     },
     data: function data() {
         return {
@@ -37397,7 +37383,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.prevPage !== null) {
                 return axios.get(this.prevPage).then(function (response) {
-                    _this.$store.commit(_this.mutator, response.data);
+                    _this.$store.commit("commitThreads", response.data);
                     _this.setButtons(response.data.meta);
                     _this.setPagination(response.data.links);
                 });
@@ -37408,7 +37394,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.nextPage !== null) {
                 return axios.get(this.nextPage).then(function (response) {
-                    _this2.$store.commit(_this2.mutator, response.data);
+                    _this2.$store.commit("commitThreads", response.data);
                     _this2.setButtons(response.data.meta);
                     _this2.setPagination(response.data.links);
                 });

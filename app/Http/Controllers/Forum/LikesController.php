@@ -23,11 +23,6 @@ class LikesController extends Controller
         }
 
     }
-    public function unlikeThread ($thread){
-        $user = Auth::user()->id;
-        Redis::HSET("Threads:Thread-$thread", $user, 0);
-        return 0;
-    }
     public function likeReply ($reply){
         $user = Auth::user()->id;
         return Redis::HSET("Replys:Reply-$reply", $user, 1);

@@ -26,5 +26,3 @@ const app = new Vue({
     router,
     store
 });
-
-console.log(app)

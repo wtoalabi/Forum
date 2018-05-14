@@ -1,6 +1,5 @@
 <template>
 <div>
-
     <div>
     <h1>{{threadCategory}}</h1>
         <threadslist :threads="threads"></threadslist>
@@ -11,20 +10,17 @@
 <script>
  
 export default {
- 
- watch: {
-    '$route' (to, from) {
-        this.$store.state.pageIsLoading = true
-            return axios.get('api/category-threads/' + to.params.category_slug).then(response =>{
-            this.$store.commit("commitSingleCategoryThreads", response.data)
-            this.$store.state.pageIsLoading = false
-        })       
-    }
+   beforeRouteUpdate(to, from, next){    
+    this.$store.state.pageIsLoading = true
+    return axios.get('api/category-threads/' + to.params.category_slug).then(response =>{
+    this.$store.commit("commitThreads", response.data)
+    this.$store.state.pageIsLoading = false
+    next()
+}) 
+      
   },
 mounted() {
-if(_.isEmpty(this.$store.state.singleCategoryThreads.data)){
 
-}
     
 },
 data(){
@@ -36,10 +32,10 @@ methods:{
 },
 computed:{
     threads(){
-        return this.$store.state.singleCategoryThreads.data
+        return this.$store.state.threads.data
     },
     threadCategory(){
-        return _.head(this.$store.state.singleCategoryThreads.data).category.name
+        return _.head(this.$store.state.threads.data).category.name
     }
 }
 

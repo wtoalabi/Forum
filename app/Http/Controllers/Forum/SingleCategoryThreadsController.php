@@ -12,7 +12,7 @@ class SingleCategoryThreadsController extends Controller
 {
     public function index ($category){
          $category = Category::whereSlug($category)->first();
-         $threads = Thread::where('category_id', $category->id)->latest()->get();
+         $threads = Thread::where('category_id', $category->id)->latest()->paginate(5);
          return new ThreadsCollection($threads);
          
     }
