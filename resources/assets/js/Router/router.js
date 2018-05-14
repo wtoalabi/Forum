@@ -4,8 +4,9 @@ import store from '../Store/store';
 import {
     filtered,
     sort
-} from './searched'
+} from './searched';
 
+//import("../Forums/Notifications/Notifications");
 import Notifications from "../Forums/Notifications/Notifications";
 import ForumsPage from "../Forums/Pages/ForumsPage";
 import SingleThread from '../Forums/Pages/SingleThread';

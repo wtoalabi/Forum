@@ -1,4 +1,11 @@
 window._ = require('lodash');
+import Vue from 'vue'
+var VueScrollTo = require('vue-scrollto');
+Vue.use(VueScrollTo,{
+    offset: -200,
+    duration: 2000,
+    easing: "ease",
+})
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
