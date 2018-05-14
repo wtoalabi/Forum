@@ -12,6 +12,7 @@ class SortedThreadsController extends Controller
 {
     public function index (SortThreads $query){
         $threads = Thread::sortBy($query)->paginate(10)->appends(request()->query());
+        
         return new ThreadsCollection($threads);
     }
 }

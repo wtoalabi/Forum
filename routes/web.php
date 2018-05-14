@@ -30,6 +30,8 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('user-threads/{username}', 'Forum\UserThreadsController@index');
     Route::get('filter-threads/{filter}', 'Forum\FilteredThreadsController@index');
     Route::get('sort-threads/{sortQuery}', 'Forum\SortedThreadsController@index');
+    Route::post('like-thread/{thread}', 'Forum\LikesController@likeThread');
+    Route::post('like-reply/{reply}', 'Forum\LikesController@likeReply');
 });
 
 Auth::routes();

@@ -20,6 +20,7 @@ class ThreadsCollection extends ResourceCollection
             //dd($thread['created_at'])->toDateTimeStringsw();
             return [
                 "id"=> $thread->id,
+                "like_count" => $thread->likeCount(),
                 "slug"=> $thread->slug,
                 "title"=> $thread->title,
                 "body"=>$thread->body,

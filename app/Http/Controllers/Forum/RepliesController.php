@@ -17,7 +17,7 @@ class RepliesController extends Controller
      */
     public function index()
     {
-        //
+        Reply::find(1)->likeCount();
     }
 
     /**

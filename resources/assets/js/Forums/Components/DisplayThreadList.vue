@@ -2,7 +2,17 @@
 <div>
     <div class="column is-12" v-for="thread in threads" :key="thread.id">
         <div class="box content is-small">
-            <h1 class=""><router-link :to="'/threads/' + thread.category.slug + '/' + thread.slug " exact><span>{{thread.title}}</span></router-link></h1>
+            <div class="columns">
+                <div class="column">
+                    <h1 class=""><router-link :to="'/threads/' + thread.category.slug + '/' + thread.slug " exact><span>{{thread.title}}</span></router-link></h1>
+                </div>
+                <div class="column is-2">
+                    <like 
+                        :count="thread.like_count"
+                        :threadID="thread.id">
+                    </like>
+                </div>
+            </div>
             <small>Posted in  {{thread.category.name}} || {{thread.created_at}} ||Replies:{{thread.replies_count}} || <router-link :to="'/users/' + thread.user.username"><span>{{thread.user.name}}</span></router-link></small>
             <h2>{{thread.body | readMore}}</h2>
         </div>
@@ -17,10 +27,21 @@ props:['threads'],
 mounted() {
 
 },
+methods:{
+    
+},
 filters: {
     readMore(text) {
       return _.truncate(text, { length: 100 });
     }
+  },
+  data(){
+      return{
+    
+      }
+  },
+  computed:{
+    
   }
 
 }

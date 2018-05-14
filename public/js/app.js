@@ -31529,6 +31529,7 @@ Vue.component('newthread', __webpack_require__(59));
 Vue.component('newreply', __webpack_require__(63));
 Vue.component('threadslist', __webpack_require__(115));
 Vue.component('pagination', __webpack_require__(135));
+Vue.component('like', __webpack_require__(346));
 Vue.component('spinner', __webpack_require__(342));
 
 /***/ }),
@@ -36735,17 +36736,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['threads'],
   mounted: function mounted() {},
 
+  methods: {},
   filters: {
     readMore: function readMore(text) {
       return _.truncate(text, { length: 100 });
     }
-  }
+  },
+  data: function data() {
+    return {};
+  },
+
+  computed: {}
 
 });
 
@@ -36762,23 +36779,42 @@ var render = function() {
     _vm._l(_vm.threads, function(thread) {
       return _c("div", { key: thread.id, staticClass: "column is-12" }, [
         _c("div", { staticClass: "box content is-small" }, [
-          _c(
-            "h1",
-            {},
-            [
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column" }, [
               _c(
-                "router-link",
-                {
-                  attrs: {
-                    to: "/threads/" + thread.category.slug + "/" + thread.slug,
-                    exact: ""
-                  }
-                },
-                [_c("span", [_vm._v(_vm._s(thread.title))])]
+                "h1",
+                {},
+                [
+                  _c(
+                    "router-link",
+                    {
+                      attrs: {
+                        to:
+                          "/threads/" +
+                          thread.category.slug +
+                          "/" +
+                          thread.slug,
+                        exact: ""
+                      }
+                    },
+                    [_c("span", [_vm._v(_vm._s(thread.title))])]
+                  )
+                ],
+                1
               )
-            ],
-            1
-          ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "column is-2" },
+              [
+                _c("like", {
+                  attrs: { count: thread.like_count, threadID: thread.id }
+                })
+              ],
+              1
+            )
+          ]),
           _vm._v(" "),
           _c(
             "small",
@@ -36967,6 +37003,20 @@ if (false) {
     },
     commitSearchedThreads: function commitSearchedThreads(state, payload) {
         return state.searchedThreads = payload;
+    },
+    commitLikeCountOfAThread: function commitLikeCountOfAThread(state, payload) {
+        return _.map(state.threads.data, function (thread) {
+            if (thread.id === payload) {
+                return thread.like_count++;
+            }
+        });
+    },
+    removeLikeCountOfAThread: function removeLikeCountOfAThread(state, payload) {
+        return _.map(state.threads.data, function (thread) {
+            if (thread.id === payload) {
+                return thread.like_count--;
+            }
+        });
     }
 });
 
@@ -38817,6 +38867,163 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 /***/ })
 /******/ ])["default"];
 });
+
+/***/ }),
+/* 343 */,
+/* 344 */,
+/* 345 */,
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(347)
+/* template */
+var __vue_template__ = __webpack_require__(348)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Components\\LikeComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-995f828a", Component.options)
+  } else {
+    hotAPI.reload("data-v-995f828a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 347 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['count', 'threadID'],
+    mounted: function mounted() {},
+    data: function data() {
+        return {
+            liked: false
+        };
+    },
+
+    methods: {
+        likeButtonClicked: function likeButtonClicked() {
+            var _this = this;
+
+            axios.post('api/like-thread/' + this.threadID).then(function (response) {
+                if (response.data === 1) {
+                    _this.$store.commit("commitLikeCountOfAThread", _this.threadID);
+                } else if (response.data === 0) {
+                    _this.$store.commit("removeLikeCountOfAThread", _this.threadID);
+                }
+            });
+        }
+    },
+    computed: {
+        likedText: function likedText() {
+            if (this.liked === true) {
+                return "Click to Unlike!";
+            } else {
+                return "Click to Like!";
+            }
+        }
+    }
+
+});
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "field is-grouped is-grouped-multiline" }, [
+      _c("div", { staticClass: "control" }, [
+        _c("div", { staticClass: "tags has-addons" }, [
+          _c(
+            "a",
+            {
+              staticClass: "icon has-text-black",
+              attrs: { title: _vm.likedText },
+              on: { click: _vm.likeButtonClicked }
+            },
+            [
+              _c("span", { staticClass: "tag is-light" }, [
+                _vm._v(_vm._s(_vm.count))
+              ]),
+              _vm._v(" "),
+              _c(
+                "span",
+                {
+                  staticClass: "tag is-info has-text-white",
+                  class: { "has-text-warning": _vm.liked }
+                },
+                [_c("i", { staticClass: "fa fa-heart" })]
+              )
+            ]
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-995f828a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
