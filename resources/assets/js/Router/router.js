@@ -51,6 +51,7 @@ let router = new VueRouter({
                 store.state.pageIsLoading = true
                 return axios.get('api/category-threads/' + to.params.category_slug).then(response => {
                     store.commit("commitSingleCategoryThreads", response.data)
+                    console.log("hre")
                     next()
                     store.state.pageIsLoading = false
                 })

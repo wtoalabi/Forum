@@ -36603,7 +36603,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.$store.state.pageIsLoading = true;
             return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
-                _this.$store.commit("commitSingleCategoryThreads", response.data.data);
+                _this.$store.commit("commitSingleCategoryThreads", response.data);
                 _this.$store.state.pageIsLoading = false;
             });
         }
@@ -37044,6 +37044,7 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
             __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.pageIsLoading = true;
             return axios.get('api/category-threads/' + to.params.category_slug).then(function (response) {
                 __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].commit("commitSingleCategoryThreads", response.data);
+                console.log("hre");
                 next();
                 __WEBPACK_IMPORTED_MODULE_2__Store_store__["a" /* default */].state.pageIsLoading = false;
             });

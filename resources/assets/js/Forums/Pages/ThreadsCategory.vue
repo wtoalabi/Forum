@@ -14,15 +14,16 @@ export default {
  
  watch: {
     '$route' (to, from) {
-    this.$store.state.pageIsLoading = true
-     return axios.get('api/category-threads/' + to.params.category_slug).then(response =>{
-         this.$store.commit("commitSingleCategoryThreads", response.data.data)
-        this.$store.state.pageIsLoading = false
+        this.$store.state.pageIsLoading = true
+            return axios.get('api/category-threads/' + to.params.category_slug).then(response =>{
+            this.$store.commit("commitSingleCategoryThreads", response.data)
+            this.$store.state.pageIsLoading = false
         })       
     }
   },
 mounted() {
 if(_.isEmpty(this.$store.state.singleCategoryThreads.data)){
+
 }
     
 },
