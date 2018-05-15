@@ -3,14 +3,19 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Redis;
 
 Trait Likeable{
-    public function likeCount (){
-        $className = $this->getClassName();
-        return Redis::HLEN($className. 's:'. $className.'-'.$this->id );
-   }
-
-   protected function getClassName (){
-    $name = get_class($this);
-    $arrayOfPath = explode('\\',$name);
-    return array_pop($arrayOfPath);
+    
+        public function likeCount (){
+            return Redis::HLEN($this->classPathOnRedis() . $this->id);
+        }
+        
+        public function liked (){
+            return Redis::HEXISTS($this->classPathOnRedis().$this->id, auth()->user()->id);
+        }
+        
+        protected function classPathOnRedis (){
+        $name = get_class($this);
+        $arrayOfPath = explode('\\',$name);
+        $className = array_pop($arrayOfPath);
+        return $className. 's:'. $className.'-';
    }
 }

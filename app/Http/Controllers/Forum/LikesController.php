@@ -25,7 +25,14 @@ class LikesController extends Controller
     }
     public function likeReply ($reply){
         $user = Auth::user()->id;
-        return Redis::HSET("Replys:Reply-$reply", $user, 1);
+        if(Redis::HGET("Replys:Reply-$reply", $user)){
+            Redis::HDEL("Replys:Reply-$reply", $user);
+            return 0;
+        }
+        else{
+            Redis::HSET("Replys:Reply-$reply", $user, 1);
+            return 1;
+        }
     }
 
 }

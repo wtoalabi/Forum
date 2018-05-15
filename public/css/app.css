@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.notification a:not(.button) {
+  text-decoration: none !important;
+}
+
 .asideA {
   background-color: #e3e4e580;
 }

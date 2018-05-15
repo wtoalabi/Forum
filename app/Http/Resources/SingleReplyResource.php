@@ -14,11 +14,15 @@ class SingleReplyResource extends JsonResource
      */
     public function toArray($request)
     {
-         return [ 
-            "id" => $this->id, 
+        return [
+            "id" => $this->id,
             "body"=> $this->body,
             "user"=> $this->user->name,
-            "created_at" => $this['created_at']->diffForHumans()
-];
+            "created_at" => $this['created_at']->diffForHumans(),
+            "likes" =>[
+                "like_count" => $this->likeCount(),
+                "liked" => $this->liked(),
+            ]
+        ];
     }
 }

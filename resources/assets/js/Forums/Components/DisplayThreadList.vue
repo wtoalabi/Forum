@@ -8,8 +8,13 @@
                 </div>
                 <div class="column is-2">
                     <like 
-                        :count="thread.like_count"
-                        :threadID="thread.id">
+                        :count="thread.likes.like_count"
+                        :liked="thread.likes.liked"
+                        :threadID="thread.id"
+                        url='api/like-thread/'
+                        :ID="thread.id"
+                        addCountMutator="commitLikeCountOfAThread"
+                        removeCountMutator = "removeLikeCountOfAThread">
                     </like>
                 </div>
             </div>

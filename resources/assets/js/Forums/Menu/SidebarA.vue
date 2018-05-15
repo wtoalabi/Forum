@@ -17,8 +17,8 @@
                         <span>Forums List</span>
                     </router-link>
                 </li>
-                <li>
-                    <router-link to="/threads" exact>
+                <li @click="clicked">
+                    <router-link to="/threads" exact >
                         <span>Thread</span>
                     </router-link>
                 </li>
@@ -68,7 +68,16 @@
         methods: {
             isSelected() {
                 this.selected ^= true
-            }
+            },
+            clicked(){
+                if(_.isEmpty(this.$store.state.threads)){
+                this.$store.state.pageIsLoading = true
+                return axios.get('api/all-threads/').then(response => {
+                this.$store.commit("commitThreads", response.data)
+                this.$store.state.pageIsLoading = false
+                })
+                }
+            },
         },
         computed: {
             notificationsCount() {

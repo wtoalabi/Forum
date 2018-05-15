@@ -32,7 +32,6 @@ class SingleThreadResource extends JsonResource
                 'slug' => $this->category->slug,
                 'threads_count' => Category::find($this->category->id)->threads()->count(),
             ],
-            "replies" => new ThreadRepliesCollection(Reply::where('thread_id', $this->id)->latest()->get()),
             "created_at" => $this->created_at->diffForHumans()
         ];
     }

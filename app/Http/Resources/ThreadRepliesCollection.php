@@ -15,12 +15,9 @@ class ThreadRepliesCollection extends ResourceCollection
     public function toArray($request)
     {
         return $this->collection->transform(function($reply){
-            return [
-                "id" => $reply->id,
-                "body"=> $reply->body,
-                "user"=> $reply->user->name,
-                "created_at" => $reply['created_at']->diffForHumans()
-            ];
+            return new SingleReplyResource($reply);
         });
+
     }
+
 }

@@ -1,14 +1,6 @@
 <template>
 <div>
-    <div v-if="isLoading">
-        <spinner size="massive" message="Loading..."></spinner>
-    </div>
-
-    <div v-if="error">
-        {{error}}
-    </div>
-    
-    <div v-if="thread">
+   <div>
         <div class="column is-10 is-offset-1">
             <div class="content is-large"><h1>{{thread.title}}</h1>
             <hr/>
@@ -26,43 +18,33 @@
             </div>
         </div>
         <hr/>
-        <replies></replies>
+        <div></div>
         <newreply></newreply>
-    </div>
+        </div>
 </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import store from '../../Store/store'
 export default {
+    async beforeRouteEnter(to, from, next){
+        store.state.pageIsLoading = true
+        await store.dispatch("getSingleThread", to.params.slug)
+        store.state.pageIsLoading = false
+        next()
+    },
     data() {
-    return {
-      isLoading: false,
-      thread: null,
-      error: null
-    };
+        return {
+            error: null
+        };
   },
-  created() {
-    this.getSingleThread();
+  methods:{
+      
   },
-  watch: {
-    $route: "getSingleThread"
-  },
-  methods: {
-    getSingleThread() {
-      this.error = this.thread = null;
-      this.isLoading = true;
-      return axios.get("api/single-thread/" + this.$route.params.slug).then(response => {
-          this.isLoading = false;
-          this.$store.state.pageIsLoading = false          
-          this.$store.commit("commitSingleThread", response.data.data);
-          this.thread = this.$store.getters.getSingleThread;
-        })
-        .catch(error => {
-          this.isLoading = false;
-          this.error = error.response.statusText;
-        });
+    computed:{
+        thread(){
+            return this.$store.getters.getSingleThread
+        }
     }
-  }
-};
+}
 </script>

@@ -10,5 +10,8 @@ export default {
     },
     getCategories(state){
         return state.categories;
+    },
+    getSingleThreadReplies(state){
+        return state.singleThreadReplies;
     }
 }

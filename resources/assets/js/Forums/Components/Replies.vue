@@ -1,22 +1,49 @@
 <template>
 <div>
-    <div class="content">
-            <div class="columns is-centered" v-for="reply in thread.replies" :key="reply.id">
-                <div class="column is-9 mt-1"><blockquote class="message is-primary">{{reply.body}} <span class="title is-5">--{{reply.user}}</span>, <em class="em">{{reply.created_at}}</em></blockquote>    </div>
+    <div id="replies" ref="topOfReplies" class="content">
+            <div  class="columns is-centered" v-for="reply in replies.data" :key="reply.id">
+                <div class="column is-9 mt-1">
+                    <div class="columns notification is-primary">
+                        <div class="column is-3">
+                            <span class="title is-5">{{reply.user}}</span>
+                            <p><em class="em">{{reply.created_at}}</em></p>
+                        </div>
+                        <div class="column has-text-black message is-primary">
+                                {{reply.body}}
+                        </div>
+                        <div class="column is-1 is-offset-1">
+                            <like 
+                                    :count="reply.likes.like_count"
+                                    :liked="reply.likes.liked"
+                                    :ID="reply.id"
+                                    url='api/like-reply/'
+                                    addCountMutator="commitLikeCountOfAReply"
+                                    removeCountMutator = "removeLikeCountOfAReply">
+                            </like>
+                        </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            </div>
-</div>
+        </div>
 </template>
 
-<script>
- 
-export default {
-mounted() {
+<style>
 
+</style>
+
+<script>
+export default {
+mounted() {},
+data(){
+    return{
+    }
+},
+methods:{
 },
 computed:{
-    thread(){
-        return this.$store.getters.getSingleThread
+    replies(){
+        return this.$store.getters.getSingleThreadReplies
     }
 }
 

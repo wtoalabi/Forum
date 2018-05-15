@@ -11,7 +11,6 @@
     export default {
         props: ['url'],
         mounted() {
-            console.log("meya", this.meta);
             this.setButtons(this.$store.state.threads.meta)
             this.setPagination(this.$store.state.threads.links)
         },

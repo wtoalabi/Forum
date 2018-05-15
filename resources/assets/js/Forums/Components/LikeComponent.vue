@@ -5,7 +5,7 @@
             <div class="tags has-addons">
                 <a @click="likeButtonClicked" class="icon has-text-black" :title="likedText">
                     <span class="tag is-light">{{count}}</span>
-                    <span class="tag is-info has-text-white" :class="{'has-text-warning': liked }" ><i class="fa fa-heart"></i></span>
+                    <span class="tag has-text-white " :class="likedColour" ><i class="fa fa-heart"></i></span>
                 </a>
             </div>
         </div>
@@ -17,23 +17,22 @@
 <script>
  
 export default {
-props:['count', 'threadID'],
+props:['count', 'ID','liked', 'url','addCountMutator', 'removeCountMutator'],
 mounted() {
 
 },
 data(){
     return {
-        liked: false
     }
 },
 methods:{
     likeButtonClicked(){
-        axios.post('api/like-thread/'+this.threadID).then(response=>{
+        axios.post(this.url+this.ID).then(response=>{
             if(response.data === 1){
-                this.$store.commit("commitLikeCountOfAThread", this.threadID)
+                this.$store.commit(this.addCountMutator, this.ID)
             }
             else if(response.data === 0){
-                this.$store.commit("removeLikeCountOfAThread", this.threadID)
+                this.$store.commit(this.removeCountMutator, this.ID)
             }
             
         })
@@ -46,6 +45,14 @@ computed:{
           }
           else{
               return "Click to Like!"
+          }
+      },
+      likedColour(){
+          if(this.liked){
+              return "is-danger"
+          }
+          else{
+              return "is-info"
           }
       }
 }

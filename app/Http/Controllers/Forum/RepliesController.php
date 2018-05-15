@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Forum;
 
 use App\Models\Forum\Reply;
+use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SingleReplyResource;
+use App\Http\Resources\ThreadRepliesCollection;
 
 class RepliesController extends Controller
 {
@@ -15,9 +17,10 @@ class RepliesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Thread $thread)
     {
-        Reply::find(1)->likeCount();
+        $replies = Reply::where('thread_id', $thread->id)->latest()->paginate(2);
+        return new ThreadRepliesCollection($replies);
     }
 
     /**
@@ -38,12 +41,13 @@ class RepliesController extends Controller
      */
     public function store($id, Request $request)
     {
+        
         $valid = $request->validate([
             'body' => "required"
         ]);
         $valid['user_id'] = Auth::user()->id;
         $valid['thread_id'] = $id;
-
+        //dd($valid);
         $reply = Reply::create($valid);
         return new SingleReplyResource($reply);
     }

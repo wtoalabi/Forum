@@ -16,17 +16,20 @@ class ThreadsCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return $this->collection->transform(function($thread, $category){
+        return $this->collection->transform(function($thread){
             //dd($thread['created_at'])->toDateTimeStringsw();
             return [
                 "id"=> $thread->id,
-                "like_count" => $thread->likeCount(),
                 "slug"=> $thread->slug,
                 "title"=> $thread->title,
                 "body"=>$thread->body,
                 "created_at" => $thread['created_at']->diffForHumans(),
                 "user" => new UserProfileResource($thread->user),
                 "replies_count" => $thread->replies()->count(),
+                'likes' => [
+                    "like_count" => $thread->likeCount(),
+                    "liked" => $thread->liked()
+                ],
                 "category" => [
                     'id'=> $thread->category->id,
                     'name'=> $thread->category->name,
