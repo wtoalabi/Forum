@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="replies">
+        <div id="replies">
             <replies></replies>
         </div>
         <h1>Create new reply....</h1>
@@ -14,7 +14,6 @@
     export default {
 
         mounted() {
-
         },
         data() {
             return {

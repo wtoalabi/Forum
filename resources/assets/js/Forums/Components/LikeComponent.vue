@@ -10,7 +10,6 @@
             </div>
         </div>
     </div>
-    <!-- <a @click="likeButtonClicked" class="icon has-text-black" :title="likedText" :class="{'has-text-danger': liked }">{{count}} <i class="fa fa-heart"></i></a> -->
 </div>
 </template>
 

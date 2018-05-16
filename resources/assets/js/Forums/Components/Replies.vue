@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div id="replies" ref="topOfReplies" class="content">
+    <div class="content">
             <div  class="columns is-centered" v-for="reply in replies.data" :key="reply.id">
                 <div class="column is-9 mt-1">
                     <div class="columns notification is-primary">
@@ -25,6 +25,12 @@
                     </div>
                 </div>
             </div>
+            <pagination 
+                :mainData="replies"
+                nextPageCommitMessage="loadNextRepliesFromPagination"
+                previousPageCommitMessage="loadPreviousRepliesFromPagination"
+                paginationText="Replies">
+            </pagination>
         </div>
 </template>
 
@@ -34,7 +40,8 @@
 
 <script>
 export default {
-mounted() {},
+mounted() {    
+},
 data(){
     return{
     }

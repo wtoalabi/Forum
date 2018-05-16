@@ -30,8 +30,12 @@ export default {
     async beforeRouteEnter(to, from, next){
         store.state.pageIsLoading = true
         await store.dispatch("getSingleThread", to.params.slug)
+        await store.dispatch("getSingleThreadReplies", to.params.slug)
+
         store.state.pageIsLoading = false
         next()
+    },
+    mounted(){
     },
     data() {
         return {

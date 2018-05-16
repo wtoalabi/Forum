@@ -1,18 +1,19 @@
 <template>
     <div class="">
         <nav v-show="paginate" class="pagination is-rounded" role="navigation" aria-label="pagination">
-            <a class="pagination-previous" :disabled="onFirstPage" @click="loadPreviousPage">Previous Set of Threads</a>
-            <a class="pagination-next" :disabled="onLastPage" @click.prevent="loadNextPage">Next Set of Threads</a>
+            <a class="pagination-previous" :disabled="onFirstPage" @click="loadPreviousPage">Previous {{paginationText}}</a>
+            <a class="pagination-next" :disabled="onLastPage" @click.prevent="loadNextPage">Next {{paginationText}}</a>
         </nav>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['url'],
-        mounted() {
-            this.setButtons(this.$store.state.threads.meta)
-            this.setPagination(this.$store.state.threads.links)
+        props: ['mainData','nextPageCommitMessage','previousPageCommitMessage','paginationText'],
+       created() {
+            console.log("metaface",this.mainData);
+            this.setButtons(this.mainData.meta)
+            this.setPagination(this.mainData.links)
         },
         data() {
             return {
@@ -28,7 +29,7 @@
             loadPreviousPage() {
                 if (this.prevPage !== null) {
                     return axios.get(this.prevPage).then(response => {
-                        this.$store.commit("commitThreads", response.data)
+                        this.$store.commit(this.previousPageCommitMessage, response.data)
                         this.setButtons(response.data.meta)
                         this.setPagination(response.data.links)
                     })
@@ -37,13 +38,13 @@
             loadNextPage() {
                 if (this.nextPage !== null) {
                     return axios.get(this.nextPage).then(response => {
-                        this.$store.commit("commitThreads", response.data)
+                        this.$store.commit(this.nextPageCommitMessage, response.data)
                         this.setButtons(response.data.meta)
                         this.setPagination(response.data.links)
                     })
                 }
             },
-            setPagination(links) {
+            setPagination(links) {                                
                 this.nextPage = links.next
                 this.prevPage = links.prev
             },

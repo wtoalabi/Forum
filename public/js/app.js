@@ -32437,6 +32437,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {},
@@ -32461,65 +32467,78 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      { ref: "topOfReplies", staticClass: "content", attrs: { id: "replies" } },
-      _vm._l(_vm.replies.data, function(reply) {
-        return _c(
-          "div",
-          { key: reply.id, staticClass: "columns is-centered" },
-          [
-            _c("div", { staticClass: "column is-9 mt-1" }, [
-              _c("div", { staticClass: "columns notification is-primary" }, [
-                _c("div", { staticClass: "column is-3" }, [
-                  _c("span", { staticClass: "title is-5" }, [
-                    _vm._v(_vm._s(reply.user))
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        { staticClass: "content" },
+        _vm._l(_vm.replies.data, function(reply) {
+          return _c(
+            "div",
+            { key: reply.id, staticClass: "columns is-centered" },
+            [
+              _c("div", { staticClass: "column is-9 mt-1" }, [
+                _c("div", { staticClass: "columns notification is-primary" }, [
+                  _c("div", { staticClass: "column is-3" }, [
+                    _c("span", { staticClass: "title is-5" }, [
+                      _vm._v(_vm._s(reply.user))
+                    ]),
+                    _vm._v(" "),
+                    _c("p", [
+                      _c("em", { staticClass: "em" }, [
+                        _vm._v(_vm._s(reply.created_at))
+                      ])
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("p", [
-                    _c("em", { staticClass: "em" }, [
-                      _vm._v(_vm._s(reply.created_at))
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "column has-text-black message is-primary" },
-                  [
-                    _vm._v(
-                      "\r\n                                " +
-                        _vm._s(reply.body) +
-                        "\r\n                        "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "column is-1 is-offset-1" },
-                  [
-                    _c("like", {
-                      attrs: {
-                        count: reply.likes.like_count,
-                        liked: reply.likes.liked,
-                        ID: reply.id,
-                        url: "api/like-reply/",
-                        addCountMutator: "commitLikeCountOfAReply",
-                        removeCountMutator: "removeLikeCountOfAReply"
-                      }
-                    })
-                  ],
-                  1
-                )
+                  _c(
+                    "div",
+                    { staticClass: "column has-text-black message is-primary" },
+                    [
+                      _vm._v(
+                        "\r\n                                " +
+                          _vm._s(reply.body) +
+                          "\r\n                        "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-1 is-offset-1" },
+                    [
+                      _c("like", {
+                        attrs: {
+                          count: reply.likes.like_count,
+                          liked: reply.likes.liked,
+                          ID: reply.id,
+                          url: "api/like-reply/",
+                          addCountMutator: "commitLikeCountOfAReply",
+                          removeCountMutator: "removeLikeCountOfAReply"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ])
               ])
-            ])
-          ]
-        )
+            ]
+          )
+        })
+      ),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: {
+          mainData: _vm.replies,
+          nextPageCommitMessage: "loadNextRepliesFromPagination",
+          previousPageCommitMessage: "loadPreviousRepliesFromPagination",
+          paginationText: "Replies"
+        }
       })
-    )
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -33104,7 +33123,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "replies" }, [_c("replies")], 1),
+    _c("div", { attrs: { id: "replies" } }, [_c("replies")], 1),
     _vm._v(" "),
     _c("h1", [_vm._v("Create new reply....")]),
     _vm._v(" "),
@@ -35947,9 +35966,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    console.log("current", this.$store.state.threads);
-  },
+  mounted: function mounted() {},
 
   methods: {},
   data: function data() {
@@ -36203,10 +36220,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                             return __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].dispatch("getSingleThread", to.params.slug);
 
                         case 3:
+                            _context.next = 5;
+                            return __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].dispatch("getSingleThreadReplies", to.params.slug);
+
+                        case 5:
+
                             __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].state.pageIsLoading = false;
                             next();
 
-                        case 5:
+                        case 7:
                         case "end":
                             return _context.stop();
                     }
@@ -36220,6 +36242,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
         return beforeRouteEnter;
     }(),
+    mounted: function mounted() {},
     data: function data() {
         return {
             error: null
@@ -36408,9 +36431,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     getSingleThread: function getSingleThread(store, payload) {
         return axios.get("api/single-thread/" + payload).then(function (response) {
             store.commit("commitSingleThread", response.data.data);
-        }).then(axios.get('api/single-thread-replies/' + payload).then(function (replies) {
+        });
+    },
+    getSingleThreadReplies: function getSingleThreadReplies(store, payload) {
+        return axios.get('api/single-thread-replies/' + payload).then(function (replies) {
             store.commit("commitSingleThreadReplies", replies.data);
-        }));
+        });
     }
 });
 
@@ -36503,14 +36529,25 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 /* harmony default export */ __webpack_exports__["a"] = ({
     commitReply: function commitReply(state, payload) {
-        console.log("payload", payload);
         return state.singleThreadReplies.data.unshift(payload);
     },
     commitSingleThreadReplies: function commitSingleThreadReplies(state, payload) {
-        console.log(payload);
         return state.singleThreadReplies = payload;
+    },
+    loadNextRepliesFromPagination: function loadNextRepliesFromPagination(state, payload) {
+        var _state$singleThreadRe;
+
+        (_state$singleThreadRe = state.singleThreadReplies.data).push.apply(_state$singleThreadRe, _toConsumableArray(payload.data));
+    },
+    loadPreviousRepliesFromPagination: function loadPreviousRepliesFromPagination(state, payload) {
+        var count = payload.data.length;
+        state.singleThreadReplies.data.splice(-count, count);
+
+        // state.singleThreadReplies.data.push(...payload.data)
     }
 });
 
@@ -37570,10 +37607,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['url'],
-    mounted: function mounted() {
-        this.setButtons(this.$store.state.threads.meta);
-        this.setPagination(this.$store.state.threads.links);
+    props: ['mainData', 'nextPageCommitMessage', 'previousPageCommitMessage', 'paginationText'],
+    created: function created() {
+        console.log("metaface", this.mainData);
+        this.setButtons(this.mainData.meta);
+        this.setPagination(this.mainData.links);
     },
     data: function data() {
         return {
@@ -37592,7 +37630,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.prevPage !== null) {
                 return axios.get(this.prevPage).then(function (response) {
-                    _this.$store.commit("commitThreads", response.data);
+                    _this.$store.commit(_this.previousPageCommitMessage, response.data);
                     _this.setButtons(response.data.meta);
                     _this.setPagination(response.data.links);
                 });
@@ -37603,7 +37641,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (this.nextPage !== null) {
                 return axios.get(this.nextPage).then(function (response) {
-                    _this2.$store.commit("commitThreads", response.data);
+                    _this2.$store.commit(_this2.nextPageCommitMessage, response.data);
                     _this2.setButtons(response.data.meta);
                     _this2.setPagination(response.data.links);
                 });
@@ -37661,7 +37699,7 @@ var render = function() {
             attrs: { disabled: _vm.onFirstPage },
             on: { click: _vm.loadPreviousPage }
           },
-          [_vm._v("Previous Set of Threads")]
+          [_vm._v("Previous " + _vm._s(_vm.paginationText))]
         ),
         _vm._v(" "),
         _c(
@@ -37676,7 +37714,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Next Set of Threads")]
+          [_vm._v("Next " + _vm._s(_vm.paginationText))]
         )
       ]
     )
@@ -40171,7 +40209,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -40294,7 +40331,7 @@ exports = module.exports = __webpack_require__(102)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 

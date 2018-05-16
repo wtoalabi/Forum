@@ -13,7 +13,6 @@
 <script>
 export default {
      mounted(){
-        console.log("current",this.$store.state.threads);
          
      },
   methods: {},
