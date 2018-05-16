@@ -13,6 +13,8 @@ class Thread extends Model
 {
     use Likeable;
     protected $fillable = ['user_id', 'title', 'body', 'slug', 'category_id'];
+    protected $with = ['user','category'];
+    protected $withCount = ['replies'];
     public function user (){
          return $this->belongsTo(User::class);
     }

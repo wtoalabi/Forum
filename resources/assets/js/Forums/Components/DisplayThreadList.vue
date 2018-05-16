@@ -18,7 +18,7 @@
                     </like>
                 </div>
             </div>
-            <small>Posted in  {{thread.category.name}} || {{thread.created_at}} ||Replies:{{thread.replies_count}} || <router-link :to="'/users/' + thread.user.username"><span>{{thread.user.name}}</span></router-link></small>
+            <small>Posted in  {{thread.category.name}} || {{thread.created_at}} ||Replies:{{thread.replies_count}} || <router-link :to="'/profile/' + thread.user.username"><span>{{thread.user.name}}</span></router-link></small>
             <h2>{{thread.body | readMore}}</h2>
         </div>
     </div>

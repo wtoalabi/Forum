@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Redis;
 
 class LikesController extends Controller
 {
+    public function __construct (){
+         return $this->middleware('auth');
+    }
     public function likeThread ($thread){
         $user = Auth::user()->id;
         if(Redis::HGET("Threads:Thread-$thread", $user)){

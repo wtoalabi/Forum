@@ -25,7 +25,7 @@ class ThreadsCollection extends ResourceCollection
                 "body"=>$thread->body,
                 "created_at" => $thread['created_at']->diffForHumans(),
                 "user" => new UserProfileResource($thread->user),
-                "replies_count" => $thread->replies()->count(),
+                "replies_count" => $thread->replies_count,
                 'likes' => [
                     "like_count" => $thread->likeCount(),
                     "liked" => $thread->liked()

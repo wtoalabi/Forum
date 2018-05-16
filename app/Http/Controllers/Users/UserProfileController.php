@@ -46,9 +46,10 @@ class UserProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user)
     {
-        return new UserProfileResource(User::find($id));
+        $user = User::where('username', $user)->first();
+        return new UserProfileResource($user);
     }
 
     /**

@@ -20,7 +20,7 @@ Route::get('/forums', function(){
 });
 Route::group(['prefix' => 'api'], function () { 
     Route::get('/threads', function(){ return Thread::all(); }); 
-    Route::get('user/{id}', 'Users\UserProfileController@show');
+    Route::get('profile/{user}', 'Users\UserProfileController@show');
     Route::get('all-threads','Forum\ThreadsController@index'); 
     Route::get('single-thread/{slug}', "Forum\ThreadsController@show");
     Route::get('single-thread-replies/{thread}', "Forum\RepliesController@index");
@@ -33,6 +33,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('sort-threads/{sortQuery}', 'Forum\SortedThreadsController@index');
     Route::post('like-thread/{thread}', 'Forum\LikesController@likeThread');
     Route::post('like-reply/{reply}', 'Forum\LikesController@likeReply');
+    //Route::get('profile/{user}')
 });
 
 Auth::routes();

@@ -9,7 +9,12 @@ Trait Likeable{
         }
         
         public function liked (){
-            return Redis::HEXISTS($this->classPathOnRedis().$this->id, auth()->user()->id);
+            if(auth()->id()){
+                return Redis::HEXISTS($this->classPathOnRedis().$this->id, auth()->user()->id);
+            }
+            else{
+                return 0;
+            }
         }
         
         protected function classPathOnRedis (){

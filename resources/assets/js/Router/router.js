@@ -13,6 +13,7 @@ import SingleThread from '../Forums/Pages/SingleThread';
 import Threads from "../Forums/Pages/Threads";
 import ThreadsCategory from '../Forums/Pages/ThreadsCategory'
 import UserThreads from '../Forums/Pages/UserThreads'
+import UserProfile from '../Forums/Pages/UserProfile'
 
 
 
@@ -77,6 +78,11 @@ let router = new VueRouter({
                     store.state.pageIsLoading = false
                 })
             }
+        },
+        {
+            path: "/profile/:username",
+            name: "UserProfile",
+            component: UserProfile,
         },
         { ...filtered
         },
