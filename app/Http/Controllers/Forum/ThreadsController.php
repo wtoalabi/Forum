@@ -19,7 +19,7 @@ class ThreadsController extends Controller
      */
     public function index()
     {
-        $threads = Thread::latest()->paginate(25);
+        $threads = Thread::latest()->paginate(10);
         //dd($threads);
         return new ThreadsCollection($threads);
     }
@@ -100,8 +100,14 @@ class ThreadsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($thread)
     {
-        //
+        $thread = Thread::find($thread);
+        if($thread->user_id == auth()->id()){
+            $thread->delete();
+            return response(["message" =>"Done", "threadID"=> $thread->id], 200);
+        }
+        return response(["message"=>"Not Authorized!"]);
+        //return response(["message" =>"Done", "threadID"=> $thread->id;], 200);
     }
 }

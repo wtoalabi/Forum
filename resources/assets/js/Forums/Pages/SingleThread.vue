@@ -3,6 +3,15 @@
    <div>
         <div class="column is-10 is-offset-1">
             <div class="content is-large"><h1>{{thread.title}}</h1>
+
+            <div v-if="owner != thread.owner.id" class="column is-offset-4">
+                <delete
+                    :url="'api/delete-thread/'+thread.id"
+                    mutator="threadDeleted"
+                    name="Thread"
+                    redirectedPath="/threads">
+                </delete>
+            </div>
             <hr/>
             <div class="columns">
                 <div class="column is-5">
@@ -48,6 +57,9 @@ export default {
     computed:{
         thread(){
             return this.$store.getters.getSingleThread
+        },
+         owner(){
+            return this.$store.state.loggedInUserID
         }
     }
 }

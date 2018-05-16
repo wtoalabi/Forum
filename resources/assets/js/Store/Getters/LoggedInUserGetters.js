@@ -1,5 +1,5 @@
 export default {
     getLoggedInUserFullName(state){
-        return state.loggedInUser.username
+       // return state.loggedInUser.username
     }
 }

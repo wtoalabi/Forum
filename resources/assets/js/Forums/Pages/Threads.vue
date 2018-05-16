@@ -4,7 +4,10 @@
     <div v-else id="threads"><threadslist :threads="threads.data"></threadslist></div>
     <pagination 
         v-scroll-to="'#threads'"
-        url="api/all-threads" >
+        :mainData="threads"
+        nextPageCommitMessage="loadNextThreadsFromPagination"
+        previousPageCommitMessage="loadPreviousThreadsFromPagination"
+        paginationText="Threads">
     </pagination>
 
 </div>

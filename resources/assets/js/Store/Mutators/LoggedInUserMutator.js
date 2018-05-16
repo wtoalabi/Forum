@@ -1,5 +1,5 @@
 export default {
-    setLoggedInUser(state, payload){
-        return state.loggedInUser = payload
+    setLoggedInUser(state, userID){
+        return state.loggedInUserID = userID
     }
 }

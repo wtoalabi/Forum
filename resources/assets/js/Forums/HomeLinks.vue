@@ -11,6 +11,11 @@
             </div>
             <div v-else class="column">                    
                     <mast />
+                    <div class="columns is-centered">
+                        <div id="top" class="column is-11">
+                            <announcement></announcement>
+                        </div>
+                    </div>
                 <spinner v-if="pageIsLoading" size="massive" message="Loading..."></spinner>
                 <div v-else>
                 <transition><router-view></router-view></transition>
@@ -36,6 +41,7 @@
             sidebarB: SidebarB,
         },
         mounted() {
+            
         },
         created() {
             this.setState();
@@ -49,12 +55,13 @@
             },
             pageIsLoading(){
                 return this.$store.state.pageIsLoading
-            }
+            },
+            
         },
         methods: {
-            ...mapActions(["storeUser", "storeAllThreads"]),
+            ...mapActions(["storeLoggedInUser", "storeAllThreads"]),
             setState() {
-                this.storeUser(this.loggedinuser);
+                this.storeLoggedInUser(this.loggedinuser);
                 this.storeAllThreads();
             }
         }

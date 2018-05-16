@@ -3,7 +3,7 @@ import Vue from 'vue'
 var VueScrollTo = require('vue-scrollto');
 Vue.use(VueScrollTo,{
     offset: -200,
-    duration: 2000,
+    duration: 3000,
     easing: "ease",
 })
 /**

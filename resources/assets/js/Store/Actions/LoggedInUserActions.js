@@ -1,7 +1,7 @@
 export default {
-    storeUser({commit}, payload){
-        axios('api/user/' + payload).then(response=>{
-            commit("setLoggedInUser", response.data.data)
+    storeLoggedInUser({commit}, userID){
+        return commit("setLoggedInUser",userID)
+        /* axios('api/user/' + payload).then(response=>{
         }).catch(error=>{
             if(error.response.statusText == "Unauthorized"){
                 return this.state.loggedInUser.username = "Guest User"
@@ -9,6 +9,6 @@ export default {
             else{
                 this.state.loggedInUser.username = error.response.statusText
             }
-        })
+        }) */
     }
 }

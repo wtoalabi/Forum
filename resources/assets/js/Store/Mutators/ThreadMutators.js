@@ -18,6 +18,17 @@ export default {
             }
         })
         return state.threads.unshift(payload)
+    },
+    loadNextThreadsFromPagination(state, payload){
+        state.threads = payload
+    },
+    loadPreviousThreadsFromPagination(state, payload){
+        state.threads = payload
+    },
+    threadDeleted(state, payload){
+        state.threads.data = _.reject(state.threads.data, function(thread){
+            return thread.id === payload
+        })
+        
     }
-
 }

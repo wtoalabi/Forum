@@ -18,19 +18,26 @@
 
 <script>
  
+import store from '../../Store/store'
 export default {
- 
-async mounted() {
-    await axios.get('api/profile/' + this.$route.params.username).then(user=>{
-        this.user = user.data.data
-    })
+async beforeRouteEnter(to, from , next){
+    store.state.pageIsLoading = true
+    await store.dispatch("getUserProfile", to.params.username)
+    store.state.pageIsLoading = false
+    next()
+
+},
+mounted() {
 },
 data(){
     return{
-        user: ''
+    }
+},
+computed:{
+    user(){
+        return this.$store.state.userProfile
     }
 }
-
 
 }
  

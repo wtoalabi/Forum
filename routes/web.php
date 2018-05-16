@@ -23,6 +23,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('profile/{user}', 'Users\UserProfileController@show');
     Route::get('all-threads','Forum\ThreadsController@index'); 
     Route::get('single-thread/{slug}', "Forum\ThreadsController@show");
+    Route::delete('delete-thread/{slug}', "Forum\ThreadsController@destroy");
     Route::get('single-thread-replies/{thread}', "Forum\RepliesController@index");
     Route::post('create-new-thread', "Forum\ThreadsController@store" )->middleware('auth');
     Route::post('create-new-reply/{id}', "Forum\RepliesController@store" )->middleware('auth');
