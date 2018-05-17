@@ -1,6 +1,6 @@
 <template>
 <div>
-    <span v-scroll-to="'#top'" @click="deleteClicked" class="button is-primary mt--1">Delete</span>
+    <span v-scroll-to="'#top'" @click="deleteClicked" class="button is-danger mt--1">Delete</span>
 </div>
 </template>
 

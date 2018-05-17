@@ -10,8 +10,12 @@ export default {
     },
     loadPreviousRepliesFromPagination(state, payload){
         const count = payload.data.length;
-        state.singleThreadReplies.data.splice(-(count), count)
+        state.singleThreadReplies.data.splice(-(count), count)        
+    },
+    replyDeleted(state, payload){
+        state.singleThreadReplies.data = _.reject(state.singleThreadReplies.data, function(reply){
+            return reply.id === payload.replyID
+        })
         
-       // state.singleThreadReplies.data.push(...payload.data)
     }
 }

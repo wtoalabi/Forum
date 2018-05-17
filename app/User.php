@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Forum\Reply;
 use App\Models\Forum\Thread;
+use App\Models\Forum\Activity;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -35,5 +36,8 @@ class User extends Authenticatable
 
     public function replies (){
          return $this->hasMany(Reply::class);
+    }
+    public function activities (){
+         return $this->hasMany(Activity::class);
     }
 }

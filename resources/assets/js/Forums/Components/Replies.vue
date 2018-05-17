@@ -7,6 +7,12 @@
                         <div class="column is-3">
                             <span class="title is-5">{{reply.user}}</span>
                             <p><em class="em">{{reply.created_at}}</em></p>
+                             <delete
+                                :url="'api/delete-reply/'+reply.id"
+                                mutator="replyDeleted"
+                                name="Reply"
+                                :redirectedPath="fullPath">
+                            </delete>
                         </div>
                         <div class="column has-text-black message is-primary">
                                 {{reply.body}}
@@ -40,7 +46,9 @@
 
 <script>
 export default {
-mounted() {    
+mounted() {   
+    //console.log();
+     
 },
 data(){
     return{
@@ -51,6 +59,9 @@ methods:{
 computed:{
     replies(){
         return this.$store.getters.getSingleThreadReplies
+    },
+    fullPath(){
+        return this.$route.fullPath
     }
 }
 

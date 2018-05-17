@@ -5,11 +5,12 @@ namespace App\Models\Forum;
 use App\User;
 use App\Helpers\Likeable;
 use App\Models\Forum\Thread;
+use App\Helpers\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Reply extends Model
 {
-    use Likeable;
+    use Likeable, RecordsActivity;
     protected $fillable = ['body', 'user_id', 'thread_id'];
     public function user (){
         return $this->belongsTo(User::class);

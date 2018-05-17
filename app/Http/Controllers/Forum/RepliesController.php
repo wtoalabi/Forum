@@ -94,6 +94,13 @@ class RepliesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $reply = Reply::find($id);
+        if($reply->user_id == auth()->id()){
+            $reply->delete();
+            return response(["message" =>"Done", "replyID"=> $reply->id], 200);
+        }
+        return response(["message"=>"Not Authorized!"]);
+        //return response(["message" =>"Done", "threadID"=> $thread->id;], 200);
     }
+    
 }

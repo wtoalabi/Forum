@@ -9,4 +9,5 @@ Vue.component('pagination', require('./Forums/Components/Pagination'));
 Vue.component('like', require('./Forums/Components/LikeComponent'));
 Vue.component('delete', require('./Forums/Components/DeleteComponent'));
 Vue.component('announcement', require('./Forums/Components/Announcement'));
+Vue.component('activities', require('./Forums/Components/Activities'));
 Vue.component('spinner', require('vue-simple-spinner'));

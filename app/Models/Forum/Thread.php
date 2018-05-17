@@ -6,12 +6,17 @@ use App\User;
 use App\Helpers\Likeable;
 use App\Models\Forum\Reply;
 use App\Models\Forum\Category;
+use App\Helpers\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 
 {
-    use Likeable;
+    use Likeable, RecordsActivity;
+    protected static function boot(){
+        parent::boot();    
+        
+    }
     protected $fillable = ['user_id', 'title', 'body', 'slug', 'category_id'];
     protected $with = ['user','category'];
     protected $withCount = ['replies'];
@@ -36,8 +41,6 @@ class Thread extends Model
     public function scopeSortBy ($query, $sort){
          return $sort->by($query);
     }
-
     
- 
 
 }

@@ -31530,6 +31530,7 @@ Vue.component('pagination', __webpack_require__(135));
 Vue.component('like', __webpack_require__(346));
 Vue.component('delete', __webpack_require__(357));
 Vue.component('announcement', __webpack_require__(360));
+Vue.component('activities', __webpack_require__(363));
 Vue.component('spinner', __webpack_require__(342));
 
 /***/ }),
@@ -32459,9 +32460,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {},
+    mounted: function mounted() {
+        //console.log();
+
+    },
     data: function data() {
         return {};
     },
@@ -32470,6 +32480,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         replies: function replies() {
             return this.$store.getters.getSingleThreadReplies;
+        },
+        fullPath: function fullPath() {
+            return this.$route.fullPath;
         }
     }
 
@@ -32496,17 +32509,31 @@ var render = function() {
             [
               _c("div", { staticClass: "column is-9 mt-1" }, [
                 _c("div", { staticClass: "columns notification is-primary" }, [
-                  _c("div", { staticClass: "column is-3" }, [
-                    _c("span", { staticClass: "title is-5" }, [
-                      _vm._v(_vm._s(reply.user))
-                    ]),
-                    _vm._v(" "),
-                    _c("p", [
-                      _c("em", { staticClass: "em" }, [
-                        _vm._v(_vm._s(reply.created_at))
-                      ])
-                    ])
-                  ]),
+                  _c(
+                    "div",
+                    { staticClass: "column is-3" },
+                    [
+                      _c("span", { staticClass: "title is-5" }, [
+                        _vm._v(_vm._s(reply.user))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _c("em", { staticClass: "em" }, [
+                          _vm._v(_vm._s(reply.created_at))
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("delete", {
+                        attrs: {
+                          url: "api/delete-reply/" + reply.id,
+                          mutator: "replyDeleted",
+                          name: "Reply",
+                          redirectedPath: _vm.fullPath
+                        }
+                      })
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c(
                     "div",
@@ -36615,8 +36642,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     loadPreviousRepliesFromPagination: function loadPreviousRepliesFromPagination(state, payload) {
         var count = payload.data.length;
         state.singleThreadReplies.data.splice(-count, count);
-
-        // state.singleThreadReplies.data.push(...payload.data)
+    },
+    replyDeleted: function replyDeleted(state, payload) {
+        state.singleThreadReplies.data = _.reject(state.singleThreadReplies.data, function (reply) {
+            return reply.id === payload.replyID;
+        });
     }
 });
 
@@ -40451,7 +40481,7 @@ exports = module.exports = __webpack_require__(102)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -40546,7 +40576,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
                         case 0:
                             __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].state.pageIsLoading = true;
                             _context.next = 3;
-                            return __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].dispatch("getUserProfile", to.params.username);
+                            return __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].dispatch("getUserDetails", to.params.username);
 
                         case 3:
                             __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].state.pageIsLoading = false;
@@ -40572,8 +40602,15 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
     },
 
     computed: {
-        user: function user() {
+        profile: function profile() {
             return this.$store.state.userProfile;
+        },
+        user: function user() {
+            if (this.$store.state.loggedInUserID == this.$store.state.userProfile.user_id) {
+                return "You";
+            } else {
+                return this.$store.state.userProfile.name;
+            }
         }
     }
 
@@ -40589,47 +40626,43 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "columns is-centered" }, [
-      _c("div", { staticClass: "column is-5" }, [
+      _c("div", { staticClass: "column is-4" }, [
         _c("div", { staticClass: "box" }, [
           _c("h1", { staticClass: "title is-4" }, [_vm._v(" User Details")]),
           _vm._v(" "),
           _c("p", [
             _vm._v("Name: "),
             _c("span", { staticClass: "title is-6" }, [
-              _vm._v(_vm._s(_vm.user.name))
+              _vm._v(_vm._s(_vm.profile.name))
             ])
           ]),
           _vm._v(" "),
           _c("p", [
             _vm._v("Username: "),
             _c("span", { staticClass: "title is-6" }, [
-              _vm._v(_vm._s(_vm.user.username))
+              _vm._v(_vm._s(_vm.profile.username))
             ])
           ]),
           _vm._v(" "),
           _c("p", [
             _vm._v("Email: "),
             _c("span", { staticClass: "title is-6" }, [
-              _vm._v(_vm._s(_vm.user.email))
+              _vm._v(_vm._s(_vm.profile.email))
             ])
           ])
         ])
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c(
+        "div",
+        { staticClass: "column is-7" },
+        [_c("activities", { attrs: { user: _vm.user } })],
+        1
+      )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "column is-5" }, [
-      _c("div", { staticClass: "box" }, [_vm._v("User Forum Activities")])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -40645,10 +40678,13 @@ if (false) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-    getUserProfile: function getUserProfile(state, username) {
+    getUserDetails: function getUserDetails(state, username) {
         return axios.get('api/profile/' + username).then(function (user) {
+            //console.log(user.data)
             state.commit("addUserProfile", user.data.data);
-        });
+        }).then(axios.get('api/activities/' + username).then(function (user) {
+            state.commit("addUserActivities", user.data);
+        }));
     }
 });
 
@@ -40658,7 +40694,8 @@ if (false) {
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-    userProfile: ''
+    userProfile: '',
+    userActivities: ''
 });
 
 /***/ }),
@@ -40669,6 +40706,9 @@ if (false) {
 /* harmony default export */ __webpack_exports__["a"] = ({
     addUserProfile: function addUserProfile(state, payload) {
         return state.userProfile = payload;
+    },
+    addUserActivities: function addUserActivities(state, payload) {
+        return state.userActivities = payload;
     }
 });
 
@@ -40797,7 +40837,7 @@ var render = function() {
             expression: "'#top'"
           }
         ],
-        staticClass: "button is-primary mt--1",
+        staticClass: "button is-danger mt--1",
         on: { click: _vm.deleteClicked }
       },
       [_vm._v("Delete")]
@@ -40922,6 +40962,182 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-44d5ae7c", module.exports)
+  }
+}
+
+/***/ }),
+/* 363 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(364)
+/* template */
+var __vue_template__ = __webpack_require__(365)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Components\\Activities.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ae6fddb0", Component.options)
+  } else {
+    hotAPI.reload("data-v-ae6fddb0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 364 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['user'],
+    mounted: function mounted() {},
+
+    methods: {
+        title: function title(_title) {
+            return _title;
+        },
+        checkSlug: function checkSlug(activity) {
+            console.log(activity);
+
+            switch (activity.activity_type) {
+                case "created_thread":
+                    return "forums#/threads/" + activity.activity_subject.category.slug + "/" + activity.activity_subject.slug;
+            }
+        }
+    },
+    computed: {
+        activities: function activities() {
+            return this.$store.state.userActivities.data;
+        }
+    },
+    filters: {
+        event: function event(activity) {
+            switch (activity) {
+                case 'deleted_thread':
+                    return "deleted thread";
+                case 'created_thread':
+                    return "created a thread";
+                case 'created_reply':
+                    return "created a reply";
+                case 'deleted_reply':
+                    return "deleted a reply";
+                default:
+                    return '';
+            }
+        }
+    }
+
+});
+
+/***/ }),
+/* 365 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "box" },
+      [
+        _vm._v("User Forum Activities\r\n            "),
+        _vm._l(_vm.activities, function(activity) {
+          return _c("div", { key: activity.id }, [
+            _c("ul", [
+              _c("li", [
+                _vm._v(
+                  "\r\n                        " +
+                    _vm._s(_vm.user) +
+                    " " +
+                    _vm._s(_vm._f("event")(activity.activity_type)) +
+                    " \r\n                        "
+                ),
+                activity.activity_subject_title && activity.activity_subject
+                  ? _c("a", { attrs: { href: _vm.checkSlug(activity) } }, [
+                      _vm._v(" " + _vm._s(activity.activity_subject_title))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                activity.activity_subject_title &&
+                activity.activity_subject == null
+                  ? _c("span", [
+                      _vm._v(
+                        "(" + _vm._s(activity.activity_subject_title) + ")"
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(
+                  "\r\n                        about " +
+                    _vm._s(activity.activity_created_at) +
+                    "\r\n                    "
+                )
+              ])
+            ])
+          ])
+        })
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ae6fddb0", module.exports)
   }
 }
 
