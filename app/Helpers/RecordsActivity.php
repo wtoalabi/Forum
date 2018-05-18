@@ -34,4 +34,4 @@ Trait RecordsActivity{
         return "{$event}_{$type}";
     }
 
-    }
+}

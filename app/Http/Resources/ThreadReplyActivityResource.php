@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserProfileResource extends JsonResource
+class ThreadReplyActivityResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,12 +14,10 @@ class UserProfileResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [            
-                "id" => $this->id,
-                "name" => $this->name,
-                "username" => $this->username,
-                "email" => $this->email,
-                "type" => $this->type
+        return[
+            'title' => $this->title,
+            'slug' => $this->slug,
+            'created_at' => $this->created_at->diffForHumans(),
         ];
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Forum\Thread;
+use App\Http\Resources\UserProfileResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class UserActivitiesCollection extends ResourceCollection
@@ -16,13 +18,15 @@ class UserActivitiesCollection extends ResourceCollection
     {
         return $this->collection->transform(function($activity){
             return [
-                'user_id' => $activity->id,
-                'activity_subject_id' =>$activity->subject_id,
-                'activity_subject_id' =>$activity->subject_id,
-                'activity_subject_title' => $activity->subject_title,
-                'activity_type' =>$activity->type,
-                'activity_created_at'=> $activity->created_at->diffForHumans(),
-                'activity_subject'=> $activity->subject
+                'type' =>$activity->type,
+                'subject_title'=>$activity->subject_title,
+                'created_at'=> $activity->created_at->diffForHumans(),
+                'user'=> new UserProfileResource($activity->user),
+                'subject' => $activity->subject,
+                'object' => $activity->object,
+                //'thread' => new ThreadReplyActivityResource(Thread::find($activity->object_id))
+                    //'slug' => optional($activity->subject)->slug,
+                    //'thread'=> optional($activity->thread)
             ];
         });
     }

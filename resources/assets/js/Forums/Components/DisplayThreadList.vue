@@ -19,13 +19,12 @@
                                 removeCountMutator = "removeLikeCountOfAThread">
                             </like>
                         </div>
-                        <div v-if="owner == thread.user.user_id" class="column is-offset-4">
+                        <div v-if="owner == thread.user.id" class="column is-offset-4">
                             <delete
-                            :url="'api/delete-thread/'+thread.id"
-                            mutator="threadDeleted"
-                            name="Thread"
-                            redirectedPath="/threads">
-
+                                :url="'api/delete-thread/'+thread.id"
+                                mutator="threadDeleted"
+                                name="Thread"
+                                redirectedPath="/threads">
                             </delete>
                         </div>
                     </div>
@@ -42,10 +41,7 @@
  
 export default {
 props:['threads'],
-mounted() {
-    console.log(this.owner);
-    
-
+mounted() {    
 },
 methods:{
     

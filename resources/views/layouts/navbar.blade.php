@@ -61,7 +61,7 @@
                                     <img class="mr-1 is-circle nav-image" src="{{asset('storage/default.jpg')}}" alt="Image"> {{Auth::user()->name}}
                                 </a>
                                 <div class="navbar-dropdown ">
-                                    <a class="navbar-item " href="">
+                                <a class="navbar-item " href="forums#/profile/{{auth()->user()->username}}">
                                         <p>
                                             <strong class="is-circle">My Profile</strong>
                                         </p>

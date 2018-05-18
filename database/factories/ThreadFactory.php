@@ -12,11 +12,12 @@ $factory->define(Category::class, function(Faker $faker){
 });
 
 $factory->define(Thread::class, function (Faker $faker) {
+    //dd($faker->sentence(2));
     return [
         'user_id' => function(){
             return factory(App\User::class)->create()->id;
         },
-        'title' => ($slug= $faker->sentence),
+        'title' => ($slug= $faker->sentence(2)),
         'body' => $faker->paragraph(3),
         'category_id' => function(){
             return factory(Category::class)->create()->id;

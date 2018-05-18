@@ -11,6 +11,8 @@ export default {
 props: ['url', 'mutator','name','redirectedPath'],
 
 mounted() {
+    console.log(this);
+    
 
 },
 
