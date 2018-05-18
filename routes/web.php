@@ -29,6 +29,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('single-thread-replies/{thread}', "Forum\RepliesController@index");
     Route::post('create-new-thread', "Forum\ThreadsController@store" )->middleware('auth');
     Route::post('create-new-reply/{id}', "Forum\RepliesController@store" )->middleware('auth');
+    Route::patch('edit-reply/{id}', "Forum\RepliesController@update" )->middleware('auth');
     Route::get('categories', 'Forum\CategoriesController@index');
     Route::get('category-threads/{category}', 'Forum\SingleCategoryThreadsController@index');
     Route::get('user-threads/{username}', 'Forum\UserThreadsController@index');

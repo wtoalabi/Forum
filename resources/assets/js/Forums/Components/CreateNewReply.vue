@@ -26,7 +26,12 @@
             submitReply() {
                 const id = this.$store.getters.getSingleThread.id;
                 return this.form.post("api/create-new-reply/"+id).then(response => {
-                    this.$store.commit("commitReply", response.data)
+                    if(response.status == 200){
+                        this.$store.commit("commitReply", response.reply)
+                        this.$store.state.announcement =   {color: 'is-success',message:"Reply Added!"}  
+                    }
+                    
+
                 })
             }
 

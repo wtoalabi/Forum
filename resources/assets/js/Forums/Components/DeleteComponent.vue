@@ -5,11 +5,11 @@
 </template>
 
 <script>
- 
+import authorization from '../Mixins/Authorization' 
 export default {
 
 props: ['id','url', 'mutator','name','redirectedPath'],
-
+mixins:[authorization],
 mounted() {    
 
 },
@@ -32,22 +32,16 @@ methods:{
     deletedMessage(){
         this.$store.state.announcement.message = "This " + this.name + " has been deleted!"
         this.$router.push({'path': this.redirectedPath})
-        return setTimeout(()=>{
-            this.$store.state.announcement.message = ''
-        }, 4000)
     },
     errorMessage(message){
         this.$store.state.announcement.message = message
         this.$router.push({'path': this.redirectedPath})
-        return setTimeout(()=>{
-            this.$store.state.announcement.message = ''
-        }, 4000)
     }
 },
 computed:{
-    authorized(){
+    /* authorized(){
         return this.id == this.$store.state.loggedInUserID
-    }
+    } */
 }
 
 }

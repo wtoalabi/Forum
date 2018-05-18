@@ -49,7 +49,8 @@ class RepliesController extends Controller
         $valid['thread_id'] = $id;
         //dd($valid);
         $reply = Reply::create($valid);
-        return new SingleReplyResource($reply);
+        //return new SingleReplyResource($reply);
+        return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
     }
 
     /**
@@ -81,9 +82,18 @@ class RepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        //
+        $reply = Reply::find($id);
+
+        if($reply->user_id == auth()->id()){
+            $reply->body = $request['body'];
+            $reply->save();
+            return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
+        }
+        else{
+            return "Not Authorized!";
+        }
     }
 
     /**

@@ -16,6 +16,13 @@ export default {
         state.singleThreadReplies.data = _.reject(state.singleThreadReplies.data, function(reply){
             return reply.id === payload.replyID
         })
-        
+    },
+    editedReply(state, payload){
+        //console.log("mutate",payload)
+        return state.singleThreadReplies.data.map(reply=>{
+            if(reply.id == payload.id){
+                return reply.body = payload.body
+            }
+        })
     }
 }

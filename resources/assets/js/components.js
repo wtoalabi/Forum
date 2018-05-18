@@ -1,3 +1,4 @@
+Vue.component('spinner', require('vue-simple-spinner'));
 Vue.component('dashboard', require('./Pages/Dashboard.vue'));
 Vue.component('forum-home', require('./Forums/HomeLinks.vue'));
 Vue.component('mast', require('./Forums/Components/ForumMast'));
@@ -10,4 +11,5 @@ Vue.component('like', require('./Forums/Components/LikeComponent'));
 Vue.component('delete', require('./Forums/Components/DeleteComponent'));
 Vue.component('announcement', require('./Forums/Components/Announcement'));
 Vue.component('activities', require('./Forums/Components/Activities'));
-Vue.component('spinner', require('vue-simple-spinner'));
+Vue.component('edit', require('./Forums/Components/Edits/EditButton'));
+Vue.component('editreply', require('./Forums/Components/Edits/EditReply'));

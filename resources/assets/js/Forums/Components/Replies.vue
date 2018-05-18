@@ -14,6 +14,12 @@
                                 name="Reply"
                                 :redirectedPath="fullPath">
                             </delete>
+                            <edit class="mt-2"
+                                :id="reply.user_id"
+                                :content="reply"
+                                editComponent="editreply">
+
+                            </edit>
                         </div>
                         <div class="column has-text-black message is-primary">
                                 {{reply.body}}

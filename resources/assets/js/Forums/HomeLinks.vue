@@ -11,11 +11,7 @@
             </div>
             <div v-else class="column">                    
                     <mast />
-                    <div class="columns is-centered">
-                        <div id="top" class="column is-11">
-                            <announcement></announcement>
-                        </div>
-                    </div>
+                <announcement></announcement>
                 <spinner v-if="pageIsLoading" size="massive" message="Loading..."></spinner>
                 <div v-else>
                 <transition><router-view></router-view></transition>
