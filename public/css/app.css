@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+.alert {
+  position: fixed;
+  right: 25px;
+  bottom: 25px;
+}
+
 .notification a:not(.button) {
   text-decoration: none !important;
 }

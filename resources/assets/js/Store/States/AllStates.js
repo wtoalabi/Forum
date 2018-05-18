@@ -14,5 +14,5 @@ export default {
     ...LoggedInUser,
     ...Breadcrumbs,
     pageIsLoading: false,
-    announcement: {message: ''}
+    announcement: {message: '',color:'is-warning'}
 }

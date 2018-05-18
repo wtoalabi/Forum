@@ -18,6 +18,7 @@ class SingleReplyResource extends JsonResource
             "id" => $this->id,
             "body"=> $this->body,
             "user"=> $this->user->name,
+            "user_id" => $this->user->id,
             "created_at" => $this['created_at']->diffForHumans(),
             "likes" =>[
                 "like_count" => $this->likeCount(),

@@ -1,7 +1,7 @@
 <template>
 <div>
-    <div v-if="announcement.message" class="">
-        <article class="message is-warning">
+    <div v-if="announcement.message" class="alert">
+        <article class="message" :class="color">
             <div class="message-header">
                 <p>{{message}}</p>
             </div>
@@ -13,7 +13,6 @@
 <script>
  
 export default {
-
 mounted() {
 
 },
@@ -25,6 +24,10 @@ computed:{
     },
     message(){
         return this.$store.state.announcement.message
+        },
+        color(){
+        return this.$store.state.announcement.color
+
         }
     }
 }

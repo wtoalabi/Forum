@@ -7,7 +7,8 @@
                         <div class="column is-3">
                             <span class="title is-5">{{reply.user}}</span>
                             <p><em class="em">{{reply.created_at}}</em></p>
-                             <delete
+                            <delete
+                                :id="reply.user_id"
                                 :url="'api/delete-reply/'+reply.id"
                                 mutator="replyDeleted"
                                 name="Reply"

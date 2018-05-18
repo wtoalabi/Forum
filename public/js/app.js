@@ -32936,7 +32936,7 @@ exports = module.exports = __webpack_require__(61)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -33336,6 +33336,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {
@@ -33395,6 +33396,7 @@ var render = function() {
                       _vm._v(" "),
                       _c("delete", {
                         attrs: {
+                          id: reply.user_id,
                           url: "api/delete-reply/" + reply.id,
                           mutator: "replyDeleted",
                           name: "Reply",
@@ -34182,6 +34184,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -34265,23 +34268,22 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _vm.owner == thread.user.id
-                  ? _c(
-                      "div",
-                      { staticClass: "column is-offset-4" },
-                      [
-                        _c("delete", {
-                          attrs: {
-                            url: "api/delete-thread/" + thread.id,
-                            mutator: "threadDeleted",
-                            name: "Thread",
-                            redirectedPath: "/threads"
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  : _vm._e()
+                _c(
+                  "div",
+                  { staticClass: "column is-offset-4" },
+                  [
+                    _c("delete", {
+                      attrs: {
+                        id: thread.user.id,
+                        url: "api/delete-thread/" + thread.id,
+                        mutator: "threadDeleted",
+                        name: "Thread",
+                        redirectedPath: "/threads"
+                      }
+                    })
+                  ],
+                  1
+                )
               ])
             ])
           ]),
@@ -34728,11 +34730,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['url', 'mutator', 'name', 'redirectedPath'],
+    props: ['id', 'url', 'mutator', 'name', 'redirectedPath'],
 
-    mounted: function mounted() {
-        console.log(this);
-    },
+    mounted: function mounted() {},
 
 
     methods: {
@@ -34768,6 +34768,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this3.$store.state.announcement.message = '';
             }, 4000);
         }
+    },
+    computed: {
+        authorized: function authorized() {
+            return this.id == this.$store.state.loggedInUserID;
+        }
     }
 
 });
@@ -34780,24 +34785,26 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "span",
-      {
-        directives: [
+  return _vm.authorized
+    ? _c("div", [
+        _c(
+          "span",
           {
-            name: "scroll-to",
-            rawName: "v-scroll-to",
-            value: "#top",
-            expression: "'#top'"
-          }
-        ],
-        staticClass: "button is-danger mt--1",
-        on: { click: _vm.deleteClicked }
-      },
-      [_vm._v("Delete")]
-    )
-  ])
+            directives: [
+              {
+                name: "scroll-to",
+                rawName: "v-scroll-to",
+                value: "#top",
+                expression: "'#top'"
+              }
+            ],
+            staticClass: "button is-danger mt--1",
+            on: { click: _vm.deleteClicked }
+          },
+          [_vm._v("Delete")]
+        )
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -34886,6 +34893,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         message: function message() {
             return this.$store.state.announcement.message;
+        },
+        color: function color() {
+            return this.$store.state.announcement.color;
         }
     }
 });
@@ -34900,8 +34910,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _vm.announcement.message
-      ? _c("div", {}, [
-          _c("article", { staticClass: "message is-warning" }, [
+      ? _c("div", { staticClass: "alert" }, [
+          _c("article", { staticClass: "message", class: _vm.color }, [
             _c("div", { staticClass: "message-header" }, [
               _c("p", [_vm._v(_vm._s(_vm.message))])
             ])
@@ -39342,7 +39352,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 /* harmony default export */ __webpack_exports__["a"] = (_extends({}, __WEBPACK_IMPORTED_MODULE_5__UserProfile__["a" /* default */], __WEBPACK_IMPORTED_MODULE_0__ThreadsState__["a" /* default */], __WEBPACK_IMPORTED_MODULE_4__Categories__["a" /* default */], __WEBPACK_IMPORTED_MODULE_1__Notifications__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__LoggedInUser__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__Breadcrumbs__["a" /* default */], {
     pageIsLoading: false,
-    announcement: { message: '' }
+    announcement: { message: '', color: 'is-warning' }
 }));
 
 /***/ }),
@@ -39826,6 +39836,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+//
 //
 //
 //
@@ -40705,23 +40716,22 @@ var render = function() {
           _c("div", { staticClass: "content is-large" }, [
             _c("h1", [_vm._v(_vm._s(_vm.thread.title))]),
             _vm._v(" "),
-            _vm.owner != _vm.thread.owner.id
-              ? _c(
-                  "div",
-                  { staticClass: "column is-offset-4" },
-                  [
-                    _c("delete", {
-                      attrs: {
-                        url: "api/delete-thread/" + _vm.thread.id,
-                        mutator: "threadDeleted",
-                        name: "Thread",
-                        redirectedPath: "/threads"
-                      }
-                    })
-                  ],
-                  1
-                )
-              : _vm._e(),
+            _c(
+              "div",
+              { staticClass: "column is-offset-4" },
+              [
+                _c("delete", {
+                  attrs: {
+                    id: _vm.thread.owner.id,
+                    url: "api/delete-thread/" + _vm.thread.id,
+                    mutator: "threadDeleted",
+                    name: "Thread",
+                    redirectedPath: "/threads"
+                  }
+                })
+              ],
+              1
+            ),
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),

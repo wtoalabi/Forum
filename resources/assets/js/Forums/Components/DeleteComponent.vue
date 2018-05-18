@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="authorized">
     <span v-scroll-to="'#top'" @click="deleteClicked" class="button is-danger mt--1">Delete</span>
 </div>
 </template>
@@ -8,11 +8,9 @@
  
 export default {
 
-props: ['url', 'mutator','name','redirectedPath'],
+props: ['id','url', 'mutator','name','redirectedPath'],
 
-mounted() {
-    console.log(this);
-    
+mounted() {    
 
 },
 
@@ -46,6 +44,11 @@ methods:{
         }, 4000)
     }
 },
+computed:{
+    authorized(){
+        return this.id == this.$store.state.loggedInUserID
+    }
+}
 
 }
  

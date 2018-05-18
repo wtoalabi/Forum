@@ -19,8 +19,9 @@
                                 removeCountMutator = "removeLikeCountOfAThread">
                             </like>
                         </div>
-                        <div v-if="owner == thread.user.id" class="column is-offset-4">
+                        <div class="column is-offset-4">
                             <delete
+                                :id="thread.user.id"
                                 :url="'api/delete-thread/'+thread.id"
                                 mutator="threadDeleted"
                                 name="Thread"
