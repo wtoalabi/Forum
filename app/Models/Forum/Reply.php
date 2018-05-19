@@ -16,28 +16,31 @@ class Reply extends Model
         parent::boot();
         static::created(function($reply){
             Activity::create([
-                'user_id'=> auth()->id(),
+                'user_id'=> $reply->user->id,
                 'subject_id'=> $reply->id,
                 'subject_type' => get_class($reply),
                 'object_id' => $reply->thread->id,
                 'object_type' => get_class($reply->thread),
                 'type'=> "created_reply"
             ]);
+            $reply->thread->increment('replies_count');
         });
         
         static::deleting(function($reply){
             Activity::create([
-                'user_id'=> auth()->id(),
+                'user_id'=> $reply->user->id,
                 'subject_id'=> $reply->id,
                 'subject_type' => get_class($reply),
                 'object_id' => $reply->thread->id,
                 'object_type' => get_class($reply->thread),
                 'type'=> "deleted_reply"
                 ]);
+            $reply->thread->decrement('replies_count');
         });
           
     }
     protected $fillable = ['body', 'user_id', 'thread_id'];
+    
     public function user (){
         return $this->belongsTo(User::class);
    }

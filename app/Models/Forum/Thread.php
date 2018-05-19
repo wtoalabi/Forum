@@ -17,9 +17,8 @@ class Thread extends Model
         parent::boot();    
         
     }
-    protected $fillable = ['user_id', 'title', 'body', 'slug', 'category_id'];
+    protected $fillable = ['user_id', 'title', 'body', 'slug', 'replies_count','category_id'];
     protected $with = ['user','category'];
-    protected $withCount = ['replies'];
     
     public function user (){
          return $this->belongsTo(User::class);
@@ -35,7 +34,7 @@ class Thread extends Model
          return $this->belongsTo(Category::class);
     }
 
-    public function scopeFilter ($query, $filters){
+    public function scopeFilters ($query, $filters){
         return $filters->apply($query);
     }
 

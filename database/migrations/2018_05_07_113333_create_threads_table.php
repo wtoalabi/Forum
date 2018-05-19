@@ -20,6 +20,7 @@ class CreateThreadsTable extends Migration
             $table->string('title');
             $table->integer('category_id')->unsigned();
             $table->string('slug')->unique();
+            $table->integer('replies_count')->default(0);
             $table->text('body');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

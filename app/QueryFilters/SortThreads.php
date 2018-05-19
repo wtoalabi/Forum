@@ -1,9 +1,9 @@
 <?php
-namespace App\SearchQueries;
+namespace App\QueryFilters;
 use Illuminate\Http\Request;
-use App\SearchQueries\Filters;
+use App\QueryFilters\Filter;
 
-class SortThreads{
+class SortThreads extends Filter{
 
     protected $request;
     public function __construct (Request $request){

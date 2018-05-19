@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Forum;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\QueryFilters\ThreadsFilters;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\ThreadsCollection;
 use App\Http\Resources\SingleThreadResource;
@@ -17,10 +18,12 @@ class ThreadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ThreadsFilters $filters)
     {
-        $threads = Thread::latest()->paginate(10);
-        //dd($threads);
+        $threads = Thread::filters($filters)
+                            ->latest()
+                            ->paginate(10)
+                            ->appends(request()->query());
         return new ThreadsCollection($threads);
     }
 

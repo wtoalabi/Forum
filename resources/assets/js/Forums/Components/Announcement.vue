@@ -19,9 +19,9 @@ methods:{
     message(){
         setTimeout(()=>{
             return this.$store.state.announcement.message=''
-            },3000)
-        return this.$store.state.announcement.message
-        },
+                },3000)
+            return this.$store.state.announcement.message
+        }, 
 },
 computed:{
     color(){

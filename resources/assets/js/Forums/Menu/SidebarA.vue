@@ -32,7 +32,7 @@
                     <ul>
                         <!-- <li v-for="category in categories" :key="category.id"><a :href="'#/' + category.slug">{{category.name}} ({{category.threads_count}})</a></li> -->
                         <li v-for="category in categories" :key="category.id">
-                            <router-link :to="'/'+ category.slug">{{category.name}}</router-link>
+                            <router-link :to="'/threads/query?filterCategory='+ category.slug">{{category.name}}</router-link>
                         </li>
                     </ul>
                 </li>
@@ -72,7 +72,7 @@
             clicked(){
                 if(_.isEmpty(this.$store.state.threads)){
                 this.$store.state.pageIsLoading = true
-                return axios.get('api/all-threads/').then(response => {
+                return axios.get('api/threads/').then(response => {
                 this.$store.commit("commitThreads", response.data)
                 this.$store.state.pageIsLoading = false
                 })

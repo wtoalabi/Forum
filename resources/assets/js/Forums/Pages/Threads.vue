@@ -24,6 +24,14 @@ export default {
       isLoading: false,
     };
   },
+  watch:{
+      async '$route'(to, from){
+          this.$store.state.pageIsLoading = true
+          await this.$store.dispatch("getThreads", to.fullPath)
+          this.$store.state.pageIsLoading = false
+          
+      }
+  },
 
   computed:{
       threads(){

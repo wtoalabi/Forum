@@ -58,7 +58,6 @@
             ...mapActions(["storeLoggedInUser", "storeAllThreads"]),
             setState() {
                 this.storeLoggedInUser(this.loggedinuser);
-                this.storeAllThreads();
             }
         }
     };

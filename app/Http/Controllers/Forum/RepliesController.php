@@ -87,8 +87,8 @@ class RepliesController extends Controller
         $reply = Reply::find($id);
 
         if($reply->user_id == auth()->id()){
-            $reply->body = $request['body'];
-            $reply->save();
+            $reply->update(['body'=>$request['body']]);
+            //$reply->save();
             return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
         }
         else{
