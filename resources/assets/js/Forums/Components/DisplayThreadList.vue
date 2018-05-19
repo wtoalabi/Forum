@@ -1,6 +1,7 @@
 <template>
-<div>
-    <div class="column is-12" v-for="thread in threads" :key="thread.id">
+<div class="column is-12">
+    <h2 class="title is-3">{{pageName}}</h2>
+    <div class="" v-for="thread in threads" :key="thread.id">
         <div class="box content is-small">
             <div class="columns">
                 <div class="column">
@@ -31,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <small>Posted in  {{thread.category.name}} || {{thread.created_at}} ||Replies:{{thread.replies_count}} || <router-link :to="'/profile/' + thread.user.username"><span>{{thread.user.name}}</span></router-link></small>
+            <small>Posted in  <router-link :to="'/threads/query?filterCategory='+ thread.category.slug">{{thread.category.name}}</router-link> || {{thread.created_at}} ||Replies:{{thread.replies_count}} || <router-link :to="'/profile/' + thread.user.username"><span>{{thread.user.name}}</span></router-link></small>
             <h2>{{thread.body | readMore}}</h2>
         </div>
     </div>
@@ -42,7 +43,11 @@
  
 export default {
 props:['threads'],
-mounted() {    
+mounted() {  
+//console.log(this.$route.params.filter);
+console.log(this.$route.query);
+
+
 },
 methods:{
     
@@ -60,6 +65,17 @@ filters: {
   computed:{
     owner(){
         return this.$store.state.loggedInUserID
+    },
+    pageName(){
+        if(this.$route.query.filterCategory){
+            return _.first(this.threads).category.name + " threads..."
+        }
+        else if(this.$route.query.sortByPopular){
+            return "Popular Threads"
+        }
+        else if(this.$route.query.sortByUser){
+            return _.first(this.threads).user.name + " threads..."
+        }
     }
   }
 

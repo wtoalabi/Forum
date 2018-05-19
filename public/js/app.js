@@ -32349,6 +32349,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -32379,6 +32383,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         categories: function categories() {
             return this.$store.getters.getCategories;
+        },
+        loggedInUser: function loggedInUser() {
+            return this.$store.state.loggedInUserID;
         }
     }
 });
@@ -32483,7 +32490,7 @@ var render = function() {
               [
                 _c(
                   "router-link",
-                  { attrs: { to: "/threads/sort?by=popular" } },
+                  { attrs: { to: "/threads/query?sortByPopular=1" } },
                   [_vm._v("Popular")]
                 )
               ],
@@ -32492,6 +32499,19 @@ var render = function() {
           ])
         ])
       ]),
+      _vm._v(" "),
+      _c(
+        "p",
+        { staticClass: "menu-list" },
+        [
+          _c(
+            "router-link",
+            { attrs: { to: "/threads/query?sortByUser=" + _vm.loggedInUser } },
+            [_vm._v("My Threads")]
+          )
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("p", { staticClass: "menu-label" }, [
         _vm._v("\n            Tags\n        ")
@@ -34197,27 +34217,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['threads'],
-  mounted: function mounted() {},
+    props: ['threads'],
+    mounted: function mounted() {
+        //console.log(this.$route.params.filter);
+        console.log(this.$route.query);
+    },
 
-  methods: {},
-  filters: {
-    readMore: function readMore(text) {
-      return _.truncate(text, { length: 100 });
-    }
-  },
-  data: function data() {
-    return {};
-  },
+    methods: {},
+    filters: {
+        readMore: function readMore(text) {
+            return _.truncate(text, { length: 100 });
+        }
+    },
+    data: function data() {
+        return {};
+    },
 
-  computed: {
-    owner: function owner() {
-      return this.$store.state.loggedInUserID;
+    computed: {
+        owner: function owner() {
+            return this.$store.state.loggedInUserID;
+        },
+        pageName: function pageName() {
+            if (this.$route.query.filterCategory) {
+                return _.first(this.threads).category.name + " threads...";
+            } else if (this.$route.query.sortByPopular) {
+                return "Popular Threads";
+            } else if (this.$route.query.sortByUser) {
+                return _.first(this.threads).user.name + " threads...";
+            }
+        }
     }
-  }
 
 });
 
@@ -34231,100 +34264,115 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    _vm._l(_vm.threads, function(thread) {
-      return _c("div", { key: thread.id, staticClass: "column is-12" }, [
-        _c("div", { staticClass: "box content is-small" }, [
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column" }, [
-              _c(
-                "h1",
-                {},
-                [
-                  _c(
-                    "router-link",
-                    {
-                      attrs: {
-                        to:
-                          "/threads/" +
-                          thread.category.slug +
-                          "/" +
-                          thread.slug,
-                        exact: ""
-                      }
-                    },
-                    [_c("span", [_vm._v(_vm._s(thread.title))])]
-                  )
-                ],
-                1
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "column is-3" }, [
-              _c("div", { staticClass: "columns" }, [
+    { staticClass: "column is-12" },
+    [
+      _c("h2", { staticClass: "title is-3" }, [_vm._v(_vm._s(_vm.pageName))]),
+      _vm._v(" "),
+      _vm._l(_vm.threads, function(thread) {
+        return _c("div", { key: thread.id }, [
+          _c("div", { staticClass: "box content is-small" }, [
+            _c("div", { staticClass: "columns" }, [
+              _c("div", { staticClass: "column" }, [
                 _c(
-                  "div",
-                  { staticClass: "column is-3" },
+                  "h1",
+                  {},
                   [
-                    _c("like", {
-                      attrs: {
-                        count: thread.likes.like_count,
-                        liked: thread.likes.liked,
-                        threadID: thread.id,
-                        url: "api/like-thread/",
-                        ID: thread.id,
-                        addCountMutator: "commitLikeCountOfAThread",
-                        removeCountMutator: "removeLikeCountOfAThread"
-                      }
-                    })
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "column is-offset-4" },
-                  [
-                    _c("delete", {
-                      attrs: {
-                        id: thread.user.id,
-                        url: "api/delete-thread/" + thread.id,
-                        mutator: "threadDeleted",
-                        name: "Thread",
-                        redirectedPath: "/threads"
-                      }
-                    })
+                    _c(
+                      "router-link",
+                      {
+                        attrs: {
+                          to:
+                            "/threads/" +
+                            thread.category.slug +
+                            "/" +
+                            thread.slug,
+                          exact: ""
+                        }
+                      },
+                      [_c("span", [_vm._v(_vm._s(thread.title))])]
+                    )
                   ],
                   1
                 )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "column is-3" }, [
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column is-3" },
+                    [
+                      _c("like", {
+                        attrs: {
+                          count: thread.likes.like_count,
+                          liked: thread.likes.liked,
+                          threadID: thread.id,
+                          url: "api/like-thread/",
+                          ID: thread.id,
+                          addCountMutator: "commitLikeCountOfAThread",
+                          removeCountMutator: "removeLikeCountOfAThread"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column is-offset-4" },
+                    [
+                      _c("delete", {
+                        attrs: {
+                          id: thread.user.id,
+                          url: "api/delete-thread/" + thread.id,
+                          mutator: "threadDeleted",
+                          name: "Thread",
+                          redirectedPath: "/threads"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ])
               ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "small",
-            [
-              _vm._v(
-                "Posted in  " +
-                  _vm._s(thread.category.name) +
+            ]),
+            _vm._v(" "),
+            _c(
+              "small",
+              [
+                _vm._v("Posted in  "),
+                _c(
+                  "router-link",
+                  {
+                    attrs: {
+                      to:
+                        "/threads/query?filterCategory=" + thread.category.slug
+                    }
+                  },
+                  [_vm._v(_vm._s(thread.category.name))]
+                ),
+                _vm._v(
                   " || " +
-                  _vm._s(thread.created_at) +
-                  " ||Replies:" +
-                  _vm._s(thread.replies_count) +
-                  " || "
-              ),
-              _c(
-                "router-link",
-                { attrs: { to: "/profile/" + thread.user.username } },
-                [_c("span", [_vm._v(_vm._s(thread.user.name))])]
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("h2", [_vm._v(_vm._s(_vm._f("readMore")(thread.body)))])
+                    _vm._s(thread.created_at) +
+                    " ||Replies:" +
+                    _vm._s(thread.replies_count) +
+                    " || "
+                ),
+                _c(
+                  "router-link",
+                  { attrs: { to: "/profile/" + thread.user.username } },
+                  [_c("span", [_vm._v(_vm._s(thread.user.name))])]
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("h2", [_vm._v(_vm._s(_vm._f("readMore")(thread.body)))])
+          ])
         ])
-      ])
-    })
+      })
+    ],
+    2
   )
 }
 var staticRenderFns = []
@@ -34403,7 +34451,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['mainData', 'nextPageCommitMessage', 'previousPageCommitMessage', 'paginationText'],
     created: function created() {
-        console.log("metaface", this.mainData);
         this.setButtons(this.mainData.meta);
         this.setPagination(this.mainData.links);
     },

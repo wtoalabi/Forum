@@ -45,11 +45,15 @@
                     <ul>
                         <!-- <li v-for="category in categories" :key="category.id"><a :href="'#/' + category.slug">{{category.name}} ({{category.threads_count}})</a></li> -->
                         <li>
-                            <router-link to="/threads/sort?by=popular">Popular</router-link>
+                            <router-link to="/threads/query?sortByPopular=1">Popular</router-link>
                         </li>
                     </ul>
                 </li>
             </ul>
+            <p class="menu-list">
+                
+                     <router-link class="" :to="'/threads/query?sortByUser=' + loggedInUser">My Threads</router-link>
+            </p>
             <p class="menu-label">
                 Tags
             </p>
@@ -85,6 +89,9 @@
             },
             categories() {
                 return this.$store.getters.getCategories
+            },
+            loggedInUser(){
+                return this.$store.state.loggedInUserID
             }
         }
     }

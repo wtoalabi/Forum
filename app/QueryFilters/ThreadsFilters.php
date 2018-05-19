@@ -9,9 +9,9 @@ use App\Models\Forum\Category;
 
 class ThreadsFilters extends Filter{
 
-    protected $filters = ['filterPopular','sortByUser','filterUnanswered','filterCategory'];
+    protected $filters = ['sortByPopular','sortByUser','filterUnanswered','filterCategory'];
 
-    public function filterPopular (){
+    public function sortByPopular (){
         return $this->builder->withCount('replies')
             ->orderBy('replies_count', 'desc')->get();
     }

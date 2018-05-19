@@ -11,7 +11,6 @@
     export default {
         props: ['mainData','nextPageCommitMessage','previousPageCommitMessage','paginationText'],
        created() {
-            console.log("metaface",this.mainData);
             this.setButtons(this.mainData.meta)
             this.setPagination(this.mainData.links)
         },
