@@ -25,6 +25,7 @@
             </div>
             <hr/>
             <p>{{thread.body}}</p>
+            <subscription></subscription>
             </div>
         </div>
         <hr/>

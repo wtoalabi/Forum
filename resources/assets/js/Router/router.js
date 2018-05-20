@@ -33,6 +33,11 @@ let router = new VueRouter({
             }
         },
         {
+            path: "/threads/:category/:slug",
+            name: "SingleThread",
+            component: SingleThread
+        },
+        {
             path: "/notifications",
             name: "Notifications",
             component: Notifications

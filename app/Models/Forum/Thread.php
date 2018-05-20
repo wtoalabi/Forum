@@ -8,6 +8,7 @@ use App\Models\Forum\Reply;
 use App\Models\Forum\Category;
 use App\Helpers\RecordsActivity;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Forum\ThreadSubscription;
 
 class Thread extends Model
 
@@ -40,6 +41,26 @@ class Thread extends Model
 
     public function scopeSortBy ($query, $sort){
          return $sort->by($query);
+    }
+
+    public function subscribe ($userID= null){
+         $this->subscriptions()->create([
+             'user_id' => $userID ?: auth()->id()
+         ]);
+    }
+
+    public function isSubscribedTo (){
+         return $this->subscriptions()->where('user_id', auth()->id())->exists();
+            }
+
+    public function unsubscribe ($userID = null){
+         $this->subscriptions()
+                ->where('user_id', $userID?:auth()->id())
+                ->delete();
+    }
+
+    public function subscriptions(){
+         return $this->hasMany(ThreadSubscription::class);
     }
     
 

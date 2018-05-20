@@ -13,3 +13,4 @@ Vue.component('announcement', require('./Forums/Components/Announcement'));
 Vue.component('activities', require('./Forums/Components/Activities'));
 Vue.component('edit', require('./Forums/Components/Edits/EditButton'));
 Vue.component('editreply', require('./Forums/Components/Edits/EditReply'));
+Vue.component('subscription', require('./Forums/Components/SubscriptionsButton'));

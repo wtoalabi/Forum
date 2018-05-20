@@ -32021,6 +32021,7 @@ Vue.component('announcement', __webpack_require__(85));
 Vue.component('activities', __webpack_require__(88));
 Vue.component('edit', __webpack_require__(168));
 Vue.component('editreply', __webpack_require__(172));
+Vue.component('subscription', __webpack_require__(175));
 
 /***/ }),
 /* 43 */
@@ -36349,6 +36350,10 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
             });
         }
     }, {
+        path: "/threads/:category/:slug",
+        name: "SingleThread",
+        component: __WEBPACK_IMPORTED_MODULE_5__Forums_Pages_SingleThread___default.a
+    }, {
         path: "/notifications",
         name: "Notifications",
         component: __WEBPACK_IMPORTED_MODULE_3__Forums_Notifications_Notifications___default.a
@@ -39717,6 +39722,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -40558,55 +40564,62 @@ var render = function() {
       "div",
       [
         _c("div", { staticClass: "column is-10 is-offset-1" }, [
-          _c("div", { staticClass: "content is-large" }, [
-            _c("h1", [_vm._v(_vm._s(_vm.thread.title))]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "column is-offset-4" },
-              [
-                _c("delete", {
-                  attrs: {
-                    id: _vm.thread.owner.id,
-                    url: "api/delete-thread/" + _vm.thread.id,
-                    mutator: "threadDeleted",
-                    name: "Thread",
-                    redirectedPath: "/threads"
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c("div", { staticClass: "columns" }, [
-              _c("div", { staticClass: "column is-5" }, [
-                _c("em", [_vm._v(" " + _vm._s(_vm.thread.owner.name))]),
-                _vm._v(" "),
-                _c("p", [
-                  _c("a", { attrs: { href: _vm.thread.category.slug } }, [
-                    _c("small", [
-                      _vm._v(_vm._s(_vm.thread.category.name) + " "),
-                      _c(
-                        "span",
-                        { staticClass: "is-rounded is-small tag is-primary" },
-                        [_vm._v(_vm._s(_vm.thread.category.threads_count))]
-                      )
+          _c(
+            "div",
+            { staticClass: "content is-large" },
+            [
+              _c("h1", [_vm._v(_vm._s(_vm.thread.title))]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "column is-offset-4" },
+                [
+                  _c("delete", {
+                    attrs: {
+                      id: _vm.thread.owner.id,
+                      url: "api/delete-thread/" + _vm.thread.id,
+                      mutator: "threadDeleted",
+                      name: "Thread",
+                      redirectedPath: "/threads"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("hr"),
+              _vm._v(" "),
+              _c("div", { staticClass: "columns" }, [
+                _c("div", { staticClass: "column is-5" }, [
+                  _c("em", [_vm._v(" " + _vm._s(_vm.thread.owner.name))]),
+                  _vm._v(" "),
+                  _c("p", [
+                    _c("a", { attrs: { href: _vm.thread.category.slug } }, [
+                      _c("small", [
+                        _vm._v(_vm._s(_vm.thread.category.name) + " "),
+                        _c(
+                          "span",
+                          { staticClass: "is-rounded is-small tag is-primary" },
+                          [_vm._v(_vm._s(_vm.thread.category.threads_count))]
+                        )
+                      ])
                     ])
                   ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-4 is-offset-3" }, [
+                  _c("em", [_vm._v(_vm._s(_vm.thread.created_at))])
                 ])
               ]),
               _vm._v(" "),
-              _c("div", { staticClass: "column is-4 is-offset-3" }, [
-                _c("em", [_vm._v(_vm._s(_vm.thread.created_at))])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.thread.body))])
-          ])
+              _c("hr"),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.thread.body))]),
+              _vm._v(" "),
+              _c("subscription")
+            ],
+            1
+          )
         ]),
         _vm._v(" "),
         _c("hr"),
@@ -41358,6 +41371,127 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-4123517c", module.exports)
+  }
+}
+
+/***/ }),
+/* 175 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(176)
+/* template */
+var __vue_template__ = __webpack_require__(177)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Components\\SubscriptionsButton.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8fc8dac6", Component.options)
+  } else {
+    hotAPI.reload("data-v-8fc8dac6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 176 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {},
+    data: function data() {
+        return {
+            subscribed: this.$store.state.singleThread.subscribedTo,
+            threadID: this.$store.state.singleThread.id
+        };
+    },
+
+    methods: {
+        clicked: function clicked() {
+            var _this = this;
+
+            axios[this.subscribed ? 'delete' : 'post']('api/thread-subscription/' + this.threadID).then(function (response) {
+                _this.subscribed = !_this.subscribed;
+            });
+        }
+    },
+    computed: {
+        subscribeText: function subscribeText() {
+            if (this.subscribed) {
+                return "You have subscribed to this thread. Click to unsubscribe!";
+            } else {
+                return "Subscribe to this thread";
+            }
+        }
+    }
+
+});
+
+/***/ }),
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      {
+        staticClass: "button",
+        class: { "is-primary": _vm.subscribed },
+        on: { click: _vm.clicked }
+      },
+      [_vm._v(_vm._s(_vm.subscribeText))]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8fc8dac6", module.exports)
   }
 }
 

@@ -22,6 +22,7 @@ class SingleThreadResource extends JsonResource
             "slug" => $this->slug,
             "title" => $this->title,
             "body" => $this->body,
+            "subscribedTo" => $this->isSubscribedTo(),
             "owner" => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
