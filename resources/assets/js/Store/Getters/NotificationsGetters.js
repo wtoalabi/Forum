@@ -1,5 +1,5 @@
 export default {
-    getNotificationsCount(state){
-        return state.notifications
+    getUnreadNotificationsCount(state){
+        //return state.notifications.data.length
     }
 }

@@ -1,9 +1,21 @@
 @charset "UTF-8";
 
+.dropdown-content {
+  margin-right: -200px;
+}
+
+.unRead {
+  font-weight: 800;
+}
+
 .alert {
   position: fixed;
   right: 25px;
   bottom: 25px;
+}
+
+a.tag:hover {
+  text-decoration: none !important;
 }
 
 .notification a:not(.button) {

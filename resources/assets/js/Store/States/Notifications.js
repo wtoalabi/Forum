@@ -1,3 +1,3 @@
 export default{
-    notifications: 1
+    notifications: ''
 }

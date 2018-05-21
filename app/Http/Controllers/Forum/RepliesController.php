@@ -41,15 +41,20 @@ class RepliesController extends Controller
      */
     public function store($id, Request $request)
     {
+        $thread = Thread::find($id);
         
         $valid = $request->validate([
             'body' => "required"
         ]);
         $valid['user_id'] = Auth::user()->id;
-        $valid['thread_id'] = $id;
-        //dd($valid);
+        $valid['thread_id'] = $thread->id;
+        
         $reply = Reply::create($valid);
-        //return new SingleReplyResource($reply);
+        
+        $thread->subscriptions->filter(function($sub) use($reply){
+            return $sub->user_id == $reply->user_id;
+        })->each->notify($reply);
+       
         return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
     }
 

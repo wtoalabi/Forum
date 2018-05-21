@@ -13,6 +13,7 @@
 
 Route::get('/', function () {
     return view('landing');
+    
 });
 
 Route::get('/forums', function(){
@@ -39,6 +40,8 @@ Route::group(['prefix' => 'api'], function () {
     Route::get('sort-threads/{sortQuery}', 'Forum\SortedThreadsController@index');
     Route::post('like-thread/{thread}', 'Forum\LikesController@likeThread')->middleware('auth');
     Route::post('like-reply/{reply}', 'Forum\LikesController@likeReply')->middleware('auth');
+    Route::delete('notifications/{notification}', 'Users\UserNotificationsController@destroy');
+    Route::get('notifications', 'Users\UserNotificationsController@index');
     //Route::get('profile/{user}')
 });
 

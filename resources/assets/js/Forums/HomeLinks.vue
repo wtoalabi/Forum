@@ -36,9 +36,6 @@
             sidebarA: SidebarA,
             sidebarB: SidebarB,
         },
-        mounted() {
-            
-        },
         created() {
             this.setState();
         },
@@ -46,6 +43,7 @@
             return {};
         },
         computed: {
+           
             loadNewThreadForm() {
                 return this.$store.getters.getNewThreadForm;
             },

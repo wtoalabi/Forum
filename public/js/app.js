@@ -32022,6 +32022,7 @@ Vue.component('activities', __webpack_require__(88));
 Vue.component('edit', __webpack_require__(168));
 Vue.component('editreply', __webpack_require__(172));
 Vue.component('subscription', __webpack_require__(175));
+Vue.component('notifications-count', __webpack_require__(181));
 
 /***/ }),
 /* 43 */
@@ -32214,7 +32215,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         sidebarA: __WEBPACK_IMPORTED_MODULE_0__Menu_SidebarA___default.a,
         sidebarB: __WEBPACK_IMPORTED_MODULE_1__Menu_SidebarB___default.a
     },
-    mounted: function mounted() {},
     created: function created() {
         this.setState();
     },
@@ -32353,12 +32353,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {},
     data: function data() {
         return {
             selected: null
+            // count: this.$store.state.notifications.data.length
         };
     },
 
@@ -32379,9 +32380,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     computed: {
-        notificationsCount: function notificationsCount() {
-            return this.$store.getters.getNotificationsCount;
-        },
         categories: function categories() {
             return this.$store.getters.getCategories;
         },
@@ -32410,10 +32408,6 @@ var render = function() {
           "li",
           [
             _c("router-link", { attrs: { to: "/notifications" } }, [
-              _c("span", { staticClass: "tag is-danger is-rounded" }, [
-                _vm._v(_vm._s(_vm.notificationsCount))
-              ]),
-              _vm._v(" "),
               _c("span", [_vm._v("Notifications")])
             ])
           ],
@@ -39051,8 +39045,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-    getNotificationsCount: function getNotificationsCount(state) {
-        return state.notifications;
+    getUnreadNotificationsCount: function getUnreadNotificationsCount(state) {
+        //return state.notifications.data.length
     }
 });
 
@@ -39138,6 +39132,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
+
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
+
 /* harmony default export */ __webpack_exports__["a"] = ({
     getUserDetails: function getUserDetails(state, username) {
         return axios.get('api/profile/' + username).then(function (user) {
@@ -39146,6 +39146,38 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         }).then(axios.get('api/activities/' + username).then(function (user) {
             state.commit("addUserActivities", user.data);
         }));
+    },
+    getNotifications: function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(store) {
+            return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return axios.get('api/notifications').then(function (response) {
+                                return store.commit('setNotifications', response.data);
+                            });
+
+                        case 2:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, this);
+        }));
+
+        function getNotifications(_x) {
+            return _ref.apply(this, arguments);
+        }
+
+        return getNotifications;
+    }(),
+    readNotification: function readNotification(store, id) {
+        return axios.delete('api/notifications/' + id).then(store.state.notifications.data.map(function (notification) {
+            if (notification.id == id) {
+                return notification.read_at = Date.now();
+            }
+        }), store.state.notifications.count.unRead--);
     }
 });
 
@@ -39159,15 +39191,6 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         var commit = _ref.commit;
 
         return commit("setLoggedInUser", userID);
-        /* axios('api/user/' + payload).then(response=>{
-        }).catch(error=>{
-            if(error.response.statusText == "Unauthorized"){
-                return this.state.loggedInUser.username = "Guest User"
-            }
-            else{
-                this.state.loggedInUser.username = error.response.statusText
-            }
-        }) */
     }
 });
 
@@ -39278,6 +39301,9 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 /* harmony default export */ __webpack_exports__["a"] = ({
     setLoggedInUser: function setLoggedInUser(state, userID) {
         return state.loggedInUserID = userID;
+    },
+    setNotifications: function setNotifications(state, payload) {
+        return state.notifications = payload;
     }
 });
 
@@ -39400,7 +39426,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 "use strict";
 /* harmony default export */ __webpack_exports__["a"] = ({
-    notifications: 1
+    notifications: ''
 });
 
 /***/ }),
@@ -39497,15 +39523,34 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Store_store__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  created: function created() {
-    console.log("notifcation");
-  }
+    mounted: function mounted() {},
+
+    methods: {
+        read: function read(id) {
+            return axios.delete('api/notifications/' + id).then(this.$store.state.notifications.data.splice(id, 1));
+        }
+    },
+    computed: {
+        notifications: function notifications() {
+            return this.$store.state.notifications.data;
+        }
+    }
+
 });
 
 /***/ }),
@@ -39516,16 +39561,33 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c(
+    "div",
+    [
+      _c("h1", [_vm._v("Notifications")]),
+      _vm._v(" "),
+      _vm._l(_vm.notifications, function(notification) {
+        return _c("div", { key: notification.id }, [
+          _c("ul", [
+            _c(
+              "li",
+              {
+                on: {
+                  click: function($event) {
+                    _vm.read(notification.id)
+                  }
+                }
+              },
+              [_vm._v(_vm._s(notification.data.message))]
+            )
+          ])
+        ])
+      })
+    ],
+    2
+  )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("h1", [_vm._v("Notifications")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -39759,6 +39821,40 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
         return beforeRouteEnter;
     }(),
+
+    watch: {
+        '$route': function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(to, from) {
+                return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                this.$store.state.pageIsLoading = true;
+                                _context2.next = 3;
+                                return __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].dispatch("getSingleThread", to.params.slug);
+
+                            case 3:
+                                _context2.next = 5;
+                                return __WEBPACK_IMPORTED_MODULE_1__Store_store__["a" /* default */].dispatch("getSingleThreadReplies", to.params.slug);
+
+                            case 5:
+                                this.$store.state.pageIsLoading = false;
+
+                            case 6:
+                            case "end":
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this);
+            }));
+
+            function $route(_x4, _x5) {
+                return _ref2.apply(this, arguments);
+            }
+
+            return $route;
+        }()
+    },
     mounted: function mounted() {},
     data: function data() {
         return {
@@ -41494,6 +41590,280 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-8fc8dac6", module.exports)
   }
 }
+
+/***/ }),
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(184)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(182)
+/* template */
+var __vue_template__ = __webpack_require__(183)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Components\\NotificationsCount.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-085b8242", Component.options)
+  } else {
+    hotAPI.reload("data-v-085b8242", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 182 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['propscount'],
+
+    mounted: function mounted() {
+        var _this = this;
+
+        return axios.get('api/notifications').then(function (response) {
+            _this.$store.state.notifications = response.data;
+        });
+    },
+
+    methods: {
+        read: function read(id) {
+            this.$store.dispatch("readNotification", id);
+        }
+    },
+    computed: {
+        unReadCount: function unReadCount() {
+            if (this.$store.state.notifications.data == null) {
+                return undefined;
+            } else {
+                return this.$store.state.notifications.count.unRead;
+            }
+        },
+        notifications: function notifications() {
+            return _.take(this.$store.state.notifications.data, 7);
+        }
+    },
+    filters: {
+        reduce: function reduce(text) {
+            return _.truncate(text, { length: 45 });
+        }
+    }
+});
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.unReadCount != undefined
+    ? _c("div", [
+        _c("div", { staticClass: "dropdown is-hoverable is-right" }, [
+          _c("div", { staticClass: "dropdown-trigger" }, [
+            _c(
+              "span",
+              {
+                staticClass: "is-rounded is-small tag",
+                class: { "is-danger": _vm.unReadCount > 0 }
+              },
+              [
+                _c("h1", { staticClass: "has-text" }, [
+                  _c("i", { staticClass: "fa fa-bell" }),
+                  _vm._v(" " + _vm._s(_vm.unReadCount))
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "dropdown-menu",
+              attrs: { id: "dropdown-menu3", role: "menu" }
+            },
+            [
+              _c("div", { staticClass: "dropdown-content" }, [
+                _c(
+                  "div",
+                  { staticClass: "dropdown-item" },
+                  _vm._l(_vm.notifications, function(notification) {
+                    return _c("div", { key: notification.id }, [
+                      _c(
+                        "a",
+                        {
+                          class: { unRead: notification.read_at == null },
+                          attrs: {
+                            href: "/forums#/threads/" + notification.data.link
+                          },
+                          on: {
+                            click: function($event) {
+                              _vm.read(notification.id)
+                            }
+                          }
+                        },
+                        [
+                          _c("div", { staticClass: "columns" }, [
+                            _c("div", { staticClass: "column is-2" }, [
+                              _c("img", {
+                                staticClass: "is-circle",
+                                attrs: { src: notification.userImage, alt: "" }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "column" }, [
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("reduce")(notification.data.message)
+                                  )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", [_vm._v(_vm._s(notification.created_at))])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("hr", { staticClass: "dropdown-divider" })
+                        ]
+                      )
+                    ])
+                  })
+                )
+              ])
+            ]
+          )
+        ])
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-085b8242", module.exports)
+  }
+}
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(185);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(62)("c6c1b38e", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-085b8242\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NotificationsCount.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-085b8242\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./NotificationsCount.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(61)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n[v-cloak] {\r\n  display: none;\n}\r\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

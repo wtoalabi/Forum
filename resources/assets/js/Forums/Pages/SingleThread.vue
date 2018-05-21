@@ -46,6 +46,15 @@ export default {
         store.state.pageIsLoading = false
         next()
     },
+    watch:{
+        async '$route'(to, from){
+            this.$store.state.pageIsLoading = true
+            await store.dispatch("getSingleThread", to.params.slug)
+            await store.dispatch("getSingleThreadReplies", to.params.slug)
+            this.$store.state.pageIsLoading = false
+          
+      }
+  },
     mounted(){
     },
     data() {

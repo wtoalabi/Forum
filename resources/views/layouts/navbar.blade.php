@@ -53,13 +53,14 @@
                             </p>
                             @endguest @auth
 
+                            
+                            <notifications-count class="navbar-item" :propscount="{{auth()->user()->notifications}}"></notifications-count>                                      
+                                
                             <div class="navbar-item has-dropdown is-hoverable control">
-                                <a class="button is-info" href="/register">
-
-                                </a>
                                 <a class="button is-info" href="">
-                                    <img class="mr-1 is-circle nav-image" src="{{asset('storage/default.jpg')}}" alt="Image"> {{Auth::user()->name}}
+                                    <img class="mr-1 is-circle nav-image" src="{{Auth::user()->profileImage()}}" alt="Image"> {{Auth::user()->name}}
                                 </a>
+
                                 <div class="navbar-dropdown ">
                                 <a class="navbar-item " href="forums#/profile/{{auth()->user()->username}}">
                                         <p>

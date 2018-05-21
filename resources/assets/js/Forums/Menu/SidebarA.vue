@@ -8,7 +8,6 @@
 
                 <li>
                     <router-link to="/notifications">
-                        <span class="tag is-danger is-rounded">{{notificationsCount}}</span>
                         <span>Notifications</span>
                     </router-link>
                 </li>
@@ -64,9 +63,14 @@
 
 <script>
     export default {
+        
+        mounted(){
+        },
+
         data() {
             return {
-                selected: null
+                selected: null,
+               // count: this.$store.state.notifications.data.length
             }
         },
         methods: {
@@ -84,9 +88,7 @@
             },
         },
         computed: {
-            notificationsCount() {
-                return this.$store.getters.getNotificationsCount
-            },
+            
             categories() {
                 return this.$store.getters.getCategories
             },
