@@ -15,12 +15,7 @@ export default {
     },
     readNotification(store, id){
         return axios.delete('api/notifications/'+id).then(
-            store.state.notifications.data.map((notification)=>{
-                if(notification.id == id){
-                    return notification.read_at = Date.now()
-                }
-            }),
-            store.state.notifications.count.unRead --
+            store.commit("markANotificationAsRead", id)   
         )
     }
 }

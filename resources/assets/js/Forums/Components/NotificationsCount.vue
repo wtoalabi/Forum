@@ -43,9 +43,7 @@ export default {
 props:['propscount'],
  
 mounted() {
-return axios.get('api/notifications').then(response=>{
-    this.$store.state.notifications = response.data
-})
+    this.$store.commit("getNotifications")
 },
 methods:{
     read(id){

@@ -34047,7 +34047,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var id = this.$store.getters.getSingleThread.id;
             return this.form.post("api/create-new-reply/" + id).then(function (response) {
                 if (response.status == 200) {
-                    _this.$store.commit("commitReply", response.reply);
+                    _this.$store.dispatch("submitReply", response.reply);
                     _this.$store.state.announcement = { color: 'is-success', message: "Reply Added!" };
                 }
             });
@@ -39123,7 +39123,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     submitReply: function submitReply(_ref, payload) {
         var commit = _ref.commit;
 
-        return commit('commitReply', payload);
+        commit('commitReply', payload);
+        commit("getNotifications");
     }
 });
 
@@ -39173,11 +39174,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
         return getNotifications;
     }(),
     readNotification: function readNotification(store, id) {
-        return axios.delete('api/notifications/' + id).then(store.state.notifications.data.map(function (notification) {
-            if (notification.id == id) {
-                return notification.read_at = Date.now();
-            }
-        }), store.state.notifications.count.unRead--);
+        return axios.delete('api/notifications/' + id).then(store.commit("markANotificationAsRead", id));
     }
 });
 
@@ -39380,6 +39377,21 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     addUserActivities: function addUserActivities(state, payload) {
         return state.userActivities = payload;
+    },
+    markANotificationAsRead: function markANotificationAsRead(state, id) {
+        state.notifications.data.map(function (notification) {
+            if (notification.id == id) {
+                return notification.read_at = Date.now();
+            }
+        });
+        if (state.notifications.count.unRead > 0) {
+            state.notifications.count.unRead--;
+        }
+    },
+    getNotifications: function getNotifications(state) {
+        return axios.get('api/notifications').then(function (response) {
+            state.notifications = response.data;
+        });
     }
 });
 
@@ -41696,11 +41708,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['propscount'],
 
     mounted: function mounted() {
-        var _this = this;
-
-        return axios.get('api/notifications').then(function (response) {
-            _this.$store.state.notifications = response.data;
-        });
+        this.$store.commit("getNotifications");
     },
 
     methods: {
