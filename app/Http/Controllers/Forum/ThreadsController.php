@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Forum;
 
+use Carbon\Carbon;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -70,6 +71,7 @@ class ThreadsController extends Controller
      */
     public function show(Thread $slug)
     {
+        cache()->forever(auth()->user()->threadCacheKey($slug), Carbon::now());
         return new SingleThreadResource($slug);
 
     }

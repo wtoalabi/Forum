@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Forum;
 
+use Carbon\Carbon;
 use App\Models\Forum\Reply;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
@@ -30,7 +31,6 @@ class RepliesController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -51,10 +51,11 @@ class RepliesController extends Controller
         
         $reply = Reply::create($valid);
         
+        cache()->forever(auth()->user()->threadCacheKey($thread), Carbon::now());
+        
         $thread->subscriptions->filter(function($sub) use($reply){
             return $sub->user_id == $reply->user_id;
         })->each->notify($reply);
-       
         return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
     }
 

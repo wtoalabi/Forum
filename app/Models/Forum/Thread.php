@@ -62,6 +62,12 @@ class Thread extends Model
     public function subscriptions(){
          return $this->hasMany(ThreadSubscription::class);
     }
+
+    public function updatedSinceLastVisit ($user = null){
+        $user = $user ?: auth()->user();
+        $then = cache()->get($user->threadCacheKey($this));
+        return $this->updated_at > $then;
+    }
     
 
 }

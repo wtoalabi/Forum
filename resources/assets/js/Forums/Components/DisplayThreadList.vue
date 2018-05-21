@@ -5,7 +5,9 @@
         <div class="box content is-small">
             <div class="columns">
                 <div class="column">
-                    <h1 class=""><router-link :to="'/threads/' + thread.category.slug + '/' + thread.slug " exact><span>{{thread.title}}</span></router-link></h1>
+                    <h1 class="">
+                        <span v-if="thread.updatedSinceLastVisit" class="tag is-primary has-text-white"> <i class="fa fa-lightbulb-o"></i></span>
+                        <router-link :to="'/threads/' + thread.category.slug + '/' + thread.slug " exact><span>{{thread.title}}</span></router-link></h1>
                 </div>
                 <div class="column is-3">
                     <div class="columns">

@@ -44,4 +44,8 @@ class User extends Authenticatable
     public function profileImage (){
          return asset('storage/default.jpg');
     }
+
+    public function threadCacheKey ($thread){
+        return sprintf('user%s.visits.thread%s', $this->id, $thread->id);
+    }
 }
