@@ -34028,7 +34028,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
+var VueScrollTo = __webpack_require__(22);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     mounted: function mounted() {},
@@ -34036,7 +34039,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             form: new __WEBPACK_IMPORTED_MODULE_0__Utilities_Form__["a" /* default */]({
                 body: ""
-            })
+            }),
+            error: ''
         };
     },
 
@@ -34049,7 +34053,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (response.status == 200) {
                     _this.$store.dispatch("submitReply", response.reply);
                     _this.$store.state.announcement = { color: 'is-success', message: "Reply Added!" };
+                    _this.error = '';
+                    VueScrollTo.scrollTo('#replies', 500);
                 }
+            }).catch(function (error) {
+                _this.error = error;
             });
         }
     }
@@ -34079,6 +34087,7 @@ var render = function() {
         }
       ],
       staticClass: "textarea",
+      class: { "is-danger": _vm.error },
       attrs: { name: "body", placeholder: "Wanna add something?" },
       domProps: { value: _vm.form.body },
       on: {
@@ -34091,20 +34100,17 @@ var render = function() {
       }
     }),
     _vm._v(" "),
+    _vm.error
+      ? _c("div", [
+          _c("span", { staticClass: "has-text help is-danger" }, [
+            _vm._v(_vm._s(_vm.error))
+          ])
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _c(
       "button",
-      {
-        directives: [
-          {
-            name: "scroll-to",
-            rawName: "v-scroll-to",
-            value: "#replies",
-            expression: "'#replies'"
-          }
-        ],
-        staticClass: "button is-info",
-        on: { click: _vm.submitReply }
-      },
+      { staticClass: "button is-info", on: { click: _vm.submitReply } },
       [_vm._v("Submit")]
     )
   ])
@@ -41382,17 +41388,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['content', 'open'],
-    mounted: function mounted() {
-        console.log(this.content.body);
-    },
+    mounted: function mounted() {},
     data: function data() {
         return {
             show: this.open,
-            body: this.content.body
+            body: this.content.body,
+            error: ''
 
         };
     },
@@ -41407,8 +41413,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     _this.$store.state.announcement = { color: 'is-success', message: 'Reply Edited!' };
                     return _this.close();
                 }
-
-                //this.close()
+            }).catch(function (error) {
+                console.log(error.response.data);
+                _this.error = error.response.data;
             });
         },
         close: function close() {
@@ -41444,6 +41451,12 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("section", { staticClass: "modal-card-body" }, [
+          _vm.error
+            ? _c("div", { staticClass: "help is-danger" }, [
+                _vm._v(_vm._s(_vm.error))
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c("textarea", {
             directives: [
               {
@@ -41454,6 +41467,7 @@ var render = function() {
               }
             ],
             staticClass: "textarea",
+            class: { "help is-danger": _vm.error },
             attrs: { name: "body" },
             domProps: { value: _vm.body },
             on: {

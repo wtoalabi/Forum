@@ -7,8 +7,9 @@
                     <p class="modal-card-title">Edit Your Reply...</p>
                     <button class="delete" aria-label="close" @click="close"></button>
                 </header>
-                <section class="modal-card-body">
-                    <textarea class="textarea" name="body" v-model="body"></textarea>
+                <section class="modal-card-body" >
+                    <div v-if="error" class="help is-danger">{{error}}</div>
+                    <textarea class="textarea" name="body" v-model="body" :class="{'help is-danger': error}"></textarea>
                 </section>
                 <footer class="modal-card-foot">
                     <button class="button is-success" @click="saveReply">Save Changes!</button>
@@ -24,13 +25,13 @@
 export default {
 props:['content','open'],
 mounted() {
-    console.log(this.content.body);
     
 },
 data(){
     return{
         show: this.open,
-        body: this.content.body
+        body: this.content.body,
+        error: ''
         
     }
 },
@@ -41,10 +42,11 @@ methods:{
                 this.$store.commit("editedReply", changes.data.reply)
                 this.$store.state.announcement = {color: 'is-success', message: 'Reply Edited!'}
                 return this.close()
-            }
-            
-            //this.close()
-        })
+            }            
+        }).catch(error=>{
+            console.log(error.response.data);
+            this.error = error.response.data
+            })
     },
     close(){
        this.$emit('close')

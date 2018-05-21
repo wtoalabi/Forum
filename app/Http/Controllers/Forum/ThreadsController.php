@@ -47,12 +47,14 @@ class ThreadsController extends Controller
     public function store(Request $request)
     {
         $rules = [ 
-            'title' => "required", 
-            'body' => "required", 
+            'title' => "required|spamfree", 
+            'body' => "required|spamfree", 
             'category_id' => 'required|exists:categories,id'
         ];
         $message = [ 
-            'category_id.required' => "You need to select a category!" 
+            'category_id.required' => "You need to select a category!" ,
+            'title.spamfree' => "Spam Alert! Please check and try again!",
+            'body.spamfree' => "Spam Alert! Please check and try again!"
         ];
         $valid = $this->validate(request(), $rules, $message);
         

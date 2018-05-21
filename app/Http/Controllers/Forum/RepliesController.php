@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Forum;
 
+use Exception;
 use Carbon\Carbon;
-use App\Helpers\Spams\Spam;
 use App\Models\Forum\Reply;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
@@ -40,25 +40,25 @@ class RepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id, Request $request, Spam $spam)
+    public function store($id, Request $request)
     {
-        $thread = Thread::find($id);
-        
-        $valid = $request->validate([
-            'body' => "required"
-        ]);
-        $valid['user_id'] = Auth::user()->id;
-        $valid['thread_id'] = $thread->id;
+        try{        
+            $thread = Thread::find($id);
+            $valid = $request->validate([
+                'body' => "required|spamfree"
+            ]);
+            $valid['user_id'] = Auth::user()->id;
+            $valid['thread_id'] = $thread->id;
+            $reply = Reply::create($valid);
+            cache()->forever(auth()->user()->threadCacheKey($thread), Carbon::now());
+            $thread->subscriptions->filter(function($sub) use($reply){
+                return $sub->user_id == $reply->user_id;
+            })->each->notify($reply);
 
-        $spam->detect($valid['body']);
-
-        $reply = Reply::create($valid);
+        }catch(Exception $e){
+            return response("Sorry, your reply cannot be saved at this time...", 422);
+        }
         
-        cache()->forever(auth()->user()->threadCacheKey($thread), Carbon::now());
-        
-        $thread->subscriptions->filter(function($sub) use($reply){
-            return $sub->user_id == $reply->user_id;
-        })->each->notify($reply);
         return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
     }
 
@@ -94,15 +94,19 @@ class RepliesController extends Controller
     public function update(Request $request,$id)
     {
         $reply = Reply::find($id);
+        $reply->user_id == auth()->id();
+        
+        try{
+            $request->validate([
+                'body' => 'required|spamfree'
+            ]);
 
-        if($reply->user_id == auth()->id()){
             $reply->update(['body'=>$request['body']]);
-            //$reply->save();
-            return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
         }
-        else{
-            return "Not Authorized!";
-        }
+        catch(Exception $e){
+            return response("Sorry, your reply cannot be saved at this time...", 422);
+        }        
+        return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
     }
 
     /**
