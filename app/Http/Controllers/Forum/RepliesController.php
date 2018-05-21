@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Forum;
 
 use Carbon\Carbon;
+use App\Helpers\Spams\Spam;
 use App\Models\Forum\Reply;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class RepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id, Request $request)
+    public function store($id, Request $request, Spam $spam)
     {
         $thread = Thread::find($id);
         
@@ -48,7 +49,9 @@ class RepliesController extends Controller
         ]);
         $valid['user_id'] = Auth::user()->id;
         $valid['thread_id'] = $thread->id;
-        
+
+        $spam->detect($valid['body']);
+
         $reply = Reply::create($valid);
         
         cache()->forever(auth()->user()->threadCacheKey($thread), Carbon::now());

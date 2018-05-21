@@ -64,7 +64,10 @@ class Thread extends Model
     }
 
     public function updatedSinceLastVisit ($user = null){
-        $user = $user ?: auth()->user();
+        $user = $user ? : auth()->user();
+        if($user === null){
+            return null;
+        }
         $then = cache()->get($user->threadCacheKey($this));
         return $this->updated_at > $then;
     }
