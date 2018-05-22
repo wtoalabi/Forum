@@ -22,7 +22,7 @@
                             </edit>
                         </div>
                         <div class="column has-text-black message is-primary">
-                                {{reply.body}}
+                                <span v-html="reply.body" class=""></span>
                         </div>
                         <div class="column is-1 is-offset-1">
                             <like 

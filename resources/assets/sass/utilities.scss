@@ -1,6 +1,9 @@
 .dropdown-content{
     margin-right: -200px;
 }
+.message a:not(.button):not(.tag) {
+    color: #0b85f9f7 !important;
+}
 .unRead{
     font-weight: 800
 }

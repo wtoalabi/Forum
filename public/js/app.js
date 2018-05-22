@@ -33435,11 +33435,9 @@ var render = function() {
                     "div",
                     { staticClass: "column has-text-black message is-primary" },
                     [
-                      _vm._v(
-                        "\r\n                                " +
-                          _vm._s(reply.body) +
-                          "\r\n                        "
-                      )
+                      _c("span", {
+                        domProps: { innerHTML: _vm._s(reply.body) }
+                      })
                     ]
                   ),
                   _vm._v(" "),

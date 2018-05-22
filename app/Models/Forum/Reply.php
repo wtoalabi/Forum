@@ -55,4 +55,8 @@ public function activity (){
 public function wasJustPublished (){
      return $this->created_at->gt(Carbon::now()->subMinute());
 }
+
+public function setBodyAttribute ($body){
+        $this->attributes['body'] = preg_replace('/@([\w\-]+)/', '<a href="forums#/profile/$1">$0</a> ', $body);
+    }
 }
