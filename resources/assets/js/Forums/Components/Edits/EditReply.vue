@@ -45,7 +45,7 @@ methods:{
             }            
         }).catch(error=>{
             console.log(error.response.data);
-            this.error = error.response.data
+            this.error = error.response.data.errors.body[0]
             })
     },
     close(){

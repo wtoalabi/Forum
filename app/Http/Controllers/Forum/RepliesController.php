@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\ReplyFormRequest;
 use App\Http\Resources\SingleReplyResource;
 use App\Http\Resources\ThreadRepliesCollection;
 
@@ -41,27 +42,13 @@ class RepliesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id, Request $request)
+    public function store($threadID, Request $request, ReplyFormRequest $reply)
     {
         if(auth()->user()->cant('create', Reply::class)){
             return response("You are posting too fast! Slow down a bit ;)", 422);
         }
-        try{        
-            $thread = Thread::find($id);
-            $valid = $request->validate([
-                'body' => "required|spamfree"
-            ]);
-            $valid['user_id'] = Auth::user()->id;
-            $valid['thread_id'] = $thread->id;
-            $reply = Reply::create($valid);
-            cache()->forever(auth()->user()->threadCacheKey($thread), Carbon::now());
-            $thread->subscriptions->filter(function($sub) use($reply){
-                return $sub->user_id == $reply->user_id;
-            })->each->notify($reply);
 
-        }catch(Exception $e){
-            return response("Sorry, your reply cannot be saved at this time...", 422);
-        }
+        $reply = $reply->persistIn($threadID);
         
         return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
     }
@@ -72,22 +59,6 @@ class RepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
@@ -95,22 +66,19 @@ class RepliesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request,$id, ReplyFormRequest $replyRequest)
+    
     {
         $reply = Reply::find($id);
-        $reply->user_id == auth()->id();
-        
-        try{
-            $request->validate([
-                'body' => 'required|spamfree'
-            ]);
 
-            $reply->update(['body'=>$request['body']]);
+        if(auth()->user()->cant('update', $reply)){
+            return response("You are not authorized! ;)", 422);
         }
-        catch(Exception $e){
-            return response("Sorry, your reply cannot be saved at this time...", 422);
-        }        
+
+        $reply = $replyRequest->update($reply);
+
         return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
+    
     }
 
     /**
@@ -122,12 +90,13 @@ class RepliesController extends Controller
     public function destroy($id)
     {
         $reply = Reply::find($id);
-        if($reply->user_id == auth()->id()){
-            $reply->delete();
-            return response(["message" =>"Done", "replyID"=> $reply->id], 200);
+
+        if(auth()->user()->cant('update', $reply)){
+            return response("You are not authorized! ;)", 422);
         }
-        return response(["message"=>"Not Authorized!"]);
-        //return response(["message" =>"Done", "threadID"=> $thread->id;], 200);
+        
+        $reply->delete();
+        return response(["message" =>"Done", "replyID"=> $reply->id], 200);
     }
     
 }

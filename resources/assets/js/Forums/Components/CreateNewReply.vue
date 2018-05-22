@@ -40,7 +40,12 @@ var VueScrollTo = require('vue-scrollto')
                     
 
                 }).catch(error=>{
-                    this.error = error
+                    if(error.errors){
+                        this.error = error.errors.body[0]
+                    }
+                    else{
+                        this.error = error
+                    }
                 })
                 
             }

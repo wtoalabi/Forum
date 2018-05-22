@@ -34057,7 +34057,11 @@ var VueScrollTo = __webpack_require__(22);
                     VueScrollTo.scrollTo('#replies', 500);
                 }
             }).catch(function (error) {
-                _this.error = error;
+                if (error.errors) {
+                    _this.error = error.errors.body[0];
+                } else {
+                    _this.error = error;
+                }
             });
         }
     }
@@ -41415,7 +41419,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             }).catch(function (error) {
                 console.log(error.response.data);
-                _this.error = error.response.data;
+                _this.error = error.response.data.errors.body[0];
             });
         },
         close: function close() {
