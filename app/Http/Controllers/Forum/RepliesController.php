@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\Forum;
 
-use Exception;
-use Carbon\Carbon;
+use App\User;
 use App\Models\Forum\Reply;
 use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
@@ -11,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\ReplyFormRequest;
+use App\Notifications\YouWereMentioned;
 use App\Http\Resources\SingleReplyResource;
 use App\Http\Resources\ThreadRepliesCollection;
 
@@ -27,14 +27,6 @@ class RepliesController extends Controller
         return new ThreadRepliesCollection($replies);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -53,12 +45,7 @@ class RepliesController extends Controller
         return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     /**
      * Update the specified resource in storage.
      *
@@ -94,7 +81,7 @@ class RepliesController extends Controller
         if(auth()->user()->cant('update', $reply)){
             return response("You are not authorized! ;)", 422);
         }
-        
+
         $reply->delete();
         return response(["message" =>"Done", "replyID"=> $reply->id], 200);
     }

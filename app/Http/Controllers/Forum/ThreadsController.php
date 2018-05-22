@@ -28,15 +28,6 @@ class ThreadsController extends Controller
         return new ThreadsCollection($threads);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -78,16 +69,6 @@ class ThreadsController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -115,6 +96,5 @@ class ThreadsController extends Controller
             return response(["message" =>"Done", "threadID"=> $thread->id], 200);
         }
         return response(["message"=>"Not Authorized!"]);
-        //return response(["message" =>"Done", "threadID"=> $thread->id;], 200);
     }
 }

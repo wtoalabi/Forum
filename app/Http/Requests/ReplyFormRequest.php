@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Carbon\Carbon;
 use App\Models\Forum\Reply;
 use App\Models\Forum\Thread;
+use App\Events\ThreadReceivedReply;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ReplyFormRequest extends FormRequest
@@ -34,12 +35,13 @@ class ReplyFormRequest extends FormRequest
 
     public function messages (){
          return[
-             'title.spamfree'=> "Spam Alert! Check your title"
+             'title.spamfree'=> "Spam Alert! Check your title",
              'body.spamfree'=> "Spam Alert! Check the body again!"
          ];
     }
 
     public function persistIn ($threadID){    
+        
         $thread = Thread::find($threadID);
 
         $reply = Reply::create([
@@ -49,10 +51,8 @@ class ReplyFormRequest extends FormRequest
         ]); 
 
         cache()->forever($this->user()->threadCacheKey($thread), Carbon::now());
-
-        $thread->subscriptions->filter(function($sub) use($reply){
-            return $sub->user_id == $reply->user_id;
-        })->each->notify($reply);
+        
+        event(new ThreadReceivedReply($reply));
         
         return $reply;
     }

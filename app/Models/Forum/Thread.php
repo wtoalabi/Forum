@@ -39,10 +39,6 @@ class Thread extends Model
         return $filters->apply($query);
     }
 
-    public function scopeSortBy ($query, $sort){
-         return $sort->by($query);
-    }
-
     public function subscribe ($userID= null){
          $this->subscriptions()->create([
              'user_id' => $userID ?: auth()->id()
@@ -68,6 +64,7 @@ class Thread extends Model
         if($user === null){
             return null;
         }
+
         $then = cache()->get($user->threadCacheKey($this));
         return $this->updated_at > $then;
     }
