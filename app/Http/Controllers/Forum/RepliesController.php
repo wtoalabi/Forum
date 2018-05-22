@@ -9,6 +9,7 @@ use App\Models\Forum\Thread;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Resources\SingleReplyResource;
 use App\Http\Resources\ThreadRepliesCollection;
 
@@ -42,6 +43,9 @@ class RepliesController extends Controller
      */
     public function store($id, Request $request)
     {
+        if(auth()->user()->cant('create', Reply::class)){
+            return response("You are posting too fast! Slow down a bit ;)", 422);
+        }
         try{        
             $thread = Thread::find($id);
             $valid = $request->validate([

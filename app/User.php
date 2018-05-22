@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function threadCacheKey ($thread){
         return sprintf('user%s.visits.thread%s', $this->id, $thread->id);
     }
+
+    public function lastReply (){
+         return $this->hasOne(Reply::class)->latest();
+    }
 }

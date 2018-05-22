@@ -3,6 +3,7 @@
 namespace App\Models\Forum;
 
 use App\User;
+use Carbon\Carbon;
 use App\Helpers\Likeable;
 use App\Models\Forum\Thread;
 use App\Models\Forum\Activity;
@@ -49,5 +50,9 @@ class Reply extends Model
 }
 public function activity (){
     return $this->morphMany(Activity::class, 'subject');
+}
+
+public function wasJustPublished (){
+     return $this->created_at->gt(Carbon::now()->subMinute());
 }
 }
