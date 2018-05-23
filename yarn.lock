@@ -6818,6 +6818,10 @@ tempfile@^2.0.0:
     temp-dir "^1.0.0"
     uuid "^3.0.1"
 
+textarea-caret@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/textarea-caret/-/textarea-caret-3.1.0.tgz#5d5a35bb035fd06b2ff0e25d5359e97f2655087f"
+
 through2-filter@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/through2-filter/-/through2-filter-2.0.0.tgz#60bc55a0dacb76085db1f9dae99ab43f83d622ec"
@@ -7262,6 +7266,10 @@ vm-browserify@0.0.4:
 vue-2-breadcrumbs@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/vue-2-breadcrumbs/-/vue-2-breadcrumbs-0.3.0.tgz#b274488828e98c24382100e39031c7f58cc500bf"
+
+vue-at@2.x:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/vue-at/-/vue-at-2.3.2.tgz#31aa769d4df4c588a4e967cdc65de7141e8e688c"
 
 vue-hot-reload-api@^2.2.0:
   version "2.3.0"

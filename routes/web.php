@@ -42,6 +42,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::post('like-reply/{reply}', 'Forum\LikesController@likeReply')->middleware('auth');
     Route::delete('notifications/{notification}', 'Users\UserNotificationsController@destroy');
     Route::get('notifications', 'Users\UserNotificationsController@index');
+    Route::post('get-mentioned-user', 'Users\MentionedUsersController@index');
     //Route::get('profile/{user}')
 });
 

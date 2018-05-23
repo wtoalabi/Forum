@@ -3,19 +3,26 @@
         <div id="replies">
             <replies></replies>
         </div>
+    
         <h1>Create new reply....</h1>
-        <textarea name="body" :class="{'is-danger': error}" class="textarea" placeholder="Wanna add something?" v-model="form.body"></textarea>
+    
+        <at-ta :members="members">
+            <textarea name="body" :class="{'is-danger': error}" class="textarea" 
+                placeholder="Wanna add something?" v-model="form.body"
+                @input="getUsernames"></textarea>
+        </at-ta>
+    
         <div v-if="error"><span class="has-text help is-danger">{{error}}</span></div>
-        <button class="button is-info" @click="submitReply">Submit</button>
-        <!-- <span v-scroll-to="'#replies'" v-if="!error"></span> -->
+            <button class="button is-info" @click="submitReply">Submit</button>
     </div>
 </template>
 
 <script>
 var VueScrollTo = require('vue-scrollto')
+import AtTa from 'vue-at/dist/vue-at-textarea'
     import Form from "../../Utilities/Form"
     export default {
-
+        components:{ AtTa},
         mounted() {
             
         },
@@ -24,10 +31,25 @@ var VueScrollTo = require('vue-scrollto')
                 form: new Form({
                     body: ""
                 }),
-                error: ''
+                error: '',
+                members: [],
+                match: ''
             }
         },
         methods: {
+            getUsernames(){
+                //console.log(this.form.body);
+                if(_.includes(this.form.body, '@')){
+                    let body = this.form.body.match(/@([\w]+)/)
+                    if(body && body[1].length > 2 ){
+                       return  axios.post('api/get-mentioned-user',{'name':body[1]}).then(response=>{
+                            this.members= response.data
+                            console.log(response);  
+                        })
+                    }
+                }
+                
+            },
             submitReply() {
                 const id = this.$store.getters.getSingleThread.id;
                 return this.form.post("api/create-new-reply/"+id).then(response => {
