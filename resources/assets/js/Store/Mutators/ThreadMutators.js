@@ -30,5 +30,11 @@ export default {
             return thread.id === payload
         })
         
+    },
+    loadTrendingThreads(state, payload){
+        axios.get('api/trending-threads').then(response=>{
+            //console.log(state)
+            return state.trending = response.data
+        })
     }
 }

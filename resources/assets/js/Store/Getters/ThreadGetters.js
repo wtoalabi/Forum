@@ -13,5 +13,8 @@ export default {
     },
     getSingleThreadReplies(state){
         return state.singleThreadReplies;
+    },
+    getTrendingThreads(state){
+        return state.trending;
     }
 }

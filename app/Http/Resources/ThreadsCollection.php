@@ -22,6 +22,7 @@ class ThreadsCollection extends ResourceCollection
                 "id"=> $thread->id,
                 "slug"=> $thread->slug,
                 "title"=> $thread->title,
+                "visits" => $thread->visits(),
                 "body"=>$thread->body,
                 "created_at" => $thread['created_at']->diffForHumans(),
                 "user" => new UserProfileResource($thread->user),

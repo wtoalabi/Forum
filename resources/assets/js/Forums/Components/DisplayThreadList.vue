@@ -34,7 +34,8 @@
                     </div>
                 </div>
             </div>
-            <small>Posted in  <router-link :to="'/threads/query?filterCategory='+ thread.category.slug">{{thread.category.name}}</router-link> || {{thread.created_at}} ||Replies:{{thread.replies_count}} || <router-link :to="'/profile/' + thread.user.username"><span>{{thread.user.name}}</span></router-link></small>
+            <small>Posted in  <router-link :to="'/threads/query?filterCategory='+ thread.category.slug">{{thread.category.name}}</router-link> || {{thread.created_at}} ||Replies:{{thread.replies_count}} || <router-link :to="'/profile/' + thread.user.username"><span>{{thread.user.name}}</span></router-link></small> Visits:{{thread.visits}}
+
             <h2>{{thread.body | readMore}}</h2>
         </div>
     </div>

@@ -7,6 +7,7 @@ use App\Helpers\Likeable;
 use App\Models\Forum\Reply;
 use App\Models\Forum\Category;
 use App\Helpers\RecordsActivity;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Forum\ThreadSubscription;
 
@@ -67,6 +68,14 @@ class Thread extends Model
 
         $then = cache()->get($user->threadCacheKey($this));
         return $this->updated_at > $then;
+    }
+
+    public function path (){
+         return sprintf("%s/%s", $this->category->slug, $this->slug);
+    }
+    public function visits (){
+         $count = Redis::HMGET("Thread-Visits:Threads",$this->id)[0];
+         return $count ?: "None";
     }
     
 

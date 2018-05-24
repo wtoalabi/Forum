@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\QueryFilters\ThreadsFilters;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use App\Http\Resources\ThreadsCollection;
 use App\Http\Resources\SingleThreadResource;
 use App\Http\Resources\NewlyCreatedThreadResource;
@@ -28,6 +29,9 @@ class ThreadsController extends Controller
         return new ThreadsCollection($threads);
     }
 
+    public function trending (){
+         return array_map('json_decode', Redis::zrevrange("Trending:Threads", 0, 4));     
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -65,6 +69,11 @@ class ThreadsController extends Controller
     public function show(Thread $slug)
     {
         cache()->forever(auth()->user()->threadCacheKey($slug), Carbon::now());
+        Redis::HINCRBY("Thread-Visits:Threads", $slug->id, 1);
+        Redis::zincrby('Trending:Threads', 1, json_encode([
+            'title'=>$slug->title,
+            'slug'=> $slug->path()
+        ]));
         return new SingleThreadResource($slug);
 
     }

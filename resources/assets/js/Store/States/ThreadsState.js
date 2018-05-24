@@ -3,4 +3,5 @@ export default {
     singleThread: {},
     loadNewThreadForm: false,
     singleThreadReplies: [],
+    trending:''
 }

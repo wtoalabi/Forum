@@ -33645,9 +33645,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.$store.commit('loadTrendingThreads');
+  },
   data: function data() {
     return {
       clicked: false
@@ -33670,6 +33678,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     fullname: function fullname() {
       return this.$store.getters.getLoggedInUserFullName;
+    },
+    trending: function trending() {
+      if (!_.isEmpty(this.$store.state.trending)) {
+        return this.$store.state.trending;
+      }
     }
   }
 });
@@ -33704,7 +33717,27 @@ var render = function() {
               },
               [_vm._v("Cancel New Thread..")]
             )
-          ])
+          ]),
+      _vm._v(" "),
+      _vm.trending
+        ? _c(
+            "div",
+            [
+              _c("h1", [_vm._v("Trending Threads")]),
+              _vm._v(" "),
+              _vm._l(_vm.trending, function(trend) {
+                return _c("div", { key: trend.slug }, [
+                  _c(
+                    "a",
+                    { attrs: { href: "forums#/threads/" + trend.slug } },
+                    [_vm._v(_vm._s(trend.title))]
+                  )
+                ])
+              })
+            ],
+            2
+          )
+        : _vm._e()
     ])
   ])
 }
@@ -35167,6 +35200,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -35323,7 +35357,7 @@ var render = function() {
               ],
               1
             ),
-            _vm._v(" "),
+            _vm._v(" Visits:" + _vm._s(thread.visits) + "\r\n\r\n            "),
             _c("h2", [_vm._v(_vm._s(_vm._f("readMore")(thread.body)))])
           ])
         ])
@@ -40015,6 +40049,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     },
     getSingleThreadReplies: function getSingleThreadReplies(state) {
         return state.singleThreadReplies;
+    },
+    getTrendingThreads: function getTrendingThreads(state) {
+        return state.trending;
     }
 });
 
@@ -41002,6 +41039,12 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
         state.threads.data = _.reject(state.threads.data, function (thread) {
             return thread.id === payload;
         });
+    },
+    loadTrendingThreads: function loadTrendingThreads(state, payload) {
+        axios.get('api/trending-threads').then(function (response) {
+            //console.log(state)
+            return state.trending = response.data;
+        });
     }
 });
 
@@ -41182,7 +41225,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
     threads: {},
     singleThread: {},
     loadNewThreadForm: false,
-    singleThreadReplies: []
+    singleThreadReplies: [],
+    trending: ''
 });
 
 /***/ }),
