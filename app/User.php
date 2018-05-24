@@ -42,7 +42,7 @@ class User extends Authenticatable
     }
 
     public function profileImage (){
-         return asset('storage/default.jpg');
+        return asset($this->avatar_url ? "storage/$this->avatar_url" : 'storage/default.jpg');
     }
 
     public function threadCacheKey ($thread){

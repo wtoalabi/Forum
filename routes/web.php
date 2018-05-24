@@ -11,6 +11,8 @@
 |
 */
 
+Auth::loginUsingId(4);
+
 Route::get('/', function () {
     return view('landing');
     
@@ -43,6 +45,8 @@ Route::group(['prefix' => 'api'], function () {
     Route::delete('notifications/{notification}', 'Users\UserNotificationsController@destroy');
     Route::get('notifications', 'Users\UserNotificationsController@index');
     Route::post('get-mentioned-user', 'Users\MentionedUsersController@index');
+    Route::post('user-avatar', 'Users\UserAvatarController@store');
+
     //Route::get('profile/{user}')
 });
 

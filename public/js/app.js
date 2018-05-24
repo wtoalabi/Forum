@@ -34776,7 +34776,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 var VueScrollTo = __webpack_require__(9);
 
@@ -34795,6 +34794,10 @@ var VueScrollTo = __webpack_require__(9);
     },
 
     watch: {
+        /* This watcher watches the value of the body for changes. Extracts the changed 
+        values to check if they include the @symbol. If they do, the texts are then returned 
+        and compared to each other to prevent incessant call to the api after each keystroke.
+        */
         "form.body": function formBody(oldValue, newValue) {
             var _this = this;
 
@@ -34831,6 +34834,12 @@ var VueScrollTo = __webpack_require__(9);
                 }
             });
         },
+
+        /* The given text is first split into an array of texts, those that do not 
+            contain the @ symbol are then filtered out. Next, each @text is returned 
+            without the @symbol and then that value is JSON.Stringfied to make it easy 
+            for comparison when the caller of the function needs to do so.
+        */
         extractUsername: function extractUsername(text) {
             text = text.split(" ").filter(function (each) {
                 return each.match('@');
