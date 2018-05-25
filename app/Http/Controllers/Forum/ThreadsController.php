@@ -52,8 +52,6 @@ class ThreadsController extends Controller
             'body.spamfree' => "Spam Alert! Please check and try again!"
         ];
         $valid = $this->validate(request(), $rules, $message);
-        
-        $valid['slug'] = $request['title'];
         $valid['user_id'] = Auth::user()->id;
         $thread = Thread::create($valid);
         return new NewlyCreatedThreadResource($thread);

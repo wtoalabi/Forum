@@ -18,6 +18,9 @@ class Thread extends Model
     use Likeable, RecordsActivity;
     protected static function boot(){
         parent::boot();    
+        static::created(function($thread){
+            $thread->update(['slug'=>$thread->title]);
+        });
         
     }
     protected $fillable = ['user_id', 'title', 'body', 'slug', 'replies_count','category_id'];
@@ -79,42 +82,15 @@ class Thread extends Model
          return $count ?: "None";
     }
 
-    public function setSlugAttribute($value){
-         
-        if(static::whereSlug( $slug= str_slug($value))->exists()){
-            $slug = $this->incrementSlug($value);
+    public function setSlugAttribute($value){       
+        $slug = str_slug($value);
+        $count = 2;
+
+        if(static::whereSlug($slug)->exists()){
+            $slug = "{$slug}-{$this->id}";
+
         }
-        
-        
         return $this->attributes['slug'] = $slug;
     }
     
-    public function incrementSlug($value){
-        
-        $max = Thread::whereTitle($this->title)->latest()->value('slug');
-            if(is_numeric($max[-1])){
-                return preg_replace_callback('/(\d+)$/', function($matches){
-                    return $matches[1] + 1;
-                }, $max);
-        }
-
-        return "{$value}-2";
-    }
-    public static function generateSlug ($title){        
-        
-        $lastCharacter= Thread::where('title', $title)->latest()->value('slug')[-1];        
-        $lastSlug='';
-        {
-            //$lastCharacter = $titles->last()->slug[-1]; //collect(str_split($titles->last()->slug))->last();
-            if(is_numeric($lastCharacter)){
-                $lastSlug = $lastCharacter + 1;
-            }
-            else{
-                $lastCharacter ? $lastSlug = 2 : '';
-            }
-        }
-        return str_slug($title.'-'.$lastSlug, '-');
-    }
-    
-
 }
