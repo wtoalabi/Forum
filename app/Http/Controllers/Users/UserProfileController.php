@@ -85,4 +85,12 @@ class UserProfileController extends Controller
     {
         //
     }
+
+    public function confirm (){
+        User::where('confirmation_token', request('token'))
+            ->firstOrFail()
+            ->update(['confirmed'=> true]);
+        return redirect('home');
+        
+    }
 }

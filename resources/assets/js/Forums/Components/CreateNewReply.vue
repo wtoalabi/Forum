@@ -5,11 +5,29 @@
         </div>
     
         <h1>Create new reply....</h1>
-        <at-ta :members="members">
+        <at-ta name-key="username" :members="[{ username: 'user1', displayName: 'Name', avatar: 'imgUrl' }]">
+            <template slot="item">
+                <img data-src="item.avatar">
+                <span data-text="item.displayName"></span>
+            </template>
             <textarea name="body" :class="{'is-danger': error}" class="textarea" 
                 placeholder="Wanna add something?" v-model="form.body"></textarea>
         </at-ta>
     
+
+<!-- <at name-key="username" :members="[
+  { username: 'mikolo', displayName: 'Mike', avatar: 'imgUrl' },
+  
+]">
+  <template slot="item">
+    <img data-src="item.avatar">
+    <span data-text="item.displayName"></span>
+  </template>
+  <textarea name="body" :class="{'is-danger': error}" class="textarea" 
+                placeholder="Wanna add something?" v-model="form.body"></textarea>
+</at> -->
+
+
         <div v-if="error"><span class="has-text help is-danger">{{error}}</span></div>
             <button class="button is-info" @click="submitReply">Submit</button>
     </div>
@@ -18,9 +36,10 @@
 <script>
 var VueScrollTo = require('vue-scrollto')
 import AtTa from 'vue-at/dist/vue-at-textarea'
+import At from 'vue-at'
     import Form from "../../Utilities/Form"
     export default {
-        components:{ AtTa},
+        components:{ AtTa, At},
         mounted() {
             
         },
@@ -30,7 +49,9 @@ import AtTa from 'vue-at/dist/vue-at-textarea'
                     body: ""
                 }),
                 error: '',
-                members: [],
+                members: [
+                    {name:"Wale", username:"wto", avatar:"imgurl"},
+                    {name:"Mike", username:"mikolo", avatar:"imgurl2"}],
             }
         },
         watch:{
