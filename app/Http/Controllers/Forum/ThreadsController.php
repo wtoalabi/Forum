@@ -53,7 +53,7 @@ class ThreadsController extends Controller
         ];
         $valid = $this->validate(request(), $rules, $message);
         
-        $valid['slug'] = str_slug($request['title'], '-');
+        $valid['slug'] = $request['title'];
         $valid['user_id'] = Auth::user()->id;
         $thread = Thread::create($valid);
         return new NewlyCreatedThreadResource($thread);

@@ -69,7 +69,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'username'=>$data['username'],
             'email' => $data['email'],
-            'confirmation_token' => str_random(25),
+            'confirmation_token' => str_limit(str_random(10).md5($data['email']).str_random(10),55, ''),
             'password' => Hash::make($data['password']),
         ]);
     }
