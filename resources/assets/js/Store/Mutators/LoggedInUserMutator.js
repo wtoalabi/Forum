@@ -1,6 +1,6 @@
 export default {
-    setLoggedInUser(state, userID){
-        return state.loggedInUserID = userID
+    setLoggedInUser(state, user){
+        return state.loggedInUser = user
     },
     setNotifications(state, payload){
         return state.notifications = payload;

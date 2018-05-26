@@ -31,7 +31,7 @@
         mapActions
     } from "vuex";
     export default {
-        props: ["loggedinuser"],
+        props: ["loggedinuser",'isadmin'],
         components: {
             sidebarA: SidebarA,
             sidebarB: SidebarB,
@@ -55,7 +55,7 @@
         methods: {
             ...mapActions(["storeLoggedInUser", "storeAllThreads"]),
             setState() {
-                this.storeLoggedInUser(this.loggedinuser);
+                this.storeLoggedInUser({id:this.loggedinuser,isAdmin:this.isadmin});
             }
         }
     };

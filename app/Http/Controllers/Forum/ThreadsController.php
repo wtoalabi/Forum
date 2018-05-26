@@ -43,13 +43,14 @@ class ThreadsController extends Controller
     {
         $rules = [ 
             'title' => "required|spamfree", 
-            'body' => "required|spamfree", 
+            'body' => "required|spamfree|toofast", 
             'category_id' => 'required|exists:categories,id'
         ];
         $message = [ 
             'category_id.required' => "You need to select a category!" ,
             'title.spamfree' => "Spam Alert! Please check and try again!",
-            'body.spamfree' => "Spam Alert! Please check and try again!"
+            'body.spamfree' => "Spam Alert! Please check and try again!",
+            'body.toofast' => 'You are posting too fast....take a break buddy!',
         ];
         $valid = $this->validate(request(), $rules, $message);
         $valid['user_id'] = Auth::user()->id;

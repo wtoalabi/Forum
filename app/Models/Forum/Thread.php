@@ -3,6 +3,7 @@
 namespace App\Models\Forum;
 
 use App\User;
+use Carbon\Carbon;
 use App\Helpers\Likeable;
 use App\Models\Forum\Reply;
 use App\Models\Forum\Thread;
@@ -16,6 +17,9 @@ class Thread extends Model
 
 {
     use Likeable, RecordsActivity;
+    protected $casts = [
+        'locked'=>'boolean'
+    ];
     protected static function boot(){
         parent::boot();    
         static::created(function($thread){
@@ -23,7 +27,7 @@ class Thread extends Model
         });
         
     }
-    protected $fillable = ['user_id', 'title', 'body', 'slug', 'replies_count','category_id','best_reply_id'];
+    protected $fillable = ['user_id', 'title', 'body', 'slug', 'locked','replies_count','category_id','best_reply_id'];
     protected $with = ['user','category'];
     
     public function user (){
@@ -98,5 +102,12 @@ class Thread extends Model
     public function markReplyAsBest ($replyID){
          return $this->update(['best_reply_id' => $replyID]);
     }
-    
+
+    public function isLocked (){
+         return $this->locked;
+    }
+
+    public function wasJustPublished (){
+         return $this->created_at->gt(Carbon::now()->subMinute());
+    }
 }

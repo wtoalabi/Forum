@@ -12,6 +12,9 @@
                     name="Thread"
                     redirectedPath="/threads">
                 </delete>
+                <div v-if="isAdmin">
+                    <lock-thread></lock-thread>
+                </div>
             </div>
             <hr/>
             <div class="columns">
@@ -28,9 +31,11 @@
             <subscription></subscription>
             </div>
         </div>
+        <div class="notification is-warning column is-10 is-offset-1" v-if="isLocked">
+            Thread is LOCKED to New replies...
+        </div>
         <hr/>
-        <div></div>
-        <newreply></newreply>
+            <newreply></newreply>
         </div>
 </div>
 </template>
@@ -67,11 +72,18 @@ export default {
   },
     computed:{
         thread(){
-            return this.$store.getters.getSingleThread
+            return this.$store.state.singleThread
         },
          owner(){
-            return this.$store.state.loggedInUserID
+            return this.$store.state.loggedInUser.id
+        },
+        isAdmin(){
+            return this.$store.state.loggedInUser.isAdmin
+        },
+        isLocked(){
+            return this.$store.state.singleThread.isLocked == true
         }
+        
     }
 }
 </script>

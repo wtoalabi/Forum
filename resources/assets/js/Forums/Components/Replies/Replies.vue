@@ -87,7 +87,8 @@ computed:{
     },
     bestReply(){
         return this.$store.state.singleThread.bestReply
-    }
+    },
+   
 }
 
 }

@@ -20,7 +20,7 @@ export default {
             }
         },
         isLoggedIn(user){
-            return this.$store.state.loggedInUserID == user
+            return this.$store.state.loggedInUser.id == user
         },
         objectThreadUrl(data){
             return '/forums#/threads/'+data.object.category.slug + '/' + data.object.slug

@@ -52,6 +52,10 @@ Route::group(['prefix' => 'api'], function () {
     //Route::get('profile/{user}')
 });
 
+Route::group(['prefix' => 'api/admin','middleware'=>['auth','admin']], function () {
+    Route::post('lock/{thread}', 'Admin\LockThreadController@store');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

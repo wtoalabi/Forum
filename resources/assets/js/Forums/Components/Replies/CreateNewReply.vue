@@ -3,43 +3,26 @@
         <div id="replies">
             <replies></replies>
         </div>
-    
-        <h1>Create new reply....</h1>
-        <at-ta name-key="username" :members="[{ username: 'user1', displayName: 'Name', avatar: 'imgUrl' }]">
-            <template slot="item">
-                <img data-src="item.avatar">
-                <span data-text="item.displayName"></span>
-            </template>
-            <textarea name="body" :class="{'is-danger': error}" class="textarea" 
-                placeholder="Wanna add something?" v-model="form.body"></textarea>
-        </at-ta>
-    
-
-<!-- <at name-key="username" :members="[
-  { username: 'mikolo', displayName: 'Mike', avatar: 'imgUrl' },
-  
-]">
-  <template slot="item">
-    <img data-src="item.avatar">
-    <span data-text="item.displayName"></span>
-  </template>
-  <textarea name="body" :class="{'is-danger': error}" class="textarea" 
-                placeholder="Wanna add something?" v-model="form.body"></textarea>
-</at> -->
-
-
-        <div v-if="error"><span class="has-text help is-danger">{{error}}</span></div>
-            <button class="button is-info" @click="submitReply">Submit</button>
+        <div v-if="isNotLocked">
+            <h1>Create new reply....</h1>
+            <at-ta :members="members">
+                <textarea name="body" :class="{'is-danger': error}" class="textarea" 
+                    placeholder="Wanna add something?" v-model="form.body"></textarea>
+            </at-ta>
+        <div v-if="error">
+            <span class="has-text help is-danger">{{error}}</span>
+        </div>
+        <button class="button is-info" @click="submitReply">Submit</button>
+        </div>
     </div>
 </template>
 
 <script>
 var VueScrollTo = require('vue-scrollto')
 import AtTa from 'vue-at/dist/vue-at-textarea'
-import At from 'vue-at'
     import Form from "../../../Utilities/Form"
     export default {
-        components:{ AtTa, At},
+        components:{ AtTa},
         mounted() {
             
         },
@@ -49,9 +32,7 @@ import At from 'vue-at'
                     body: ""
                 }),
                 error: '',
-                members: [
-                    {name:"Wale", username:"wto", avatar:"imgurl"},
-                    {name:"Mike", username:"mikolo", avatar:"imgurl2"}],
+                members: [],
             }
         },
         watch:{
@@ -89,7 +70,7 @@ import At from 'vue-at'
                         this.error = error.errors.body[0]
                     }
                     else{
-                        this.error = error
+                        this.error = error.message
                     }
                 })
                 
@@ -109,6 +90,11 @@ import At from 'vue-at'
                 return JSON.stringify(text)
             },
 
+        },
+        computed:{
+            isNotLocked(){
+            return this.$store.state.singleThread.isLocked == false
+        }
         }
 
     }

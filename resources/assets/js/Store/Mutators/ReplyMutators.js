@@ -13,8 +13,10 @@ export default {
         state.singleThreadReplies.data.splice(-(count), count)        
     },
     replyDeleted(state, payload){
-        if(payload.replyID == state.singleThread.bestReply.id ){
-            state.singleThread.bestReply = null;
+        if(!_.isEmpty(state.singleThread.bestReply)){   
+            if(payload.replyID == state.singleThread.bestReply.id ){
+                state.singleThread.bestReply = null;
+            }
         }
         state.singleThreadReplies.data = _.reject(state.singleThreadReplies.data, function(reply){
             return reply.id === payload.replyID

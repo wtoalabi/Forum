@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
         \DB::listen(function($query){\Log::info($query->sql, $query->bindings);});
         \Debugbar::disable();
         Validator::extend('spamfree','App\Rules\SpamFree@passes');
+        Validator::extend('toofast','App\Rules\TooFast@passes');
     }
 
     /**

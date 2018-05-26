@@ -1,7 +1,7 @@
 export default {
     computed:{
         authorized(){
-            return this.$store.state.loggedInUserID == this.id
+            return this.$store.state.loggedInUser.id == this.id
         }
     }
 }

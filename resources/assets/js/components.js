@@ -12,7 +12,7 @@ Vue.component('activities', require('./Forums/Components/Activities'));
 Vue.component('edit', require('./Forums/Components/EditButton'));
 Vue.component('subscription', require('./Forums/Components/SubscriptionsButton'));
 Vue.component('notifications-count', require('./Forums/Components/NotificationsCount'));
-
+Vue.component('lock-thread', require('./Forums/Components/LockThread'));
 /* Replies */
 Vue.component('replies', require('./Forums/Components/Replies/Replies'));
 Vue.component('newreply', require('./Forums/Components/Replies/CreateNewReply'));

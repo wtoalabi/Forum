@@ -22,7 +22,7 @@ class SingleThreadResource extends JsonResource
             "id" => $this->id,
             "slug" => $this->slug,
             "title" => $this->title,
-            //"hasBestReply"=> $this->best_reply_id,
+            'isLocked' =>$this->isLocked(),
             "bestReply"=> new SingleReplyResource($this->bestReply),
             "body" => $this->body,
             "subscribedTo" => $this->isSubscribedTo(),

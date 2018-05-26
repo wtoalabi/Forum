@@ -37,7 +37,7 @@ computed:{
         return this.$store.state.userProfile
     },
     user(){
-        if(this.$store.state.loggedInUserID == this.$store.state.userProfile.user_id){
+        if(this.$store.state.loggedInUser.id == this.$store.state.userProfile.user_id){
             return "You"
         }
         else{

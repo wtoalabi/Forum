@@ -36,10 +36,6 @@ class RepliesController extends Controller
      */
     public function store($threadID, Request $request, ReplyFormRequest $reply)
     {
-        if(auth()->user()->cant('create', Reply::class)){
-            return response("You are posting too fast! Slow down a bit ;)", 422);
-        }
-
         $reply = $reply->persistIn($threadID);
         
         return response(['status'=>200, 'message'=>'Done!', 'reply'=> new SingleReplyResource($reply)]);

@@ -57,5 +57,15 @@ class User extends Authenticatable
          return $this->hasOne(Reply::class)->latest();
     }
 
+    public function lastThread (){
+         return $this->hasOne(Thread::class)->latest();
+    }
+
+    public function isAdmin (){
+         if($this->type == 'admin'){
+             return true;
+         }
+         return false;
+    }
     
 }
