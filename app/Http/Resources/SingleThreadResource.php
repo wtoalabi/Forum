@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Forum\Reply;
 use App\Models\Forum\Category;
+use App\Http\Resources\SingleReplyResource;
 use App\Http\Resources\ThreadRepliesCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,6 +22,8 @@ class SingleThreadResource extends JsonResource
             "id" => $this->id,
             "slug" => $this->slug,
             "title" => $this->title,
+            //"hasBestReply"=> $this->best_reply_id,
+            "bestReply"=> new SingleReplyResource($this->bestReply),
             "body" => $this->body,
             "subscribedTo" => $this->isSubscribedTo(),
             "owner" => [

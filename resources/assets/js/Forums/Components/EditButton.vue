@@ -9,7 +9,7 @@
 
 <script>
  
-import authorization from '../../Mixins/Authorization'
+import authorization from '../Mixins/Authorization'
 export default {
 mixins:[authorization],
 props:['id', 'editComponent','content'],

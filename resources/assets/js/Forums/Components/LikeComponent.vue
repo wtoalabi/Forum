@@ -2,12 +2,10 @@
 <div>
     <div class="field is-grouped is-grouped-multiline">
         <div class="control">
-            <div class="tags has-addons">
-                <a @click="likeButtonClicked" class="icon has-text-black" :title="likedText">
+            <a class="tags has-addons" @click="likeButtonClicked" :title="likedText">
                     <span class="tag is-light">{{count}}</span>
                     <span class="tag has-text-white " :class="likedColour" ><i class="fa fa-heart"></i></span>
-                </a>
-            </div>
+            </a>
         </div>
     </div>
 </div>
@@ -39,7 +37,7 @@ methods:{
 },
 computed:{
       likedText(){
-          if(this.liked === true){
+          if(this.liked == true){
               return "Click to Unlike!"
           }
           else{

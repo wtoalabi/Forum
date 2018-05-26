@@ -3,6 +3,9 @@ export default {
         commit('commitReply', payload);
         commit("getNotifications")
 
+    },
+    processBestReply({commit}, payload){
+        commit('markAsBest', payload)
     }
 
 }

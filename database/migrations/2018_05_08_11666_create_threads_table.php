@@ -21,9 +21,11 @@ class CreateThreadsTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->string('slug')->unique()->nullable();
             $table->integer('replies_count')->default(0);
+            $table->unsignedInteger('best_reply_id')->nullable();
             $table->text('body');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('best_reply_id')->references('id')->on('replies')->onDelete('set null');
             $table->timestamps();
         });
     }

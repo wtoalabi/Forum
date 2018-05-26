@@ -37,7 +37,7 @@
 var VueScrollTo = require('vue-scrollto')
 import AtTa from 'vue-at/dist/vue-at-textarea'
 import At from 'vue-at'
-    import Form from "../../Utilities/Form"
+    import Form from "../../../Utilities/Form"
     export default {
         components:{ AtTa, At},
         mounted() {

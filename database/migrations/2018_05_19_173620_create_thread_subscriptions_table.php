@@ -18,8 +18,7 @@ class CreateThreadSubscriptionsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('thread_id');
             $table->timestamps();
-
-            $table->foreign('thread_id')->references('id')->on('threads')->onDlete('cascade');
+            $table->foreign('thread_id')->references('id')->on('threads')->onDelete('cascade');
         });
     }
 

@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
     public function run()
     {
         if(!App\User::where('email', 'wtoalabi@gmail.com')->first()){
-            factory(App\User::class)->create(['email'=>'wtoalabi@gmail.com','type'=>'admin']);
+            factory(App\User::class)->create(['email'=>'wtoalabi@gmail.com','type'=>'admin', 'confirmed'=>1]);
         }
 
         factory(Category::class)->create(['name' => "PHP"]);

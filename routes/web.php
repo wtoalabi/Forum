@@ -11,7 +11,7 @@
 |
 */
 
-Auth::loginUsingId(2);
+Auth::loginUsingId(1);
 
 Route::get('/', function () {
     return view('landing');
@@ -47,6 +47,7 @@ Route::group(['prefix' => 'api'], function () {
     Route::post('get-mentioned-user', 'Users\MentionedUsersController@index');
     Route::post('user-avatar', 'Users\UserAvatarController@store');
     Route::get('confirm-token/{token}', 'Users\UserProfileController@confirm');
+    Route::POST('reply/mark-as-best/{reply}', 'Forum\MarkReplyAsBestController@store');
 
     //Route::get('profile/{user}')
 });

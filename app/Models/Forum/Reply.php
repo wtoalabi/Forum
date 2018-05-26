@@ -36,7 +36,11 @@ class Reply extends Model
                 'object_type' => get_class($reply->thread),
                 'type'=> "deleted_reply"
                 ]);
-            $reply->thread->decrement('replies_count');
+            
+            if($reply->thread->replies_count > 0){
+               $reply->thread->decrement('replies_count');
+            }
+
         });
           
     }
@@ -45,18 +49,21 @@ class Reply extends Model
     public function user (){
         return $this->belongsTo(User::class);
    }
-   public function thread (){
-    return $this->belongsTo(Thread::class);
-}
-public function activity (){
-    return $this->morphMany(Activity::class, 'subject');
-}
+    public function thread (){
+        return $this->belongsTo(Thread::class);
+    }   
+    public function activity (){
+        return $this->morphMany(Activity::class, 'subject');
+    }
 
-public function wasJustPublished (){
-     return $this->created_at->gt(Carbon::now()->subMinute());
-}
+    public function wasJustPublished (){
+        return $this->created_at->gt(Carbon::now()->subMinute());
+    }
 
-public function setBodyAttribute ($body){
-        $this->attributes['body'] = preg_replace('/@([\w\-]+)/', '<a href="forums#/profile/$1">$0</a> ', $body);
+    public function setBodyAttribute ($body){
+            $this->attributes['body'] = preg_replace('/@([\w\-]+)/', '<a href="forums#/profile/$1">$0</a> ', $body);
+        }
+    public function  isBest(){
+        return $this->thread->best_reply_id == $this->id;
     }
 }

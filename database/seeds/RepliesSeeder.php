@@ -14,7 +14,7 @@ class RepliesSeeder extends Seeder
      */
     public function run()
     {
-        factory(Reply::class, 500)->create([
+        factory(Reply::class, 50)->create([
             'user_id'=> function(){
                 return User::all()->random()->id;
             },

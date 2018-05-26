@@ -1,8 +1,18 @@
 <template>
 <div>
     <div class="content">
-            <div  class="columns is-centered" v-for="reply in replies.data" :key="reply.id">
-                <div class="column is-9 mt-1">
+        <div v-if="bestReply" class="columns is-centered">
+            <div class="column is-10 mt-1 has-text-black notification is-warning">
+                <div class="content">
+                    <div class="has-text-centered title is-4">Best Answer!</div>
+                    <blockquote>"<span v-html="bestReply.body" class=""></span>"
+                        <p class="title is-6">{{bestReply.user}}</p>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div  class="columns is-centered" v-for="reply in replies.data" :key="reply.id">
+                <div class="column is-10 mt-1">
                     <div class="columns notification is-primary">
                         <div class="column is-3">
                             <span class="title is-5">{{reply.user}}</span>
@@ -24,16 +34,21 @@
                         <div class="column has-text-black message is-primary">
                                 <span v-html="reply.body" class=""></span>
                         </div>
-                        <div class="column is-1 is-offset-1">
-                            <like 
+                        <div class="column is-2">
+                            <div>
+                                <like 
                                     :count="reply.likes.like_count"
                                     :liked="reply.likes.liked"
                                     :ID="reply.id"
                                     url='api/like-reply/'
                                     addCountMutator="commitLikeCountOfAReply"
                                     removeCountMutator = "removeLikeCountOfAReply">
-                            </like>
-                        </div>
+                                </like>
+                            </div>  
+                                <mark-reply
+                                    :replyID="reply.id">
+                                </mark-reply>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -69,6 +84,9 @@ computed:{
     },
     fullPath(){
         return this.$route.fullPath
+    },
+    bestReply(){
+        return this.$store.state.singleThread.bestReply
     }
 }
 

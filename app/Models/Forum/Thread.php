@@ -23,7 +23,7 @@ class Thread extends Model
         });
         
     }
-    protected $fillable = ['user_id', 'title', 'body', 'slug', 'replies_count','category_id'];
+    protected $fillable = ['user_id', 'title', 'body', 'slug', 'replies_count','category_id','best_reply_id'];
     protected $with = ['user','category'];
     
     public function user (){
@@ -59,9 +59,13 @@ class Thread extends Model
                 ->where('user_id', $userID?:auth()->id())
                 ->delete();
     }
-
+    
     public function subscriptions(){
-         return $this->hasMany(ThreadSubscription::class);
+        return $this->hasMany(ThreadSubscription::class);
+    }
+
+    public function bestReply (){
+        return $this->hasOne(Reply::class,'id', 'best_reply_id');
     }
 
     public function updatedSinceLastVisit ($user = null){
@@ -84,13 +88,15 @@ class Thread extends Model
 
     public function setSlugAttribute($value){       
         $slug = str_slug($value);
-        $count = 2;
-
+        
         if(static::whereSlug($slug)->exists()){
             $slug = "{$slug}-{$this->id}";
 
         }
         return $this->attributes['slug'] = $slug;
+    }
+    public function markReplyAsBest ($replyID){
+         return $this->update(['best_reply_id' => $replyID]);
     }
     
 }

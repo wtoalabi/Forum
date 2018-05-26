@@ -14,7 +14,7 @@ class ThreadsSeeder extends Seeder
     public function run()
     {
         $amount = 0;
-        while ($amount <= 50) {
+        while ($amount <= 75) {
             $amount++;
             factory(\App\Models\Forum\Thread::class)->create([
                 'user_id' => function(){
