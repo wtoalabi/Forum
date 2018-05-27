@@ -47,7 +47,8 @@ Route::group(['prefix' => 'api'], function () {
     Route::post('get-mentioned-user', 'Users\MentionedUsersController@index');
     Route::post('user-avatar', 'Users\UserAvatarController@store');
     Route::get('confirm-token/{token}', 'Users\UserProfileController@confirm');
-    Route::POST('reply/mark-as-best/{reply}', 'Forum\MarkReplyAsBestController@store');
+    Route::post('reply/mark-as-best/{reply}', 'Forum\MarkReplyAsBestController@store');
+    Route::get('search/{query}', 'Forum\SearchController@index');
 
     //Route::get('profile/{user}')
 });

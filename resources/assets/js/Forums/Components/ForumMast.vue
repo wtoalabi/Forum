@@ -2,23 +2,14 @@
 <div>
     <div class="column bread">
     <div class="columns is-centered">
-    <div class="column is-6">
+    <div class="column is-4">
    <!--  <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
         <button class="button is-info">{{breadcrumb}}</button>
         <li><router-link to="/threads"><span>Thread</span></router-link></li>
 </nav> -->
 </div>
-<div class="column is-6">
-    <div class="field has-addons">
-  <div class="control is-expanded">
-    <input class="input" type="text" placeholder="Search Forums...">
-  </div>
-  <div class="control">
-    <a class="button is-info">
-      Search
-    </a>
-  </div>
-</div>
+<div class="column is-8">
+ <search/>
 
 </div>
 
@@ -28,8 +19,12 @@
 </template>
 
 <script>
+import Search from "../Components/Search";
 export default {
   mounted() {},
+  components:{
+      Search
+  },
   data() {
     return {
       route: "",

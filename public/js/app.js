@@ -33857,15 +33857,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Components_Search__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Components_Search___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Components_Search__);
 //
 //
 //
@@ -33887,8 +33880,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {},
+
+  components: {
+    Search: __WEBPACK_IMPORTED_MODULE_0__Components_Search___default.a
+  },
   data: function data() {
     return {
       route: "",
@@ -33905,39 +33903,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "column bread" }, [
-        _c("div", { staticClass: "columns is-centered" }, [
-          _c("div", { staticClass: "column is-6" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "column is-6" }, [
-            _c("div", { staticClass: "field has-addons" }, [
-              _c("div", { staticClass: "control is-expanded" }, [
-                _c("input", {
-                  staticClass: "input",
-                  attrs: { type: "text", placeholder: "Search Forums..." }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "control" }, [
-                _c("a", { staticClass: "button is-info" }, [
-                  _vm._v("\r\n      Search\r\n    ")
-                ])
-              ])
-            ])
-          ])
-        ])
+  return _c("div", [
+    _c("div", { staticClass: "column bread" }, [
+      _c("div", { staticClass: "columns is-centered" }, [
+        _c("div", { staticClass: "column is-4" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "column is-8" }, [_c("search")], 1)
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -42556,6 +42532,205 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-fd2c1760", module.exports)
+  }
+}
+
+/***/ }),
+/* 196 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(197)
+/* template */
+var __vue_template__ = __webpack_require__(198)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\Forums\\Components\\Search.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-bf7c223a", Component.options)
+  } else {
+    hotAPI.reload("data-v-bf7c223a", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 197 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    mounted: function mounted() {},
+    data: function data() {
+        return {
+            searchText: '',
+            searchResults: ''
+        };
+    },
+
+    watch: {
+        searchText: function searchText() {
+            var _this = this;
+
+            if (this.searchText.length > 1) {
+                return axios.get('api/search/query?search=' + this.searchText).then(function (response) {
+                    console.log(response.data.data);
+                    _this.searchResults = response.data.data;
+                });
+            }
+        }
+    },
+    methods: {
+        clear: function clear() {
+            return this.searchText = '';
+        }
+    },
+    filters: {
+        limit: function limit(text) {
+            return _.truncate(text, { length: 20 });
+        }
+    }
+});
+
+/***/ }),
+/* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "field has-addons" }, [
+      _c("div", { staticClass: "control is-expanded" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.searchText,
+              expression: "searchText"
+            }
+          ],
+          staticClass: "input",
+          attrs: { type: "text", placeholder: "Search Forums..." },
+          domProps: { value: _vm.searchText },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.searchText = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _vm._m(0)
+    ]),
+    _vm._v(" "),
+    _vm.searchText
+      ? _c(
+          "div",
+          { staticClass: "notification" },
+          [
+            _c("p", { staticClass: "title is-6" }, [_vm._v("Results:")]),
+            _vm._v(" "),
+            _vm._l(_vm.searchResults, function(result) {
+              return _c(
+                "div",
+                {
+                  key: result.id,
+                  staticClass: "message",
+                  on: { click: _vm.clear }
+                },
+                [
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/threads/" + result.path } },
+                    [_vm._v(_vm._s(result.title) + "...")]
+                  )
+                ],
+                1
+              )
+            })
+          ],
+          2
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "control" }, [
+      _c("a", { staticClass: "button is-info" }, [
+        _vm._v("\n            Search\n        ")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-bf7c223a", module.exports)
   }
 }
 
